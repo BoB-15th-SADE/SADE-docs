@@ -1,0 +1,81 @@
+site_name: SADE Docs
+site_description: API identification and visibility methodology from logs, OpenAPI specs and source code
+site_url: https://bob-15th-sade.github.io/SADE-docs/
+repo_url: https://github.com/BoB-15th-SADE/SADE-docs
+repo_name: BoB-15th-SADE/SADE-docs
+docs_dir: docs
+
+theme:
+  name: material
+  logo: assets/logo.png
+  favicon: assets/favicon.png
+  palette:
+    - scheme: default
+      primary: teal
+      toggle: {icon: material/weather-night, name: Dark mode}
+    - scheme: slate
+      primary: teal
+      toggle: {icon: material/weather-sunny, name: Light mode}
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - search.highlight
+    - content.code.copy
+
+plugins:
+  - search
+  - i18n:
+      docs_structure: folder
+      languages:
+        - locale: ko
+          name: 한국어
+          default: true
+          build: true
+        - locale: en
+          name: English
+          build: true
+          nav_translations:
+            소개: Introduction
+            빠른 시작: Getting started
+            데이터 연결: Connect data
+            기능: Features
+            운영: Operations
+            기업 적용 가이드: PoC guide
+            참고: Reference
+
+markdown_extensions:
+  - admonition
+  - tables
+  - attr_list
+  - pymdownx.details
+  - pymdownx.superfences
+  - toc: {permalink: true}
+
+nav:
+  - 소개:
+      - index.md
+  - 빠른 시작:
+      - getting-started/quickstart.md
+  - 데이터 연결:
+      - connect/logs.md
+      - connect/splunk.md
+      - connect/cloudera.md
+      - connect/specs.md
+      - connect/code.md
+  - 기능:
+      - features/inventory.md
+      - features/api-details.md
+      - features/call-history.md
+      - features/sensitive-data.md
+      - features/flows.md
+      - features/findings.md
+  - 운영:
+      - operations/masking.md
+  - 기업 적용 가이드:
+      - poc/guide.md
+  - 참고:
+      - reference/glossary.md
+      - reference/limitations.md
+      - reference/faq.md
+      - reference/changelog.md
