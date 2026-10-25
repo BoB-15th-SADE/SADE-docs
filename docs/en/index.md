@@ -1,33 +1,37 @@
-# What is SADE
+# SADE documentation
 
-SADE is a **methodology and toolset** that analyzes **logs, OpenAPI specs and source code** together
-to identify the APIs a company runs and to make response body fields and personal data flows visible.
+SADE connects **logs, OpenAPI specifications and source code** into one API inventory. See which APIs are declared, which are called, and which sensitive fields they handle, with the source of each finding.
 
-## Why it is needed
+This guide follows the current project's installation, connection, analysis and rule-management workflow. Menu names match the English dashboard and remain recognizable when switching the dashboard language.
 
-- Companies do not know every API they run. Undocumented APIs and deprecated APIs that are still called remain.
-- Even with a spec, the fields that actually travel in response bodies are not documented.
-- It is not visible which APIs send personal data, or which services it passes through on the way out.
+<div class="sade-links" markdown>
 
-## How SADE approaches it
+[**Get started**<span>Install SADE, connect logs and run your first scan.</span>](getting-started/quickstart.md)
 
-| Step | Method | Result |
+[**Connect your data**<span>Connect Splunk, WebHDFS, specifications and GitHub.</span>](connect/logs.md)
+
+[**Inspect sensitive data**<span>Read the 19 built-in types and their field and value evidence.</span>](features/sensitive-data.md)
+
+[**Manage detection rules**<span>Edit aliases, paths and value patterns, then reclassify.</span>](policy/data-types.md)
+
+</div>
+
+## Three complementary sources
+
+| Source | What it tells you | How to read it |
 |---|---|---|
-| API identification | Combine logs, OpenAPI specs and source code per endpoint | API specs down to request and response body fields |
-| Sensitive data | Built-in and custom rules | APIs and fields that handle personal data |
-| Flow visibility | Call relations in code, trace IDs in logs | Service-to-service call paths |
-| Policy | Write policies such as third-party transfer as rules | Transfers that differ from the policy |
+| Spec | APIs and fields declared in uploaded specifications | A declaration is not a runtime observation. |
+| Code | APIs, fields and HTTP calls found in scanned code | Static code does not prove execution. |
+| Log | Requests and responses recorded in the collection window | Missing bodies and calls outside that window remain unknown. |
 
-## What it can and cannot tell
+A specification alone can populate APIs and sensitive-field candidates. Logs add observed traffic and contract differences. Code adds implementation evidence and declared HTTP calls between services.
 
-- It can tell
-    - APIs and fields actually called during the collection window
-    - Differences between the spec and actual calls
-    - Fields that look like personal data, and where they appear
-- It cannot tell
-    - Anything the logs do not record (without bodies, body fields cannot be judged)
-    - Calls outside the collection window
-    - Results are indicators; the final judgment of a violation is made by a reviewer.
+## Your first workflow
 
-!!! note "Status"
-    This documentation is a work in progress. Pages marked "Planned" will be filled in.
+1. Register available specifications, code or logs under **Connect**.
+2. Choose **Run scan** to analyze traffic. It includes collection; a separate Sync is optional.
+3. Review **APIs → Inventory / Call History / Sensitive Data**.
+4. Open **Flows** for source-specific service relationships.
+5. Manage data types and access scope under **Policy → Rules**, and inspect **Findings**.
+
+SADE is currently a PoC tool. Sensitive-data evidence, access-scope labels and specification differences are separate results; they do not establish a legal violation or successful authentication. Read [supported scope and limits](reference/limitations.md).

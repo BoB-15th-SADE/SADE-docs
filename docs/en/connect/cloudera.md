@@ -2,6 +2,14 @@
 
 SADE reads JSONL log files stored in HDFS through the WebHDFS REST API.
 
+## Quick setup
+
+1. Open **Connect → Log Sources → Cloudera → Connect**.
+2. Enter the HTTPS WebHDFS URL, HDFS path, authentication and allowed DataNodes.
+3. Review service assignment and field mapping.
+4. Choose **Test connection**, then **Save**.
+5. Use **Run scan** to verify actual file reads and analysis.
+
 ## What you need
 
 | Item | Description |
@@ -33,9 +41,9 @@ SADE reads JSONL log files stored in HDFS through the WebHDFS REST API.
 | Step | WebHDFS call | What it checks |
 |---|---|---|
 | Test connection | `GETFILESTATUS` | The path is accessible |
-| Sync | `LISTSTATUS` (directories) + `OPEN` | Files can actually be read |
+| Sync / collection stage of Run scan | `LISTSTATUS` (directories) + `OPEN` | Files can actually be read |
 
-- A successful Test does not guarantee that files can be read; Sync performs the actual read.
+- A successful Test does not guarantee that files can be read; Sync or Run scan performs the actual read.
 - When a read is redirected away from the NameNode, SADE follows it **only to addresses in DataNode addresses**.
   The token is never sent to servers outside that list.
 

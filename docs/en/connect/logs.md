@@ -19,11 +19,12 @@ It does not install agents or intercept traffic.
 2. Enter the connection details and collection range.
 3. **Test connection** checks access and search permission (nothing is saved).
 4. **Save** stores the connection (saving does not mean the connection works).
-5. **Sync** or **Run scan** reads the logs and analyzes them.
+5. **Run scan** collects and analyzes logs. Use **Sync** when you only need to check collection.
 6. Review results in **APIs > Inventory** and **Call History**.
 
 - You can connect logs before registering an OpenAPI spec.
 - Calls not assigned to a service still appear in Inventory and can be assigned later.
+- Run scan includes collection; a separate Sync is optional. See [scans and jobs](../operations/scans.md).
 
 ## Supported log formats
 

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+  {% set korean = config.theme.language == "ko" %}
+  <div class="sade-page-tools">
+    <nav class="sade-breadcrumb" aria-label="{{ '문서 위치' if korean else 'Breadcrumb' }}">
+      <a href="{{ nav.homepage.url | url }}">SADE</a>
+      {% if page.parent %}<span aria-hidden="true">/</span><span>{{ page.parent.title }}</span>{% endif %}
+    </nav>
+    <button type="button" class="sade-copy-page" data-copy-page
+      data-label="{{ '페이지 복사' if korean else 'Copy page' }}"
+      data-copied="{{ '복사됨' if korean else 'Copied' }}"
+      data-failed="{{ '복사할 수 없습니다' if korean else 'Could not copy' }}">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="8" y="8" width="12" height="13" rx="2"/><path d="M16 8V3H3v13h5"/></svg>
+      <span aria-live="polite">{{ '페이지 복사' if korean else 'Copy page' }}</span>
+    </button>
+  </div>
+  {{ super() }}
+{% endblock %}

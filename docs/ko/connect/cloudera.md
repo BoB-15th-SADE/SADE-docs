@@ -2,6 +2,14 @@
 
 HDFS에 저장된 JSONL 로그 파일을 WebHDFS REST API로 읽어 옵니다.
 
+## 빠른 설정
+
+1. **Connect → Log Sources → Cloudera → Connect**를 엽니다.
+2. HTTPS WebHDFS URL, HDFS 경로, 인증과 DataNode 허용 주소를 입력합니다.
+3. Service와 Field mapping을 확인합니다.
+4. **Test connection → Save** 순서로 설정을 확인하고 저장합니다.
+5. **Run scan**으로 실제 파일 읽기와 분석을 확인합니다.
+
 ## 준비물
 
 | 항목 | 설명 |
@@ -33,9 +41,9 @@ HDFS에 저장된 JSONL 로그 파일을 WebHDFS REST API로 읽어 옵니다.
 | 단계 | WebHDFS 호출 | 확인하는 것 |
 |---|---|---|
 | Test connection | `GETFILESTATUS` | 경로에 접근할 수 있는지 |
-| Sync | `LISTSTATUS`(디렉터리) + `OPEN` | 실제 파일 읽기 |
+| Sync / Run scan의 수집 단계 | `LISTSTATUS`(디렉터리) + `OPEN` | 실제 파일 읽기 |
 
-- Test가 성공해도 파일 읽기 성공을 보장하지 않습니다. 실제 읽기는 Sync에서 확인됩니다.
+- Test가 성공해도 파일 읽기 성공을 보장하지 않습니다. 실제 읽기는 Sync 또는 Run scan에서 확인합니다.
 - 파일 읽기 요청이 NameNode가 아닌 곳으로 넘어가면, **DataNode addresses에 있는 주소로만** 따라갑니다.
   목록에 없는 서버로는 토큰을 보내지 않습니다.
 

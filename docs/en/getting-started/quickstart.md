@@ -1,46 +1,65 @@
-# Quick start
+# Installation and first scan
 
-Run the SADE dashboard with Docker and complete a first scan.
+Start SADE with Docker and connect the evidence you already have. You do not need logs, specifications and code together to begin.
 
-## Requirements
+## Prerequisites
 
-- Docker Desktop (with Docker Compose)
-- Git
+- Docker and Docker Compose
+- Current source from the [SADE repository](https://github.com/BoB-15th-SADE/SADE)
+- At least one OpenAPI 3.x JSON file, readable GitHub repository or HTTP log source
 
-## 1. Get the code
+## 1. Start SADE
 
-!!! note
-    The SADE code repository is currently private. Access is required to clone it.
-
-```bash
-git clone -b feat/dashboard-design https://github.com/BoB-15th-SADE/SADE.git
-cd SADE
-```
-
-## 2. Run
+Run this from the SADE repository root, not from this SADE-docs repository.
 
 ```bash
 docker compose up -d --build
 ```
 
-- Dashboard: <http://localhost:8765> (reachable from this computer only)
-- Containers
-    - `api`: dashboard, API and job intake
-    - `worker`: log collection and analysis
-- Settings, specs and results are stored in `apps/sade-dashboard/data` and an SQLite database.
+Open [http://localhost:8765](http://localhost:8765). The default configuration binds locally and starts the API server, a heavy worker and a light reclassification worker.
 
-## 3. First scan
+## 2. Register available evidence
 
-1. Upload an OpenAPI spec in **Connect > Specifications** to register a service.
-2. Connect logs in **Connect > Log Sources** (see [Connect logs](../connect/logs.md)).
-3. Click **Run scan** to start the analysis.
-4. Review the results in **APIs > Inventory**.
+| Evidence | Open | Next step |
+|---|---|---|
+| OpenAPI JSON | Connect → Specifications → Add service | Register the service and specification to inspect declared APIs. |
+| GitHub repository | Connect → Source Code | Connect a token, select repositories and choose Scan selected. |
+| Splunk / WebHDFS logs | Connect → Log Sources | Configure connection, collection range and service assignment. |
 
-## 4. Stop
+Specifications are optional. Start with traffic alone or register a specification before connecting logs.
+
+## 3. Check your log connection
+
+1. Choose **Connect** on the Splunk or Cloudera integration.
+2. Enter connection, authentication and collection settings.
+3. Run **Test connection** to check access.
+4. Review automatic field mapping; use Manual if necessary.
+5. Choose **Save**. Saving configuration does not establish successful collection.
+
+## 4. Run analysis
+
+**Run scan** collects logs and builds the inventory, sensitive-data results, specification checks and flows. Sync checks collection separately and is not a required first step.
+
+Registering specifications or code, or changing rules, also queues sensitive-field reclassification from saved evidence. That task does not fetch new logs, create a log scan or rerun policy checks.
+
+## 5. Review results
+
+- **Inventory**: API list with Spec / Code / Log sources
+- **Sensitive Data**: types, request/response APIs and detection evidence
+- **Call History**: retained recent calls and request/response structure
+- **Findings**: Pass / Fail / Not evaluated specification checks
+- **Flows**: observed calls and code/configuration relationships
+
+## Stop or develop locally
 
 ```bash
 docker compose down
 ```
 
-!!! tip
-    Planned: running a scan with sample data
+Production Compose mounts data, imports and certificates; application code is built into the image. For source changes during development, use:
+
+```bash
+docker compose -f compose.yaml -f compose.dev.yaml up -d --build
+```
+
+See [troubleshooting](../troubleshooting/index.md) for queued jobs, or [architecture and workers](../operations/architecture.md) to run without Docker.

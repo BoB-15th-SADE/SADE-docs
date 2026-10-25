@@ -2,6 +2,14 @@
 
 Splunk Search REST API로 인덱스에 저장된 JSON HTTP 로그를 검색해 가져옵니다.
 
+## 빠른 설정
+
+1. **Connect → Log Sources → Splunk → Connect**를 엽니다.
+2. HTTPS Search API URL, Index, 인증 토큰과 수집 범위를 입력합니다.
+3. Service 배정과 자동 Field mapping을 확인합니다.
+4. **Test connection** 후 **Save**를 누릅니다.
+5. **Run scan**으로 수집과 분석을 실행하고 Inventory에서 결과를 확인합니다.
+
 ## 준비물
 
 | 항목 | 설명 |
@@ -63,6 +71,7 @@ search (index="api_gateway" OR index="service_access") sourcetype="..." | fields
 
 - 겹친 결과는 Splunk 이벤트 ID(`_cd`) 또는 이벤트 내용으로 중복을 없앱니다.
 - 가져온 이벤트는 연결별로 최근 10 MB까지 SADE DB에 보관하며, 화면을 열 때마다 Splunk를 다시 검색하지 않습니다.
+- 이 증거 캐시는 원문 개인정보·인증정보를 포함할 수 있습니다. [마스킹과 데이터 보관](../operations/masking.md)을 확인하세요.
 - 수집에 실패하거나 도중에 설정이 바뀌면 수집 위치(커서)를 앞으로 옮기지 않습니다.
 
 ## 자주 나는 오류

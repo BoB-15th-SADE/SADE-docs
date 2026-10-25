@@ -2,6 +2,16 @@
 
 SADE searches JSON HTTP logs stored in Splunk indexes through the Splunk Search REST API.
 
+## Quick setup
+
+1. Open **Connect → Log Sources → Splunk → Connect**.
+2. Enter the HTTPS Search API URL, indexes, token and collection window.
+3. Review service assignment and automatic field mapping.
+4. Choose **Test connection**, then **Save**.
+5. **Run scan** to collect/analyze logs and inspect Inventory.
+
+The incremental Splunk evidence cache can contain original personal data and credentials. Read [masking and storage](../operations/masking.md) before collecting real traffic.
+
 ## What you need
 
 | Item | Description |

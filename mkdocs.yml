@@ -1,30 +1,38 @@
 site_name: SADE Docs
-site_description: API identification and visibility methodology from logs, OpenAPI specs and source code
+site_description: 로그·명세·코드로 API와 민감정보를 확인하는 SADE 사용 가이드
 site_url: https://bob-15th-sade.github.io/SADE-docs/
 repo_url: https://github.com/BoB-15th-SADE/SADE-docs
-repo_name: BoB-15th-SADE/SADE-docs
+repo_name: SADE-docs
 docs_dir: docs
 
 theme:
   name: material
+  custom_dir: overrides
+  language: ko
   logo: assets/logo.png
   favicon: assets/favicon.png
+  font: false
   palette:
-    - scheme: default
-      primary: teal
-      toggle: {icon: material/weather-night, name: Dark mode}
-    - scheme: slate
-      primary: teal
-      toggle: {icon: material/weather-sunny, name: Light mode}
+    scheme: default
+    primary: white
+    accent: teal
   features:
-    - navigation.tabs
     - navigation.sections
+    - navigation.expand
     - navigation.top
+    - navigation.footer
     - search.highlight
+    - search.suggest
     - content.code.copy
 
+extra_css:
+  - assets/stylesheets/extra.css
+extra_javascript:
+  - assets/javascripts/page-actions.js
+
 plugins:
-  - search
+  - search:
+      lang: [en]
   - i18n:
       docs_structure: folder
       languages:
@@ -36,46 +44,91 @@ plugins:
           name: English
           build: true
           nav_translations:
-            소개: Introduction
-            빠른 시작: Getting started
-            데이터 연결: Connect data
-            기능: Features
-            운영: Operations
-            기업 적용 가이드: PoC guide
-            참고: Reference
+            시작하기: GET STARTED
+            SADE 소개: Introduction
+            설치와 첫 스캔: Installation and first scan
+            화면 둘러보기: Dashboard navigation
+            데이터 연결: CONNECT DATA
+            로그 연결 개요: Log sources
+            Splunk 연결: Splunk
+            Cloudera 연결: Cloudera / WebHDFS
+            OpenAPI 명세: OpenAPI specifications
+            소스코드와 GitHub: Source code and GitHub
+            API 탐색: EXPLORE APIs
+            API 인벤토리: API inventory
+            API 상세: API details
+            호출 기록: Call history
+            서비스 흐름: Service flows
+            민감정보와 룰: SENSITIVE DATA & RULES
+            민감정보 탐지: Sensitive data detection
+            데이터 유형과 룰 관리: Data types and rules
+            접근 범위 분류: Access scope
+            점검 결과: Findings
+            운영: OPERATIONS
+            스캔과 작업: Scans and jobs
+            마스킹과 데이터 보관: Masking and storage
+            구성과 실행 방식: Architecture and workers
+            PoC 진행 가이드: PoC guide
+            API 레퍼런스: API REFERENCE
+            HTTP API: HTTP API
+            CLI 명령: CLI commands
+            문제 해결: TROUBLESHOOTING
+            연결·분석 문제 해결: Connection and analysis issues
+            자주 묻는 질문: FAQ
+            참고: REFERENCE
+            용어: Glossary
+            지원 범위와 제한: Supported scope and limits
+            변경 내역: Changelog
+            문서 기준: Documentation baseline
 
 markdown_extensions:
   - admonition
   - tables
   - attr_list
+  - md_in_html
   - pymdownx.details
   - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
   - toc: {permalink: true}
 
+extra:
+  generator: false
+
 nav:
-  - 소개:
-      - index.md
-  - 빠른 시작:
-      - getting-started/quickstart.md
+  - 시작하기:
+      - SADE 소개: index.md
+      - 설치와 첫 스캔: getting-started/quickstart.md
+      - 화면 둘러보기: getting-started/navigation.md
   - 데이터 연결:
-      - connect/logs.md
-      - connect/splunk.md
-      - connect/cloudera.md
-      - connect/specs.md
-      - connect/code.md
-  - 기능:
-      - features/inventory.md
-      - features/api-details.md
-      - features/call-history.md
-      - features/sensitive-data.md
-      - features/flows.md
-      - features/findings.md
+      - 로그 연결 개요: connect/logs.md
+      - Splunk 연결: connect/splunk.md
+      - Cloudera 연결: connect/cloudera.md
+      - OpenAPI 명세: connect/specs.md
+      - 소스코드와 GitHub: connect/code.md
+  - API 탐색:
+      - API 인벤토리: features/inventory.md
+      - API 상세: features/api-details.md
+      - 호출 기록: features/call-history.md
+      - 서비스 흐름: features/flows.md
+  - 민감정보와 룰:
+      - 민감정보 탐지: features/sensitive-data.md
+      - 데이터 유형과 룰 관리: policy/data-types.md
+      - 접근 범위 분류: policy/access-scope.md
+      - 점검 결과: features/findings.md
   - 운영:
-      - operations/masking.md
-  - 기업 적용 가이드:
-      - poc/guide.md
+      - 스캔과 작업: operations/scans.md
+      - 마스킹과 데이터 보관: operations/masking.md
+      - 구성과 실행 방식: operations/architecture.md
+      - PoC 진행 가이드: poc/guide.md
+  - API 레퍼런스:
+      - HTTP API: reference/http-api.md
+      - CLI 명령: reference/cli.md
+  - 문제 해결:
+      - 연결·분석 문제 해결: troubleshooting/index.md
+      - 자주 묻는 질문: reference/faq.md
   - 참고:
-      - reference/glossary.md
-      - reference/limitations.md
-      - reference/faq.md
-      - reference/changelog.md
+      - 용어: reference/glossary.md
+      - 지원 범위와 제한: reference/limitations.md
+      - 변경 내역: reference/changelog.md
+      - 문서 기준: reference/baseline.md
