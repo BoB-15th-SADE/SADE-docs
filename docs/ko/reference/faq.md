@@ -4,9 +4,17 @@
 
 아닙니다. 명세·코드만으로 선언 API와 민감 필드 후보를 볼 수 있고 로그만으로도 인벤토리를 만들 수 있습니다. 실제 값 관측과 명세 준수 비교에는 각각 필요한 근거가 있어야 합니다.
 
-## Scan 전에 Sync를 해야 하나요?
+## Collect now와 Run scan은 뭐가 다른가요?
 
-Run scan에 로그 수집이 포함되므로 필수는 아닙니다. Sync는 수집 상태만 확인하거나 특정 소스를 가져올 때 사용합니다. [작업 구분](../operations/scans.md)을 확인하세요.
+**Collect now**는 SIEM이나 파일에서 로그를 가져옵니다. **Run scan**은 이미 가져온 결과로 명세 점검만 다시 합니다. 처음에는 Collect now를 먼저 하세요. 명세를 바꾼 뒤에는 Run scan만 하면 됩니다. [수집과 스캔](../operations/scans.md)을 보세요.
+
+## 연결해 두면 계속 가져오나요?
+
+소스의 **Schedule**을 켜면 worker가 주기마다 지난 체크포인트 이후만 가져옵니다. Schedule이 꺼져 있으면 Collect now를 누를 때만 가져옵니다.
+
+## 대용량 Splunk도 다 읽나요?
+
+시간 창을 나눠 전부 읽습니다. 호출 수와 상태 합계는 전체 기준이고, 화면에 펼쳐 보는 요청은 API·상태별 대표 몇 건입니다. [SIEM 대량 수집](../technology/siem-collection.md)을 보세요.
 
 ## 룰 수정은 전체에 적용되나요?
 
@@ -26,7 +34,11 @@ Data Types에서 별칭·경로·값 조건을 수정하거나 비활성화합�
 
 ## 원문 개인정보를 저장하지 않나요?
 
-분석 결과는 가리지만 Splunk 증거 캐시는 원문을 포함할 수 있습니다. 예전 DB·백업까지 소급 정리하지 않습니다. [저장 범위](../operations/masking.md)를 확인하세요.
+본문·헤더 값은 저장하지 않고 타입과 위치만 남깁니다. 예외는 클라이언트 IP와 X-Forwarded-For로, 보안 분석을 위해 원문 그대로 남깁니다. 예전 버전의 Splunk 원문 캐시는 자동으로 지우지 않으니 [마스킹과 데이터 보관](../operations/masking.md)을 확인하세요.
+
+## Findings가 비어 있어요.
+
+정상입니다. 회사 정책 규칙 기능은 다음 단계라서 지금은 Findings에 나오는 항목이 없습니다. 명세 점검 결과는 Inventory의 Shadow 탭과 Call History의 Spec check에서 봅니다.
 
 ## Slack 알림·SSO·조직별 권한이 있나요?
 

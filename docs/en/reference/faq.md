@@ -4,9 +4,17 @@
 
 No. Specifications/code populate declared APIs and sensitive-field candidates; logs alone can also build an inventory. Actual value observations and contract assessment each need their respective evidence.
 
-## Must I Sync before Scan?
+## How do Collect now and Run scan differ?
 
-No. Run scan includes log collection. Sync separately checks collection or imports a particular source. See [job types](../operations/scans.md).
+**Collect now** fetches logs from the SIEM or files. **Run scan** only rechecks the spec against what was already collected. Start with Collect now; after changing a spec, Run scan is enough. See [Collection and scans](../operations/scans.md).
+
+## Once connected, does it keep collecting?
+
+Turn on the source's **Schedule** and the worker collects on that interval, reading only what came after the last checkpoint. With Schedule off, it collects only when you click Collect now.
+
+## Does it read a large Splunk in full?
+
+Yes, window by window. Call counts and status totals cover everything; the requests you can open on screen are a few samples per API and status. See [Large-scale SIEM collection](../technology/siem-collection.md).
 
 ## Do rule changes apply globally?
 
@@ -26,7 +34,11 @@ It can mean missing capture, unsupported inspection or insufficient evidence. Re
 
 ## Are original personal values never stored?
 
-Analysis results redact values, but the Splunk evidence cache may contain originals. Historical databases and backups are not retroactively scrubbed. See [storage scope](../operations/masking.md).
+Body and header values are not stored; only types and locations are. The exception is client IP and X-Forwarded-For, kept as is for security analysis. Raw Splunk caches from older versions are not deleted automatically; see [Masking and data retention](../operations/masking.md).
+
+## Findings is empty.
+
+That is expected. Company policy rules are the next step, so nothing shows in Findings yet. Spec check results are in the Shadow tab of Inventory and the Spec check column of Call History.
 
 ## Are Slack alerts, SSO and organization permissions supported?
 

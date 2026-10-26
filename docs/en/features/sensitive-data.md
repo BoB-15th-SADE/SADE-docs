@@ -59,3 +59,5 @@ Inspection covers JSON bodies, headers, queries, identifiable path parameters, c
 COMPLETE means inspection completed for the **supplied evidence**, not that all original traffic was captured. Review PARTIAL / UNAVAILABLE and Unconfirmed fields. HIGH / MEDIUM / LOW are evidence grades, not probabilities or legal conclusions.
 
 Type totals count unique APIs separately for request and response. They do not sum fields, sources or events. NULL, empty and masked values remain distinct from original-value observations.
+
+[<span class="q">Curious?</span><span class="t">How the engine tells 19 types apart by name, context and value structure</span><span class="arrow">→</span>](../technology/sensitive-data.md){ .sade-curious }

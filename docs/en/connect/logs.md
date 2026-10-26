@@ -1,81 +1,103 @@
-# Connecting logs
+# Integration overview
 
-SADE identifies APIs from HTTP logs that a company already keeps in its log stores (SIEM, data lake).
-It does not install agents or intercept traffic.
+SADE reads logs and documents you already have. It installs no agent in your services and does not intercept traffic. Start here to see what you can connect and what your logs need to contain.
 
-## Supported integrations
+## What you can connect
 
-| Integration | Category | How it reads | Page |
-|---|---|---|---|
-| Splunk | SIEM | Search REST API (`/services/search/v2/jobs/export`) | [Connect Splunk](splunk.md) |
-| Cloudera | Data lake | WebHDFS (JSONL files in HDFS) | [Connect Cloudera](cloudera.md) |
+<div class="sade-catalog" markdown>
 
-!!! info "Not supported yet"
-    Direct Elasticsearch and Amazon S3 connections are not supported yet.
+[**Splunk**<span>Search indexes through the Search REST API</span><span class="sade-pill ok">Supported</span>](splunk.md)
 
-## Steps
+[**Cloudera**<span>Read JSONL files in HDFS through WebHDFS</span><span class="sade-pill ok">Supported</span>](cloudera.md)
 
-1. In **Connect > Log Sources**, pick Splunk or Cloudera under Integrations.
-2. Enter the connection details and collection range.
-3. **Test connection** checks access and search permission (nothing is saved).
-4. **Save** stores the connection (saving does not mean the connection works).
-5. **Run scan** collects and analyzes logs. Use **Sync** when you only need to check collection.
-6. Review results in **APIs > Inventory** and **Call History**.
+[**Log files**<span>Access logs, application logs, SIEM CSV exports</span><span class="sade-pill ok">Supported</span>](files.md)
 
-- You can connect logs before registering an OpenAPI spec.
-- Calls not assigned to a service still appear in Inventory and can be assigned later.
-- Run scan includes collection; a separate Sync is optional. See [scans and jobs](../operations/scans.md).
+[**OpenTelemetry**<span>OTLP JSON and span JSONL files</span><span class="sade-pill ok">Supported</span>](files.md#opentelemetry)
 
-## Supported log formats
+[**OpenAPI specs**<span>Upload OpenAPI 3.0 / 3.1 JSON</span><span class="sade-pill ok">Supported</span>](specs.md)
 
-| Log type | Format | Analysis | Requirements |
-|---|---|---|---|
-| API gateway logs | JSON HTTP events | Inventory, Call History | Timestamp, method, path, status |
-| Web access logs | JSON HTTP events | Inventory, Call History | Plain combined text must be converted to JSON |
-| Application logs | JSON HTTP events | Inventory, Call History | HTTP fields required; error messages alone are not enough |
-| Auth / identity logs | JSON identity events | Planned for remote import | Summaries are supported for file import only |
-| Syslog (plain text) | Not supported | - | Convert to JSON first |
+[**GitHub**<span>Pick repositories and extract APIs and call relations from code</span><span class="sade-pill ok">Supported</span>](code.md)
 
-- Each event must be one JSON object (Splunk `_raw`, or one line of a Cloudera file).
-- The log's name (gateway, access, application) does not matter as long as the HTTP fields are present.
+<div markdown>**Elasticsearch / OpenSearch**<span>No direct connection yet. Export to JSONL and connect as a file</span><span class="sade-pill no">Not supported</span></div>
 
-## Log fields
+<div markdown>**Amazon S3**<span>No direct connection yet. Download and connect as a file</span><span class="sade-pill no">Not supported</span></div>
 
-### Required
+<div markdown>**Raw syslog**<span>Convert to JSON events first</span><span class="sade-pill no">Not supported</span></div>
 
-| SADE field | Meaning | Auto-detected names (examples) |
-|---|---|---|
-| `timestamp` | Request time (ISO 8601 with time zone, or epoch seconds or milliseconds) | `@timestamp`, `_time`, `timestamp`, `observed_at_epoch` |
-| `method` | HTTP method | `method`, `http.request.method`, `request_method` |
-| `path` | Request path | `request_path`, `url.path`, `uri`, `request.uri` |
-| `status` | Response status code | `status`, `status_code`, `http.response.status_code` |
+</div>
 
-Events without the required fields are skipped.
+Specs, code and logs can be added one at a time, in any order. A spec alone gives an API list and sensitive data candidates. Logs add real calls; code adds implementation evidence and service-to-service calls.
 
-### Recommended
+## First connection
 
-| SADE field | What it adds | Auto-detected names (examples) |
-|---|---|---|
-| `service` | Group APIs by service | `service.name`, `service`, `kubernetes.labels.app` |
-| `request_id` | Link logs of the same request | `request_id`, `trace_id`, `correlation_id` |
-| `hop_id` | Link both sides of one service-to-service call | `hop_id` |
-| `event_type` | Inbound or outbound | `event_type`, `span.kind`, `direction` |
-| `destination` | External destination | `destination.address`, `upstream_host` |
-| `client_ip` | Caller address | `client_ip`, `source.ip`, `remote_addr` |
-| `duration_ms`, `response_bytes` | Latency, size | `duration_ms`, `bytes_sent` |
-| `request_headers`, `response_headers` | Auth scheme, headers | `request.headers` |
-| `request_body`, `response_body` | Field specs, sensitive data detection | `request.body`, `response_body` |
+<div class="sade-steps" markdown>
 
-- Headers and bodies are optional. When missing they are shown as not captured; SADE does not assume they were empty or free of personal data.
-- Bodies may be JSON objects, arrays or JSON strings.
+1. **Connect logs.** In Connect › Log Sources, pick Splunk or Cloudera and enter the connection details. Collection range and schedule have defaults.
+2. Check access and search permission with **Test connection**, then click **Save connection**. Saving does not mean the connection works.
+3. Fetch logs with **Collect now**. The API inventory, sensitive data and Flows fill in.
+4. (Optional) Upload an OpenAPI spec in Connect › Specifications. Shadow APIs and the spec check need one.
+5. Run the spec check with **Run scan**. It uses only the stored collection and does not contact the SIEM again.
 
-### Field mapping {#field-mapping}
+</div>
 
-- **Auto-detect (default)**: tries the names above on the imported events, checks the value types and picks the best match.
-  Names from Elastic ECS, OpenTelemetry, Envoy, NGINX JSON, Kong and Splunk CIM are included.
-- **Manual**: enter the field **path**, not a value.
-    - Example: for `{"http":{"method":"GET"}}`, enter `http.method` for Method.
-- **Log profile (optional)**: a JSON file with company-specific names, tried before the generic names.
+## What your logs need
+
+The kind of log (gateway, access, application) does not matter. **Each event must be one JSON object** with the fields below. SADE finds the names automatically for common schemes (Elastic ECS, OpenTelemetry, Envoy, NGINX JSON, Kong, Splunk CIM).
+
+=== "Required"
+
+    | Field | Example names | Without it |
+    |---|---|---|
+    | Time | `time`, `@timestamp`, `_time` | Not collected |
+    | Method | `method`, `http.request.method` | Not collected |
+    | Path | `path`, `url.path`, `request_uri` | Not collected |
+    | Status | `status`, `http.response.status_code` | Not collected |
+
+    These four alone give you the **API inventory, call counts and shadow APIs**. Time must be ISO 8601 with a zone (`Z` or `+09:00`) or epoch seconds or milliseconds.
+
+=== "Recommended"
+
+    | Field | Example | Adds |
+    |---|---|---|
+    | Request ID | `request_id`, `X-Request-ID` | Merges gateway and service logs into one call |
+    | Request headers | `Authorization`, `Cookie`, `X-API-Key` | Auth method analysis; calls that succeed without credentials |
+    | Response body | Values, or only field names and types | Per-call spec check; sensitive data by value |
+    | Service name | `service.name` | Service assignment without path prefixes |
+
+    Auth headers may be masked. If the scheme word survives, as in `Bearer ***`, SADE reads the auth method.
+
+=== "Nice to have"
+
+    | Field | Example | Adds |
+    |---|---|---|
+    | Trace | `traceId`, `spanId`, `parentSpanId`, W3C `traceparent` | The most exact service-to-service flow |
+    | Target, direction | `destination.address`, `span.kind` | Who called whom |
+    | Original client | `X-Forwarded-For` | The real caller IP behind a proxy |
+    | Peer IP | `client_ip`, `remote_addr` | Telling callers apart |
+    | Latency, size | `duration_ms`, `bytes_sent` | Shown in Call History |
+
+Headers and bodies are optional. When they are missing, SADE shows "not captured" and does not conclude they were empty or free of personal data.
+
+### Check your own log {#log-check}
+
+Paste one log line to see which fields SADE finds and which features it supports. The check runs in your browser and sends nothing anywhere. Masked or made-up values give the same result.
+
+<div class="sade-logcheck" data-lang="en">
+  <div class="sade-logcheck__head"><span>One log line (JSON)</span><div class="sade-logcheck__samples"><button type="button" data-sample="nginx">nginx JSON</button><button type="button" data-sample="ecs">Elastic ECS</button><button type="button" data-sample="minimal">Required only</button><button type="button" data-sample="broken">Not JSON</button></div></div>
+  <textarea spellcheck="false" aria-label="One log line" placeholder='{"time":"2026-10-26T09:12:03+09:00","method":"GET","path":"/api/orders/1","status":200}'></textarea>
+  <div class="sade-logcheck__note">Uses the same alias lists as auto-detection. traceparent is read on sources whose flow log type is Access.</div>
+  <div class="sade-logcheck__result" aria-live="polite"></div>
+</div>
+
+[<span class="q">Curious?</span><span class="t">How fields are found automatically and differently shaped logs become one record</span><span class="arrow">→</span>](../technology/log-normalization.md){ .sade-curious }
+
+## Field mapping {#field-mapping}
+
+| Mode | When |
+|---|---|
+| **Auto-detect** (default) | Most cases. Looks for known names in fetched events and checks value shapes too. |
+| **Manual** | When auto-detect picked the wrong field. Enter a **field path**, not a value. For `{"http":{"method":"GET"}}`, put `http.method` under Method. |
+| **Log profile** | When you have many company-specific names. Upload JSON like the one below and its names are tried first. |
 
 ```json
 {
@@ -84,37 +106,36 @@ Events without the required fields are skipped.
 }
 ```
 
-## Splitting logs into services {#routing}
+## Splitting logs by service {#routing}
 
-Choose under **Service** in the connection settings.
+One log often mixes calls for many services. Choose how to split them under the connection's advanced settings › **Service matching**. When some service has a path prefix registered, new connections start with path matching.
 
-| Option | Behavior | When to use |
+| Choice | Behavior | Use when |
 |---|---|---|
-| Assign later | Unassigned | No spec registered yet |
-| A specific service | All logs of this connection go to one service | Indexes or paths are already split per service |
-| All services, by path prefix | The path prefix decides the service (e.g. `/orders` → orders) | One gateway log mixes several services |
-| All services, by logged service name | The service field in the log decides | Logs carry a service name |
+| Match by path prefix | Decided by the start of the path (`/order/...` → order) | One gateway log mixes many services |
+| Match by service name in logs | Decided by the service field in the log | Logs carry a service name |
+| A specific service | Every log of this connection goes to one service | Each service has its own index or path |
+| Assign later | Left Unassigned | No specs or services registered yet |
 
-- Services are registered in **Connect > Specifications** (name, base URL, path prefix, OpenAPI).
-- Logged service values are matched against service IDs, aliases and internal host names (`*.svc`, `*.internal`, ...).
-- Calls that match no service are shown as Unassigned.
+Register services and path prefixes on the [OpenAPI specs](specs.md) screen. Calls that match no service stay Unassigned and can be assigned later.
 
-## When one call is logged more than once
+## Flow log type
 
-- Inbound and outbound events with the same `hop_id` are merged into one call.
-- Without `hop_id`, events are merged only when request ID, method, path and status all match. Similar timestamps alone never merge calls.
+**Flow log type** in advanced settings decides how this log is used when drawing service-to-service flows.
+
+| Type | Meaning | Counted as calls |
+|---|---|---|
+| Legacy HTTP log (default) | Plain HTTP log. Records of one request are merged by request ID | Yes |
+| Access log | Requests a service **received**. Reads trace fields and `traceparent` | Yes |
+| Application log | Requests a service **sent** (caller, target) | No. Adds caller information only |
+
+If service-to-service flow matters, connect access logs and application logs separately. See [Log files and OpenTelemetry](files.md).
 
 ## Security and storage
 
-- Tokens are stored apart from settings in the SADE server database and are never shown or exported.
-- A stored token is not reused if the endpoint or auth mode changes.
-- TLS certificates are always verified. Use a CA file for company certificates; there is no option to disable verification.
-- Header and body values are shown as types (`<string>`, ...). See [Masking and retention](../operations/masking.md).
+- Auth tokens are stored apart from settings in a separate area of the SADE database. They never appear on screen, in exports or job records.
+- If the address or auth method changes, the saved token is not reused.
+- TLS certificates are always verified. Point to a CA file for internal certificates; there is no option to turn verification off.
+- Collected results **do not store raw body or header values.** Values become types such as `<string>`, and request and trace IDs become hashes. Client IPs are kept as they are.
 
-## Limits
-
-| Item | Limit |
-|---|---|
-| Data per read | 10 MB per connection (larger results fail instead of being analyzed partially) |
-| Request timeout | 90 seconds |
-| Registrations | 100 services, 100 log connections |
+[<span class="q">Curious?</span><span class="t">How SADE judges sensitive data and spec differences after removing values</span><span class="arrow">→</span>](../technology/value-free-storage.md){ .sade-curious }

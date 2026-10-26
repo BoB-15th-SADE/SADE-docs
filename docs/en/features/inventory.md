@@ -1,31 +1,35 @@
 # API inventory
 
-**APIs → Inventory** lists APIs by service, merging methods and paths from specifications, code and logs while retaining their sources.
+**APIs › Inventory** lists APIs by service. APIs found in specs, code and logs are merged into one entry, with a tag for each source that confirmed it.
 
-## Quick access
+## How to read it
 
-1. Select a service collection.
-2. Review methods, paths and sources; narrow them with search and filters.
-3. Select an API to open its [details panel](api-details.md).
-4. Inspect runtime differences in **Calls / Findings** and structure in **Fields**.
+<div class="sade-steps" markdown>
 
-## Sources and states
+1. Pick a service. Each shows its API count, how many APIs carry sensitive data and whether it was called.
+2. In the API list, check method and path, evidence (`Spec` / `Code` / `Log`), auth method, exposure and sensitive data.
+3. Narrow down with the tabs, filters and search, for example shadow APIs only, or APIs with sensitive data candidates.
+4. Click an API to open [API details](api-details.md).
 
-| Label | Meaning |
+</div>
+
+## Tabs and filters
+
+| Tab | Shows |
 |---|---|
-| Spec | Declared in a specification |
-| Code | Found in registered code |
-| Log | Observed in collected logs |
-| Shadow | Observed outside an available baseline specification |
-| No traffic | Not observed during the collected window |
-| No spec | No independent baseline specification |
+| All | Every API of this service |
+| Sensitive | APIs with sensitive data candidates |
+| Shadow | APIs seen in calls but missing from the spec, on services that have one |
 
-A specification-only view does not produce runtime counts, value observations or passing checks. No traffic does not establish that an API is retired.
+Filter by **Method**, **Access type** (exposure) and **Service**, or type part of a path into search.
 
-## Path normalization
+## Keep in mind
 
-Numeric IDs, UUIDs and similar path components are normalized to group calls to the same API. For example, `/users/123` and `/users/456` may become `/users/{id}`. Service path prefixes and route maps affect matching.
+- **Not logged** does not mean retired. The API may just not have been used during the window.
+- Services with only a spec have no call counts or value observations. A spec is a declaration.
+- Call counts cover every collected log. Large Splunk sources count every call too.
+- APIs that differ only in path parameter names are merged (`/users/{id}` = `/users/{userId}`).
 
-Code-generated specifications do not count as independent Spec evidence. Merging sources keeps declaration counts separate from observed calls.
+If paths group oddly or services split wrongly, check [field mapping](../connect/logs.md#field-mapping), [service assignment](../connect/logs.md#routing) and the service's path prefix first.
 
-For missing fields or incorrect grouping, check [field mapping](../connect/logs.md#field-mapping) and [service assignment](../connect/logs.md#routing) first.
+[<span class="q">Curious?</span><span class="t">How `/orders/1024` becomes `GET /orders/{id}` and shadow APIs are decided</span><span class="arrow">→</span>](../technology/api-discovery.md){ .sade-curious }

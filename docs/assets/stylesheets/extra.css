@@ -20,7 +20,7 @@ html { scroll-padding-top: 5rem; }
 .md-search__input { font-size: .78rem; }
 .md-grid { max-width: 84rem; }
 .md-main__inner { margin-top: 1.5rem; }
-.md-sidebar--primary { width: 15rem; }
+@media (min-width: 76.25em) { .md-sidebar--primary { width: 15rem; } }
 .md-nav { font-size: .76rem; line-height: 1.6; }
 .md-nav__link { color: #64716c; margin-top: .55rem; }
 .md-nav__link:is(:hover, :focus-visible) { color: #167964; }
@@ -61,7 +61,6 @@ html { scroll-padding-top: 5rem; }
   .md-content__inner { margin-left: 3.5rem; }
 }
 @media (max-width: 76.234375em) {
-  .md-sidebar--primary { width: 13rem; }
   .md-content__inner { margin-left: 1.2rem; margin-right: 1.2rem; }
 }
 @media (max-width: 44.984375em) {
@@ -71,3 +70,75 @@ html { scroll-padding-top: 5rem; }
   .sade-breadcrumb { font-size: .6rem; }
 }
 @media print { .sade-page-tools, .md-footer { display: none; } }
+
+/* ---------- Components for guides and technology pages ---------- */
+/* "궁금하신가요?" link card at the end of a guide section */
+.md-typeset a.sade-curious { align-items: center; background: #f6faf8; border: 1px solid #d9e8e0; border-radius: .5rem; color: #233c30; display: flex; gap: .9rem; margin: 1.6rem 0; padding: .85rem 1.1rem; text-decoration: none; }
+.md-typeset a.sade-curious:hover { background: #eef6f2; border-color: #9fc6b2; }
+.md-typeset a.sade-curious .q { color: #167964; flex-shrink: 0; font-size: .68rem; font-weight: 750; letter-spacing: .02em; }
+.md-typeset a.sade-curious .t { flex: 1; font-size: .78rem; }
+.md-typeset a.sade-curious .arrow { color: #167964; font-weight: 700; transition: transform .15s; }
+.md-typeset a.sade-curious:hover .arrow { transform: translateX(3px); }
+
+/* Numbered steps */
+.md-typeset .sade-steps > ol { counter-reset: step; list-style: none; margin-left: 0; padding-left: 0; }
+.md-typeset .sade-steps > ol > li { border-left: 2px solid #e1ebe6; counter-increment: step; margin: 0 0 0 .9rem; padding: 0 0 1.1rem 1.6rem; position: relative; }
+.md-typeset .sade-steps > ol > li:last-child { border-left-color: transparent; padding-bottom: .2rem; }
+.md-typeset .sade-steps > ol > li::before { align-items: center; background: #fff; border: 2px solid #167964; border-radius: 50%; color: #167964; content: counter(step); display: flex; font-size: .66rem; font-weight: 750; height: 1.45rem; justify-content: center; left: -.8rem; position: absolute; top: .05rem; width: 1.45rem; }
+.md-typeset .sade-steps > ol > li > p:first-child { margin-top: 0; }
+
+/* Horizontal pipeline diagram */
+.md-typeset .sade-pipe { align-items: stretch; display: flex; flex-wrap: wrap; gap: .5rem; margin: 1.4rem 0; }
+.md-typeset .sade-pipe > div { background: #fff; border: 1px solid #dfe8e3; border-radius: .45rem; flex: 1 1 8rem; font-size: .72rem; line-height: 1.55; min-width: 8rem; padding: .7rem .8rem; position: relative; }
+.md-typeset .sade-pipe > div strong { color: #17231e; display: block; font-size: .76rem; margin-bottom: .2rem; }
+.md-typeset .sade-pipe > div p { margin: 0; }
+.md-typeset .sade-pipe > div:not(:last-child)::after { color: #9fb4aa; content: "→"; font-weight: 700; position: absolute; right: -.48rem; top: 50%; transform: translateY(-50%); z-index: 1; }
+.md-typeset .sade-pipe > div.is-key { background: #f3f9f6; border-color: #a9cdbb; }
+@media (max-width: 44.984375em) { .md-typeset .sade-pipe > div:not(:last-child)::after { content: "↓"; left: 50%; right: auto; top: auto; bottom: -.95rem; transform: translateX(-50%); } }
+
+/* Small status pills */
+.md-typeset .sade-pill { border-radius: 999px; display: inline-block; font-size: .64rem; font-weight: 650; line-height: 1.5; padding: 0 .55rem; white-space: nowrap; }
+.md-typeset .sade-pill.ok { background: #e5f4ec; color: #14694f; }
+.md-typeset .sade-pill.part { background: #fff3dc; color: #8a5a00; }
+.md-typeset .sade-pill.no { background: #f1f2f2; color: #6a7370; }
+
+/* Integration catalog */
+.md-typeset .sade-catalog { display: grid; gap: .7rem; grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 1.2rem 0 1.6rem; }
+.md-typeset .sade-catalog > p, .md-typeset .sade-catalog > div { margin: 0; }
+.md-typeset .sade-catalog > p > a, .md-typeset .sade-catalog > div { border: 1px solid #e1e9e5; border-radius: .5rem; color: #233c30; display: block; height: 100%; padding: .85rem 1rem; text-decoration: none; }
+.md-typeset .sade-catalog > div { background: #fafbfb; }
+.md-typeset .sade-catalog > div p { margin: 0; }
+.md-typeset .sade-catalog > p > a:hover { background: #f7faf8; border-color: #a8c8b7; }
+.md-typeset .sade-catalog strong { display: block; font-size: .82rem; }
+.md-typeset .sade-catalog span { color: #64716c; display: block; font-size: .68rem; margin-top: .15rem; }
+.md-typeset .sade-catalog .sade-pill { margin-top: .5rem; }
+@media (max-width: 59.984375em) { .md-typeset .sade-catalog { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 44.984375em) { .md-typeset .sade-catalog { grid-template-columns: 1fr; } }
+
+/* Content tabs */
+.md-typeset .tabbed-set { border: 1px solid #e4eae7; border-radius: .45rem; margin: 1.2rem 0; padding: 0 1rem .6rem; }
+.md-typeset .tabbed-labels > label { font-size: .72rem; font-weight: 650; }
+.md-typeset .tabbed-labels::before { background: #167964; }
+
+/* Task lists used as checklists */
+.md-typeset .task-list-item { list-style: none; }
+.md-typeset .task-list-control .task-list-indicator::before { background-color: #c8d6cf; }
+.md-typeset [type=checkbox]:checked + .task-list-indicator::before { background-color: #167964; }
+
+/* Log checker */
+.sade-logcheck { border: 1px solid #dfe8e3; border-radius: .55rem; margin: 1.4rem 0; overflow: hidden; }
+.sade-logcheck__head { align-items: center; background: #f7faf8; border-bottom: 1px solid #e6eeea; display: flex; flex-wrap: wrap; gap: .5rem; justify-content: space-between; padding: .55rem .9rem; }
+.sade-logcheck__head span { color: #33463e; font-size: .72rem; font-weight: 650; }
+.sade-logcheck__samples { display: flex; flex-wrap: wrap; gap: .35rem; }
+.sade-logcheck__samples button { background: #fff; border: 1px solid #d7e2dc; border-radius: .3rem; color: #3d5249; cursor: pointer; font: inherit; font-size: .64rem; padding: .15rem .5rem; }
+.sade-logcheck__samples button:hover { border-color: #167964; color: #167964; }
+.sade-logcheck textarea { border: 0; border-bottom: 1px solid #eef2f0; box-sizing: border-box; color: #24302b; display: block; font-family: var(--md-code-font); font-size: .68rem; line-height: 1.6; min-height: 7.5rem; outline: none; padding: .8rem .9rem; resize: vertical; width: 100%; }
+.sade-logcheck__note { color: #7a8781; font-size: .62rem; padding: .35rem .9rem; }
+.sade-logcheck__result { padding: .2rem .9rem .9rem; }
+.sade-logcheck__result table { font-size: .68rem !important; }
+.sade-logcheck__result .ok { color: #14694f; font-weight: 700; }
+.sade-logcheck__result .part { color: #8a5a00; font-weight: 700; }
+.sade-logcheck__result .no { color: #9a3b2f; font-weight: 700; }
+.sade-logcheck__result .err { color: #9a3b2f; font-size: .72rem; margin-top: .7rem; }
+.sade-logcheck__result h4 { color: #33463e; font-size: .72rem; margin: 1rem 0 .3rem; }
+.md-typeset .sade-catalog span.sade-pill { display: inline-block; margin-top: .55rem; }

@@ -18,16 +18,16 @@ Choose services, gateways and a collection period. Use concrete success criteria
 ## 3. Validate one complete path
 
 1. Register the service and available specification/code.
-2. Test the log connection and inspect field mapping.
-3. Run scan.
+2. Test the log connection and inspect field mapping. Pasting one line into the [log checker](../connect/logs.md#log-check) is quickest.
+3. Fetch logs with **Collect now**; if you uploaded a spec, run **Run scan**.
 4. Compare a known API's Spec / Code / Log and request/response fields.
 5. Test expected positive and negative cases with synthetic sensitive values.
 6. Change a rule and verify reclassification across its intended scope.
 
 ## 4. Review results
 
-Record false positives/negatives with type, API, field path, source, expected result, actual result and evidence. Separate missing capture, unsupported formats and exceeded limits from detection failures. Do not mistake the 200 retained call records for the complete source traffic population.
+Record false positives/negatives with type, API, field path, source, expected result, actual result and evidence. Separate missing capture, unsupported formats and exceeded limits from detection failures. Do not mistake the latest 1,000 calls in Call History or the sample requests of large Splunk sources for total traffic. Call counts come from the rollups in Inventory.
 
 ## 5. Expand and hand over
 
-Review service assignment, aliases and path prefixes before adding sources. Record the baseline commit, active rule version, collection range, workers, original-value cache and backup retention. Include [current limits](../reference/limitations.md) in the findings report.
+Review service assignment, aliases and path prefixes before adding sources. Record the baseline commit, active rule version, collection range, workers and backup retention. Include [current limits](../reference/limitations.md) in the findings report.

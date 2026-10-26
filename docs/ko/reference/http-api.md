@@ -11,25 +11,34 @@
 | GET | `/api/export` | 전체 모델 |
 | GET | `/api/apis/{id}` | URL 인코딩한 API ID의 상세와 호출 |
 | GET | `/api/calls` | 저장된 호출 페이지 |
+| GET | `/api/request-flow` | 호출 하나의 요청 흐름 트리 |
+| GET | `/api/flow-explorer` | Flows에서 고른 클라이언트 IP·서비스의 trace 목록 |
 | GET | `/api/jobs/{id}` | 작업 상태·결과·오류 |
 | GET | `/api/connections` | 서비스·소스 등록 정보 |
 | GET | `/api/privacy/config` | 활성 민감정보 구성·유형·룰 |
 | GET | `/api/github/repos` | 저장한 GitHub 연결에서 읽을 수 있는 저장소 |
 
-`/api/calls`는 `offset`(기본 0), `limit`(기본 20, 최대 200), `api`, `method`, `status`(2/3/4/5), `check`, `q`를 지원합니다. 반환값은 `calls`, `total`, `offset`, `limit`입니다.
+`/api/calls`는 `offset`(기본 0), `limit`(기본 20, 최대 200), `api`, `method`, `status`(2/3/4/5), `check`, `q`를 지원합니다. 반환값은 `calls`, `total`, `offset`, `limit`입니다. `check`는 `any` 또는 명세 점검 이유 하나입니다.
+
+`/api/request-flow`는 `call`, `event`, `trace` 중 **하나만** 받습니다(200자 이하). 저장된 결과에 흐름이 없으면 404를 돌려줍니다.
+
+`/api/flow-explorer`는 `client`(관측된 IP) 또는 `service` 중 하나와 `offset`, `limit`(1~100, 기본 50)을 받습니다.
 
 ## 작업 실행
 
 | 메서드 | 경로 | 입력과 동작 |
 |---|---|---|
-| POST | `/api/scan` | `{}`. 로그 수집과 분석 작업, HTTP 202 |
-| POST | `/api/connectors/import` | `{}` 또는 `{"source_id":"…"}`. 수집 작업, HTTP 202 |
+| POST | `/api/collect` | `{}` 또는 `{"source_id":"…"}`. 로그 수집(Collect now), HTTP 202 |
+| POST | `/api/connectors/import` | `/api/collect`와 같음. 예전 화면과의 호환용 |
+| POST | `/api/scan` | `{}` 또는 `{"collection_id":"…"}`. 저장된 수집 결과를 다시 검사(Run scan). 외부 조회 없음, HTTP 202 |
 | POST | `/api/github/scan` | GitHub 저장소 선택. 코드 스캔 작업 |
 | POST | `/api/connectors/test` | 연결 초안의 접근 시험. 저장 안 함 |
+| POST | `/api/connectors/browse` | WebHDFS 폴더 둘러보기. 저장 안 함 |
 
-Scan/Sync 응답의 `job.id`로 상태를 조회합니다. HTTP 202는 작업 완료가 아니라 큐 등록입니다.
+응답의 `job.id`로 `/api/jobs/{id}`를 조회합니다. HTTP 202는 작업 완료가 아니라 큐 등록입니다. `collection_id`를 생략하면 가장 최근 수집 결과를 검사합니다.
 
 ```bash
+curl -X POST http://127.0.0.1:8765/api/collect -H "Content-Type: application/json" -d "{}"
 curl -X POST http://127.0.0.1:8765/api/scan -H "Content-Type: application/json" -d "{}"
 ```
 

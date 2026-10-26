@@ -1,32 +1,52 @@
-# Masking and storage
+# Masking and data retention
 
-Analysis results and remote-log evidence caches are **separate storage paths**. Masked screen values do not imply that the entire database contains no original values.
+SADE does not store raw values from collected logs. This page lists what is kept, where and for how long. The reasoning behind the design is in [Value-free storage](../technology/value-free-storage.md).
 
-## Storage scope
+## What is stored
 
-| Data | Current behavior |
+| Data | How it is stored |
 |---|---|
-| Result body/header values | Scalar originals redacted; structure, types and evidence retained |
-| Call history | Up to 200 recent calls; query values, original request IDs and client IPs removed |
-| API samples | Up to three limited structural/redacted samples per API |
-| Sensitive observations/inspections | Locations, types, states, rule versions and references; no original values |
-| Splunk incremental evidence | Recent data up to 10 MB per source in `source_evidence`; **may contain originals** |
-| WebHDFS originals | Processed in worker memory; missing evidence may require recollection |
-| Connection tokens | Separate server-side secret storage, excluded from screen models and Export |
-| Specifications, code, settings, history | Retained as necessary for analysis and comparison |
+| Collection batches | Body and header values as types (`<string>` and so on), request and trace IDs as hashes, path IDs as templates. The latest 20 batches are kept; a batch in use by a running scan is never deleted |
+| Large Splunk sources | Call rollups per API plus 5 sample requests per API and status (no values) |
+| Call history | The latest 1,000 calls (no values) |
+| Client IP, X-Forwarded-For | As is (port dropped) |
+| Sensitive data observations | Location, type, evidence grade, inspection state, rule version. No raw values |
+| Cloudera checkpoints | Last read position per file |
+| Connection tokens | A separate secrets area in the database. Never on screen, in exports or job input |
+| Specs, code inventories, settings, job history | As much as comparison and reanalysis need |
 
-## Displayed values and states
+## Values on screen
 
-`<string>` and `<number>` represent redacted types, not original call values. A specification Example can be a declared example. NULL / EMPTY / MASKED / REDACTED / UNKNOWN remain separate from PRESENT.
+| Shown | Meaning |
+|---|---|
+| `<string>`, `<integer>`, `<number>`, `<boolean>` | The type of the original value. The value is not stored |
+| `<JWT>`, `<Bearer>` | The scheme read from an auth header |
+| `(empty)` | An empty value was recorded (for example, sent without auth) |
+| `(not recorded)` | The log did not record that value (`-`) |
+| `[REDACTED_KEY]` | A key masked in a response that uses data as keys |
 
-A masked field with clear semantics can still be a type candidate, but it cannot newly establish that the original value passed format validation.
+A spec's Example may be the example written in the spec. Do not read it as a real call value.
 
-## Reclassification and history
+## Upgrading from an older version
 
-Rule changes reclassify saved evidence without retroactively deleting historical scans or old originals in databases/backups. The bounded Splunk cache is not a complete historical log archive.
+Older versions stored raw Splunk events in a `source_evidence` cache, up to 10 MB per source. That cache is not deleted automatically. Check how many entries remain with the command below and handle them under your retention policy.
 
-Disconnect removes registration and connection state. It is not a mechanism for erasing every original log/specification file or historical scan.
+```bash
+docker compose exec api python -m sade_cli doctor
+```
 
-## Operational decisions
+Start a new PoC with a fresh data folder.
 
-Automatic age-based retention and expiry deletion are not currently provided. Set access and retention for databases, backups, input logs and tokens separately, and validate with synthetic data first.
+## Backups
+
+```bash
+docker compose exec api python -m sade_cli backup --output /workspace/apps/dashboard/data/poc-backup.db
+```
+
+This makes a consistent copy with the SQLite backup API and checks its integrity. It never overwrites an existing file. Backups contain connection tokens, so protect them like the production database.
+
+## Decide before operating
+
+- There is no automatic retention period or expiry yet. Set retention for the database, backups and input logs yourself.
+- The database file is not an encrypted secret store. Control access to the data folder.
+- Client IPs are kept as is. If customer policy requires masking them, agree on it beforehand.

@@ -1,29 +1,40 @@
 # API details
 
-Select an API in Inventory to inspect its declarations, implementation, calls and sensitive data in the right-hand panel.
+Click an API in Inventory to open the detail panel on the right. It puts what the spec, code and logs say about that API side by side.
 
 ## Tabs
 
-| Tab | Contents |
+| Tab | Shows |
 |---|---|
-| Overview | Sources, observed authentication, traffic and sensitive types |
-| Fields | Request/response fields, types, Spec / Code / Log and sensitive labels |
-| Code | Implementation file/line, gateway forwarding and code calls |
-| Sensitive data | Locations, fields, types, field/value matching and inspection states |
-| Calls | Retained calls and specification differences |
+| **Overview** | Service, host, evidence, auth method (declared in the spec and observed in logs), exposure, sensitive data summary |
+| **Fields** | Request and response fields, type, required flag, `Spec` / `Code` / `Log` evidence, sensitive data type |
+| **Code** | Implementation file and line, gateway routing, spec vs code differences, other services the code calls |
+| **Sensitive data** | Location, field, type, Field matched, Value matched, inspection state |
+| **Calls** | Recent calls of this API, spec check, link to request flow |
 
-## Request and response fields
+## Fields
 
-Fields separates requests and responses. Responses group specification and observed structure by status code and offer **Example / Schema** views. An example may come from the specification or be generated as a placeholder; it is not necessarily an original runtime value.
+Requests and responses are shown separately. For responses you can switch between **Example / Schema** per status code. Examples may come from the spec or be placeholders built from the structure; do not read them as real values.
 
-A source check marks a field found in that source. An empty cell can also mean the source was not collected or scanned. Use Not in code / Only in code to review implementation differences.
+A tick in an evidence column means that source confirmed the field. An empty cell is not "absent"; that source may not have been collected or scanned yet. The **Not in code** and **Only in code** filters show where spec and implementation differ.
 
-## Authentication evidence
+## Code
 
-Bearer, Basic, API key and Cookie describe authentication information seen in logs or specifications. A recorded credential does not prove that the server enforces authentication or accepted that credential.
+| Item | Meaning |
+|---|---|
+| Implementation | Where the code handling this API lives. For a gateway API, the service reached through routing rules and the file and line of the rule |
+| Spec vs code | Counts of matching, different, unresolved and code-only fields among those compared |
+| Calls to other services | Other services and libraries this API's code calls, with file and line |
+| Access in code | Permission or auth wrappers declared on the route (for example `RequirePermission("wallet:read")`) |
 
-## Sensitive fields
+`No access check declared` does not mean "no auth". It means nothing was declared at route registration; the gateway or handler may still check.
 
-**Field matched** and **Value matched** are independent evidence. Specifications and code provide field meaning; supported checks on log values can provide value evidence. See [sensitive data detection](sensitive-data.md) for supported formats and states.
+## Auth
 
-The panel loads a single API on demand. Reopen it after a loading error; use [Call History](call-history.md) for the retained cross-API call list.
+Overview shows auth on two lines: the method the spec declares and the method callers actually sent in logs. Seeing Bearer in logs does not mean the server enforces auth. Find calls that succeeded without credentials with **No credentials** under Calls.
+
+## Calls
+
+Only this API's calls, in the same format as Call History. Use the **Spec check** filter to see only calls that differ from the spec; pick a call to see its request, response and the offending lines. See [Call history and request flow](call-history.md).
+
+[<span class="q">Curious?</span><span class="t">How spec and code are compared field by field (code2spec)</span><span class="arrow">→</span>](../technology/code2spec.md){ .sade-curious }

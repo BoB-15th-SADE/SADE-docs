@@ -1,21 +1,24 @@
 # CLI commands
 
-CLI and dashboard use the same queue and analysis code. Run commands from `apps/sade-dashboard` in the SADE repository.
+CLI and dashboard use the same queue and analysis code. Run commands from `apps/dashboard/backend` in the SADE repository.
 
 ## Core commands
 
 | Command | Purpose |
 |---|---|
-| `python -m sade_cli scan` | Collect logs and run full analysis |
-| `python -m sade_cli sync` | Collect enabled sources |
-| `python -m sade_cli sync --source-id SOURCE_ID` | Collect one source |
+| `python -m sade_cli collect` | Collect logs from enabled sources (`sync` does the same) |
+| `python -m sade_cli collect --source-id SOURCE_ID` | Collect one source |
+| `python -m sade_cli scan` | Recheck the latest collection; no outside reads |
+| `python -m sade_cli scan --collection-id ID` | Check a specific collection batch |
 | `python -m sade_cli privacy-refresh` | Reclassify saved evidence without external reads |
 | `python -m sade_cli jobs` | List current jobs |
 | `python -m sade_cli worker --lane heavy` | Collection, log and code-scan worker |
 | `python -m sade_cli worker --lane light` | Sensitive-data reclassification worker |
 | `python -m sade_cli migrate` | Initialize SQLite while preserving existing JSON files |
+| `python -m sade_cli doctor` | Storage and collection diagnostics; read-only, prints no tokens |
+| `python -m sade_cli backup --output FILE` | SQLite backup with an integrity check |
 
-`--submit` on `scan`, `sync` and `privacy-refresh` queues the job and exits, requiring a running worker. Without it, the CLI executes the queued job through the shared worker code.
+`--submit` on `collect`, `scan` and `privacy-refresh` queues the job and exits, requiring a running worker. Without it, the CLI executes the queued job through the shared worker code.
 
 ## Scan local code
 

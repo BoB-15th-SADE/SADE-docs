@@ -1,65 +1,139 @@
-# Installation and first scan
+# Install and first connection
 
-Start SADE with Docker and connect the evidence you already have. You do not need logs, specifications and code together to begin.
+Run SADE with Docker and connect one log to see your first results. Specs and code can come later.
 
-## Prerequisites
+## You need
 
-- Docker and Docker Compose
-- Current source from the [SADE repository](https://github.com/BoB-15th-SADE/SADE)
-- At least one OpenAPI 3.x JSON file, readable GitHub repository or HTTP log source
+- [ ] Docker Engine with Compose, or Docker Desktop (the image is `linux/amd64`)
+- [ ] A GitHub token with `read:packages` to pull the image from GHCR
+- [ ] A log to connect: Splunk address, token and index, a Cloudera address, or a JSON log file
 
-## 1. Start SADE
+## 1. Install
 
-Run this from the SADE repository root, not from this SADE-docs repository.
+<div class="sade-steps" markdown>
 
-```bash
-docker compose up -d --build
-```
+1. **Log in to GHCR.** The image is private, so this is needed once.
 
-Open [http://localhost:8765](http://localhost:8765). The default configuration binds locally and starts the API server, a heavy worker and a light reclassification worker.
+    ```bash
+    docker login ghcr.io -u <GitHub username>
+    ```
 
-## 2. Register available evidence
+2. **Create an install folder.**
 
-| Evidence | Open | Next step |
+    ```bash
+    mkdir sade && cd sade
+    mkdir -p data imports certs
+    ```
+
+3. **Save `docker-compose.yml`.** It is the same file as `deploy/docker-compose.yml` in the SADE repository.
+
+    ??? example "docker-compose.yml"
+
+        ```yaml
+        name: sade
+
+        x-sade: &sade
+          image: ${SADE_IMAGE:-ghcr.io/bob-15th-sade/sade:refactor-project-structure}
+          working_dir: /workspace/apps/dashboard/backend
+          environment:
+            PYTHONUNBUFFERED: "1"
+            SADE_PROJECT_ROOT: /workspace
+          volumes:
+            - "${SADE_DATA_DIR:-./data}:/workspace/apps/dashboard/data"
+            - ./imports:/workspace/imports:ro
+            - ./certs:/workspace/certs:ro
+          restart: unless-stopped
+
+        services:
+          api:
+            <<: *sade
+            command: ["python", "api_server.py", "--host", "0.0.0.0", "--port", "8765"]
+            ports:
+              - "127.0.0.1:8765:8765"
+          worker:
+            <<: *sade
+            command: ["python", "-m", "sade_cli", "worker", "--lane", "heavy"]
+          worker-light:
+            <<: *sade
+            command: ["python", "-m", "sade_cli", "worker", "--lane", "light"]
+        ```
+
+4. **Start it.**
+
+    ```bash
+    docker compose up -d
+    ```
+
+5. Open <http://localhost:8765> in a browser. The port is open only on this machine (`127.0.0.1`).
+
+</div>
+
+| Folder | Use |
+|---|---|
+| `data/` | The SADE database (`sade.db`): connections, collections, results |
+| `imports/` | Log files (mounted read-only) |
+| `certs/` | Internal CA certificates (mounted read-only) |
+
+## 2. Connect a log
+
+Pick the tab for the log you have.
+
+=== "Splunk"
+
+    1. **Connect › Log Sources › Splunk › Connect**
+    2. Enter Search API URL, Index and Authentication token.
+    3. **Test connection** → **Save connection** → **Collect now**
+
+    More: [Splunk](../connect/splunk.md)
+
+=== "Cloudera"
+
+    1. **Connect › Log Sources › Cloudera › Connect**
+    2. Enter WebHDFS URL, authentication and DataNode addresses, then pick a folder with **Browse folders**.
+    3. **Test connection** → **Save connection** → **Collect now**
+
+    More: [Cloudera](../connect/cloudera.md)
+
+=== "Log file"
+
+    1. Put the file in `imports/`.
+    2. Under Files in **Connect › Log Sources**, choose Access log and enter `/workspace/imports/your-file.jsonl`.
+    3. **Save connection** → **Collect now**
+
+    More: [Log files and OpenTelemetry](../connect/files.md)
+
+To see in advance whether SADE can read your log, paste one line into the [log checker](../connect/logs.md#log-check).
+
+## 3. See results
+
+When collection finishes, these screens fill in.
+
+| Screen | Shows |
+|---|---|
+| **APIs › Inventory** | APIs per service, call counts, auth methods |
+| **APIs › Sensitive Data** | APIs per sensitive data type |
+| **APIs › Call History** | Recent calls and request/response structure |
+| **Flows** | A map linking callers, gateways, servers and databases |
+
+## 4. Add more
+
+| Add | You get | Guide |
 |---|---|---|
-| OpenAPI JSON | Connect → Specifications → Add service | Register the service and specification to inspect declared APIs. |
-| GitHub repository | Connect → Source Code | Connect a token, select repositories and choose Scan selected. |
-| Splunk / WebHDFS logs | Connect → Log Sources | Configure connection, collection range and service assignment. |
+| OpenAPI specs | Shadow APIs, per-call spec check | [OpenAPI specs](../connect/specs.md) |
+| GitHub repositories | Specs from code, service calls, database access | [GitHub code scan](../connect/code.md) |
+| Access and app logs, OTel spans | The full path of one request | [Log files and OpenTelemetry](../connect/files.md) |
 
-Specifications are optional. Start with traffic alone or register a specification before connecting logs.
+After uploading a spec, run the spec check with **Run scan**. Logs are not fetched again.
 
-## 3. Check your log connection
+## Admin commands
 
-1. Choose **Connect** on the Splunk or Cloudera integration.
-2. Enter connection, authentication and collection settings.
-3. Run **Test connection** to check access.
-4. Review automatic field mapping; use Manual if necessary.
-5. Choose **Save**. Saving configuration does not establish successful collection.
+| Task | Command |
+|---|---|
+| Status | `docker compose ps` |
+| Logs | `docker compose logs --tail 100 api worker worker-light` |
+| Update | `docker compose pull && docker compose up -d` |
+| Stop (keeps data) | `docker compose down` |
+| Pin a version | `SADE_IMAGE=ghcr.io/bob-15th-sade/sade:sha-<commit> docker compose up -d` |
 
-## 4. Run analysis
-
-**Run scan** collects logs and builds the inventory, sensitive-data results, specification checks and flows. Sync checks collection separately and is not a required first step.
-
-Registering specifications or code, or changing rules, also queues sensitive-field reclassification from saved evidence. That task does not fetch new logs, create a log scan or rerun policy checks.
-
-## 5. Review results
-
-- **Inventory**: API list with Spec / Code / Log sources
-- **Sensitive Data**: types, request/response APIs and detection evidence
-- **Call History**: retained recent calls and request/response structure
-- **Findings**: Pass / Fail / Not evaluated specification checks
-- **Flows**: observed calls and code/configuration relationships
-
-## Stop or develop locally
-
-```bash
-docker compose down
-```
-
-Production Compose mounts data, imports and certificates; application code is built into the image. For source changes during development, use:
-
-```bash
-docker compose -f compose.yaml -f compose.dev.yaml up -d --build
-```
-
-See [troubleshooting](../troubleshooting/index.md) for queued jobs, or [architecture and workers](../operations/architecture.md) to run without Docker.
+!!! warning "Do not expose it to the internet directly"
+    The dashboard has no login of its own. For remote use, go through an SSH tunnel (`ssh -L 8765:127.0.0.1:8765 USER@HOST`) or your company's authenticating proxy.

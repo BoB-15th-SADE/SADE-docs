@@ -1,33 +1,62 @@
-# Scans and jobs
+# Collection and scans
 
-API requests enqueue collection and analysis rather than running them directly. Workers execute the jobs while the dashboard polls their state.
+SADE work is split into **Collect** and **Scan**. The screen only queues jobs; workers run them.
 
-## Job types
+## Three actions
 
-| Job | External reads | Result |
+| Button | What it does | Contacts outside systems | Updates |
+|---|---|---|---|
+| **Collect now** | Fetch logs and store evidence with values removed | Yes (Splunk, WebHDFS, files) | Inventory, sensitive data, Flows, Call History |
+| **Run scan** | Spec check on the stored collection | No | Spec check, shadow APIs, scan history |
+| **Refresh** | Reload stored results | No | The screen only |
+
+Some jobs run on their own.
+
+| Job | When | Contacts outside systems |
 |---|---|---|
-| Sync / Sync all | Log collection | Collection state, counts and evidence availability; no full assessment |
-| Run scan | Includes log collection | Inventory, sensitive data, checks, flows and a scan record |
-| GitHub Scan selected | Clone repositories and analyze code | Inventories, generated specs, route maps and HTTP calls |
-| Automatic `privacy-refresh` | None | Sensitive-data reclassification from saved evidence; no new checks or scan record |
+| GitHub code scan | **Scan selected** in Source Code | Clones repositories |
+| Sensitive data reclassification (`privacy-refresh`) | Automatically after registering specs or code, or saving rules | No |
+| Scheduled collection | Every Schedule interval of a source | Yes |
 
-**Sync is optional before Run scan.** Use it to check collection or import a particular source. Automatic classification after registration or rule changes differs from fetching new logs.
+## Why they are separate
 
-## Job states
+- **Less SIEM load**: Changing a spec or rule does not search the SIEM again.
+- **Same data, fair comparison**: Rechecking the same collection lets you compare before and after a rule change.
+- **Safe checkpoints**: Only collection moves the "read up to here" mark. Scans never touch it.
+- **Failure isolation**: If the SIEM connection drops, scans keep working on the last collection.
 
-The normal sequence is `Queued → Running → Completed`. For Failed, inspect the reason and correct the input before retrying. Superseded means inputs changed and the old job could not apply its result.
+## States
 
-Scans focuses on log-scan history. GitHub code scans and reclassification do not each create a log-scan row. Also inspect connection job indicators or CLI jobs.
+`Queued → Running → Completed` is the normal path.
 
-## Scheduled scans
+| State | Meaning |
+|---|---|
+| Failed | Failed. Check the reason, fix the input and run again |
+| Partial | Only some sources or windows were collected. The next collection continues |
+| Superseded | Settings changed while running, so the result was not applied |
 
-Choose Manual / Every hour / Every 6 hours / Every day in the log connection. A running worker checks schedules and enqueues scans; an open browser tab is not required.
+## Scheduled collection
 
-## Results not updating
+Set a log source's **Schedule** to Every hour, Every 6 hours or Every day and the worker collects on that interval, each time reading only what came after the last checkpoint. It runs as long as the worker runs, with or without the dashboard open. The spec check updates only when you click Run scan.
 
-- A persistent Queued state suggests a missing worker or worker lane.
-- A failed source can fail a full scan.
-- Long-running Classifying after a rule change requires checking worker-light.
-- Missing or stale evidence cannot establish a new Value matched result through reclassification alone. Run scan to obtain the needed logs.
+## Workers
 
-See [architecture and workers](architecture.md) and [troubleshooting](../troubleshooting/index.md).
+| Worker | Runs |
+|---|---|
+| `worker` (heavy) | Collection, scans, code scans |
+| `worker-light` | Sensitive data reclassification |
+
+If jobs stay Queued, check that the workers are up.
+
+```bash
+docker compose ps
+docker compose logs --tail 100 worker worker-light
+```
+
+## When results do not change
+
+- If a collection is Partial, collect again. It resumes at the failed window; finished windows are not read again.
+- If a rule change produces no new value evidence (Value matched), the change may need raw values. Collect again.
+- If Shadow or Spec check does not change after uploading a spec, click Run scan.
+
+See also [Architecture](architecture.md) and [Troubleshooting](../troubleshooting/index.md).

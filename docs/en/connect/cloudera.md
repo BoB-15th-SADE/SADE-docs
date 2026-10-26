@@ -1,70 +1,71 @@
-# Connecting Cloudera (WebHDFS)
+# Cloudera (WebHDFS)
 
-SADE reads JSONL log files stored in HDFS through the WebHDFS REST API.
+SADE reads JSON log files stored in HDFS through the WebHDFS REST API. Pick a folder and it reads every subfolder; later collections read only what was appended to each file.
 
-## Quick setup
+## Before you start
 
-1. Open **Connect → Log Sources → Cloudera → Connect**.
-2. Enter the HTTPS WebHDFS URL, HDFS path, authentication and allowed DataNodes.
-3. Review service assignment and field mapping.
-4. Choose **Test connection**, then **Save**.
-5. Use **Run scan** to verify actual file reads and analysis.
+- [ ] The SADE server can reach the NameNode's WebHDFS HTTPS address, such as `https://namenode.company.internal:9871`.
+- [ ] You know the DataNode addresses (`host:port`) that actually serve file data.
+- [ ] You have a delegation token, or, on an unsecured cluster, an HDFS user name with read access.
+- [ ] Logs are text files with one JSON object per line (`.jsonl`, `.ndjson`, `.json`, `.log`). Compressed files are not read.
+- [ ] (With internal certificates) The CA certificate file is in `certs/`.
 
-## What you need
+!!! warning "No automatic Kerberos login"
+    SADE does not do SPNEGO login or issue and renew tokens. Enter a delegation token you issued beforehand.
 
-| Item | Description |
-|---|---|
-| WebHDFS URL | HTTPS NameNode address reachable from the SADE server (`/webhdfs/v1` optional) |
-| HDFS log path | One JSONL file, or a directory of files |
-| Authentication | A delegation token, or the HDFS user name on an unsecured cluster |
-| DataNode addresses | `host:port` list of DataNodes that file reads may be redirected to |
-| CA certificate (optional) | When the cluster uses a company certificate |
+## Connect in SADE
 
-## Settings
+<div class="sade-steps" markdown>
 
-| Field | Required | Description |
-|---|---|---|
-| Name | Yes | Display name |
-| WebHDFS URL | Yes | Starts with `https://` |
-| HDFS log path | Yes | File or directory; directories are not searched recursively, up to 100 files |
-| Authentication | Yes | Delegation token or Unsecured HDFS user |
-| Delegation token / HDFS user | Yes | Depending on the authentication mode |
-| DataNode addresses | Yes | HTTPS DataNodes allowed for file reads (up to 100) |
-| CA certificate file | No | Path to a certificate inside the SADE project folder |
+1. Open **Connect › Log Sources › Cloudera › Connect**.
+2. Enter the **WebHDFS URL**. `/webhdfs/v1` is optional.
+3. Under **Authentication**, choose Delegation token or Unsecured HDFS user and enter the value.
+4. Under **DataNode addresses**, enter each DataNode `host:port` on its own line.
+5. Click **Browse folders**, move to the log folder and click **Use this folder**. Only folders this account can read and enter are listed.
+6. Check path access with **Test connection**, then click **Save connection**.
+7. Read the files with **Collect now**.
 
-- File extensions read: `.jsonl`, `.ndjson`, `.json`, `.log`
-- Each line must be one JSON event.
-- Field mapping and service assignment work as described in [Connecting logs](logs.md).
+</div>
+
+!!! info "When Test connection succeeds"
+    Test only checks that the path is reachable with `GETFILESTATUS`. Reading file content is confirmed by Collect now.
 
 ## How it works
 
-| Step | WebHDFS call | What it checks |
+| Step | WebHDFS calls | What it does |
 |---|---|---|
-| Test connection | `GETFILESTATUS` | The path is accessible |
-| Sync / collection stage of Run scan | `LISTSTATUS` (directories) + `OPEN` | Files can actually be read |
+| Browse folders | `GETFILESTATUS`, `LISTSTATUS_BATCH`, `CHECKACCESS` | Lists only folders you can read and enter. File content is not read |
+| Test connection | `GETFILESTATUS` | Checks path access |
+| Collect now | `LISTSTATUS_BATCH` (every page, subfolders included), `OPEN` | Reads files in 2 MB pieces |
 
-- A successful Test does not guarantee that files can be read; Sync or Run scan performs the actual read.
-- When a read is redirected away from the NameNode, SADE follows it **only to addresses in DataNode addresses**.
-  The token is never sent to servers outside that list.
-
-!!! warning "No Kerberos"
-    Kerberos (SPNEGO) login and token issuing or renewal are not supported. Enter a delegation token issued beforehand.
+- **Range**: The collection range is fixed once at run time and filtered by **event time inside the log**, not file modification time. Start is inclusive, end exclusive.
+- **Resuming**: The last read position of each file is recorded. The next run reads only past it and skips unchanged files. A replaced or truncated file is read from the start as a new file.
+- **Unfinished lines**: A last line without a newline, and lines dated after the range, wait for the next run.
+- **Safe redirects**: When a read is redirected away from the NameNode, SADE follows **only addresses in DataNode addresses**. Tokens are never sent to servers outside that list.
+- **No change on failure**: Bad JSON, lines without a usable time, or a file cut off mid-read leave the source's previous data and checkpoint untouched.
 
 ## Limits
 
-- Up to 10 MB per connection per read.
-- Read data is kept in memory only; after SADE restarts, run Sync again.
-- Not yet verified against a real company Cloudera cluster; tested with a mock server only.
+| Item | Limit |
+|---|---|
+| Read size per request | 2 MB |
+| Data read per collection | 256 MB |
+| Folder and file entries explored | 100,000 |
+| Request timeout | 90 seconds |
 
 ## Common errors
 
-| Message | Cause and fix |
-|---|---|
-| `A WebHDFS delegation token is required.` | Delegation token mode without a token |
-| `HDFS directory has over 100 log files.` | Choose a narrower directory |
-| `DataNode entries must be host:port addresses` | Enter DataNodes as `host:port` |
-| `TLS failed` | Company certificate. Set the CA certificate file |
+| Message | Cause | Fix |
+|---|---|---|
+| `A WebHDFS delegation token is required.` | Token mode with an empty token | Enter the token |
+| `DataNode entries must be host:port addresses` | Address format | Enter like `dn1.company.internal:9865` |
+| `Remote server returned HTTP 403` | No read permission on the folder | Check account permissions. An account that cannot read the root needs a start folder from the admin |
+| `TLS failed` | Internal certificate | Set a CA certificate |
+| `HDFS collection contains unreadable or unsupported records` | Unreadable lines or files | Check the file. Previous data and the checkpoint are kept |
 
-## Reference
+## Notes
 
-- Apache Hadoop docs: [WebHDFS REST API](https://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-hdfs/WebHDFS.html)
+- Folder browsing and ranged collection were confirmed against a real Cloudera NameNode and DataNode over HTTPS with CA verification. Large production clusters need separate testing.
+- Apache Hadoop documentation: [WebHDFS REST API](https://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-hdfs/WebHDFS.html)
+
+[<span class="q">Curious?</span><span class="t">How logs of any format become the same record</span><span class="arrow">→</span>](../technology/log-normalization.md){ .sade-curious }

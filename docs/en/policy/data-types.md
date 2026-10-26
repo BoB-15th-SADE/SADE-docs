@@ -25,7 +25,7 @@ Field names are normalized aliases, not a field-name regex editor. Additional bu
 
 The default **All APIs / Request and response** scope applies changes to every API using that rule. A rule restricted to an API or location affects only that scope. Expand Scope before saving to confirm the intended range.
 
-The light worker reclassifies **saved specifications, code and log evidence** after saving. It does not query remote systems or overwrite historical scans. Missing evidence or an insufficient cache can leave value checks unconfirmed; run a new log scan when required.
+The light worker reclassifies **saved specifications, code and log evidence** after saving. It does not query remote systems or overwrite historical scans. Raw values are not stored, so when a new rule needs to look at value formats, collect again with Collect now to get Value matched.
 
 ## Delete, disable and reset
 
@@ -44,3 +44,5 @@ Built-in rules are not deleted like custom rules. Deleting a custom item leaves 
 Use **Exclusions → Add exclusion** in the type panel and set API, location, field path, reason and expiry. Exclusions affect only the specified type and scope. Distinguish a global naming change from an exception for one API field.
 
 Test runs the shared classifier on samples up to 32 KiB without storing the sample. Synthetic values make test results easier to share.
+
+[<span class="q">Curious?</span><span class="t">How field names and values decide sensitive data</span><span class="arrow">→</span>](../technology/sensitive-data.md){ .sade-curious }

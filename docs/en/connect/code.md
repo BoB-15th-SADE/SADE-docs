@@ -1,37 +1,81 @@
-# Source code and GitHub
+# GitHub code scan
 
-SADE CodeScan reads API declarations, fields, HTTP client calls and gateway configuration. Registered results merge with logs and specifications by service and API.
+Pick GitHub repositories and SADE CodeScan finds **API specs**, **service-to-service HTTP calls**, **gateway routes** and **database access** in the source and registers them. Code is only read, never run or built.
 
-## GitHub quick setup
-
-1. Open the GitHub connection under **Connect → Source Code**.
-2. Register a token that can read the target repositories. Set the server address for GitHub Enterprise Server.
-3. Select repositories and choose **Scan selected**.
-4. Wait for the background code scan, then inspect registered services, inventories and route maps.
-5. Open **Code**, **Fields** and **Flows** for the evidence.
-
-Select up to 50 repositories per job. The worker temporarily clones default branches and removes the clones afterward. A failed repository does not stop the others.
-
-## Registered artifacts
-
-| Artifact | Purpose |
+| Language | Frameworks |
 |---|---|
-| `inventory.json` | API declarations, fields, file and line evidence |
-| Generated OpenAPI | Code-derived service specification; uploaded specifications remain separate |
-| `route-map.json` | Public gateway path to backend implementation mapping |
-| `calls.json` | HTTP targets and caller source locations |
+| Java · Kotlin | Spring MVC / WebFlux, JAX-RS, `@WebServlet` |
+| Go | net/http, Gin, Echo, Chi, gorilla/mux, Fiber |
+| Python | FastAPI, Flask (restx, restful, smorest), Django + DRF |
+| Node.js | Express, NestJS, Next.js file routes |
+| .NET | ASP.NET Core controllers, Minimal APIs |
 
-New services can be created automatically. Uploaded specifications are preserved alongside code-generated ones. Completing a GitHub scan triggers sensitive-field reclassification, not an implicit log scan.
+## Before you start
 
-## Import local results
+- [ ] You have a GitHub fine-grained token with **Contents: Read-only** on the target repositories.
+- [ ] For GitHub Enterprise Server, you know the server address, such as `https://github.company.com`.
+- [ ] The SADE worker can reach GitHub over HTTPS and has `git` installed.
+- [ ] SADE CodeScan is installed on the worker. The release image includes it.
 
-Register inventories and route maps in Source Code, or use [CLI](../reference/cli.md) commands `code-scan`, `code-import` and `route-import`. Map code service labels to the correct dashboard service IDs.
+!!! tip "Avoid tokens with write access"
+    A classic token with `repo` scope works, but the screen shows a warning. A read-only fine-grained token is recommended.
 
-## Interpret the evidence
+## Scan
 
-- **Code not scanned** means no connected code evidence; it differs from an API not found in analyzed code.
-- Route maps show declared forwarding, not runtime execution.
-- HTTP calls in code include file, line and library evidence. Dynamic addresses and unsupported clients may remain unresolved.
-- Disconnecting a GitHub route map is remembered across rescans. Use **Restore** on the GitHub card to allow it again.
+<div class="sade-steps" markdown>
 
-Read [API details](../features/api-details.md) and [service flows](../features/flows.md) to distinguish declarations, implementation and runtime observations.
+1. Enter the token in **Connect › Source Code › GitHub**. SADE checks it with `GET /user` before saving.
+2. Repositories the token can read are listed (up to 2,000). Pick the ones to scan (up to 50 at a time).
+3. Click **Scan selected**. The worker fetches the default branch temporarily, scans it and deletes it right away. If one repository fails, the rest continue.
+4. Check the services, APIs and calls found on each result row.
+
+</div>
+
+## Where results go
+
+| Result | Stored in | Shown in |
+|---|---|---|
+| OpenAPI per service | Specifications (**From code**) | Inventory, API details |
+| Code inventory | Source Code (`gh-owner-repo`) | API details › Code |
+| Gateway routes | Source Code › Route maps (`...-routes`) | API details › Implementation, dashed lines in Flows |
+| Service-to-service HTTP calls | Code inventory | Dotted lines in Flows, API details › Code |
+| Spring Data database access | Code inventory | API details › Code |
+
+Services are registered like this.
+
+| Situation | Result |
+|---|---|
+| No service with the same ID | A new service is created with the code spec |
+| A service created from the same repository | Replaced by the new scan |
+| A service found only in logs, with no spec | The code spec is attached |
+| A service with an uploaded spec | **Your spec is kept**; the code spec is stored separately |
+| The same service name in another repository | Registered with the ID `repo-service` |
+
+## Gateway routes {#gateway-routes}
+
+Spring Cloud Gateway, Zuul, nginx, Kong and Kubernetes Ingress / HTTPRoute config in the repository is read into a route map that says which public path goes to which service.
+
+- To attach the gateway's public spec, upload it in Specifications **with the gateway name as the service ID**, before or after the scan.
+- Rules that cannot be carried over exactly, such as regex paths or targets set by environment variables, are counted as "not modelled" rather than guessed.
+- If you disconnect a route map that came from a GitHub scan, rescans do not bring it back. Use **Restore** on the GitHub card.
+
+## Reading results
+
+| Label | Meaning |
+|---|---|
+| Code not scanned | No code is linked to this service. This does not mean "not in code" |
+| Spec vs code › Difference | Spec and code declarations differ (field, type, required) |
+| Spec vs code › Unresolved | The analyzer could not fully resolve the structure. Not counted as a difference |
+| Code only | Field only in code. Not a problem by itself |
+| Links may be missing | Addresses decided at runtime, or client libraries that are not read |
+
+- A call in code does not mean it was made. Real calls and counts come from logs.
+- Labels such as `Permission declared` come from the names of functions wrapped around a route. Whether they actually block a request is not tested.
+
+## Token storage
+
+The token is stored in the same separate area as connection tokens and never written to API responses, logs, job records or command lines. The worker passes it to SADE CodeScan only as an environment variable. **Disconnect** deletes the token. Specs and inventories already imported stay until you remove them.
+
+[<span class="q">Curious?</span><span class="t">How a spec is built from code (code2spec)</span><span class="arrow">→</span>](../technology/code2spec.md){ .sade-curious }
+
+[<span class="q">Curious?</span><span class="t">How service calls and database access are found in code (code2flow)</span><span class="arrow">→</span>](../technology/code2flow.md){ .sade-curious }

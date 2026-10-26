@@ -1,37 +1,51 @@
 # SADE documentation
 
-SADE connects **logs, OpenAPI specifications and source code** into one API inventory. See which APIs are declared, which are called, and which sensitive fields they handle, with the source of each finding.
-
-This guide follows the current project's installation, connection, analysis and rule-management workflow. Menu names match the English dashboard and remain recognizable when switching the dashboard language.
+SADE lines up the **SIEM logs, API specs and source code** you already have into one API list, so you can see which APIs your company runs, what data they exchange and where requests go. It installs no agent in your services and does not intercept traffic.
 
 <div class="sade-links" markdown>
 
-[**Get started**<span>Install SADE, connect logs and run your first scan.</span>](getting-started/quickstart.md)
+[**Install and connect**<span>Install with Docker and connect your first log in about ten minutes.</span>](getting-started/quickstart.md)
 
-[**Connect your data**<span>Connect Splunk, WebHDFS, specifications and GitHub.</span>](connect/logs.md)
+[**Integration guide**<span>Connect Splunk, Cloudera, log files, OpenAPI and GitHub.</span>](connect/logs.md)
 
-[**Inspect sensitive data**<span>Read the 19 built-in types and their field and value evidence.</span>](features/sensitive-data.md)
+[**Using SADE**<span>How to read the inventory, sensitive data, service flows and spec checks.</span>](features/inventory.md)
 
-[**Manage detection rules**<span>Edit aliases, paths and value patterns, then reclassify.</span>](policy/data-types.md)
+[**Core technology**<span>How it works inside, from log normalization to code2spec and code2flow.</span>](technology/index.md)
 
 </div>
 
-## Three complementary sources
+## Questions it answers
 
-| Source | What it tells you | How to read it |
+| Question | Where to look |
+|---|---|
+| Which APIs do we really run, and which are missing from the spec? | [API inventory](features/inventory.md) |
+| What personal or sensitive data does each API exchange? | [Sensitive data](features/sensitive-data.md) |
+| Which services does one request pass through, and how far does it go? | [Service flows](features/flows.md), [Request flow](features/call-history.md) |
+| Where do real calls differ from the spec? Which calls succeed without credentials? | [Call history and spec check](features/call-history.md) |
+
+## Three kinds of evidence
+
+| Evidence | Tells you | Keep in mind |
 |---|---|---|
-| Spec | APIs and fields declared in uploaded specifications | A declaration is not a runtime observation. |
-| Code | APIs, fields and HTTP calls found in scanned code | Static code does not prove execution. |
-| Log | Requests and responses recorded in the collection window | Missing bodies and calls outside that window remain unknown. |
+| **Log** | Real calls, counts, auth method, fields exchanged | Calls outside the collection window and bodies not logged are unknown |
+| **Spec** | The requests and responses a service promises | Does not mean the API is called or implemented |
+| **Code** | Implemented APIs, calls in code, declared auth checks | Does not prove it runs, or how often |
 
-A specification alone can populate APIs and sensitive-field candidates. Logs add observed traffic and contract differences. Code adds implementation evidence and declared HTTP calls between services.
+You can start with any one of them. A spec alone gives an API list and sensitive data candidates. Logs add real calls; code adds implementation and service-to-service calls. Every API and field carries a `Spec` / `Code` / `Log` tag showing where it came from.
 
-## Your first workflow
+## How it works
 
-1. Register available specifications, code or logs under **Connect**.
-2. Choose **Run scan** to analyze traffic. It includes collection; a separate Sync is optional.
-3. Review **APIs → Inventory / Call History / Sensitive Data**.
-4. Open **Flows** for source-specific service relationships.
-5. Manage data types and access scope under **Policy → Rules**, and inspect **Findings**.
+<div class="sade-pipe" markdown>
+<div markdown>**Connect**<p>Splunk, Cloudera, files, OpenAPI, GitHub</p></div>
+<div markdown>**Collect** (Collect now)<p>Read logs; store evidence with values removed</p></div>
+<div class="is-key" markdown>**Analyze**<p>API identification, sensitive data, flows</p></div>
+<div markdown>**Check** (Run scan)<p>Spec check on stored results</p></div>
+</div>
 
-SADE is currently a PoC tool. Sensitive-data evidence, access-scope labels and specification differences are separate results; they do not establish a legal violation or successful authentication. Read [supported scope and limits](reference/limitations.md).
+- **Collect now** reads outside logs and updates the inventory, sensitive data and Flows. Set a schedule and it runs on its own.
+- **Run scan** uses only stored results. It does not contact the SIEM again.
+- Collected results keep **no raw body or header values.** Values become types such as `<string>`.
+
+## Before you read results
+
+SADE's findings are **evidence about what was observed**. Sensitive data, spec differences and shadow APIs are things to review; they do not automatically establish a legal violation or that every API is safe. Items without evidence show as "not observed" or "Not evaluated", never as "none". See [Scope and limits](reference/limitations.md).

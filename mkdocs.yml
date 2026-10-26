@@ -24,11 +24,13 @@ theme:
     - search.highlight
     - search.suggest
     - content.code.copy
+    - content.tabs.link
 
 extra_css:
   - assets/stylesheets/extra.css
 extra_javascript:
   - assets/javascripts/page-actions.js
+  - assets/javascripts/log-check.js
 
 plugins:
   - search:
@@ -46,26 +48,36 @@ plugins:
           nav_translations:
             시작하기: GET STARTED
             SADE 소개: Introduction
-            설치와 첫 스캔: Installation and first scan
-            화면 둘러보기: Dashboard navigation
-            데이터 연결: CONNECT DATA
-            로그 연결 개요: Log sources
-            Splunk 연결: Splunk
-            Cloudera 연결: Cloudera / WebHDFS
+            설치와 첫 연결: Install and connect
+            화면 둘러보기: Dashboard tour
+            연동 가이드: INTEGRATIONS
+            연동 한눈에 보기: Integration overview
+            Cloudera (WebHDFS): Cloudera (WebHDFS)
+            로그 파일과 OpenTelemetry: Log files and OpenTelemetry
             OpenAPI 명세: OpenAPI specifications
-            소스코드와 GitHub: Source code and GitHub
-            API 탐색: EXPLORE APIs
+            GitHub 코드 스캔: GitHub code scan
+            사용 방법: USING SADE
             API 인벤토리: API inventory
             API 상세: API details
-            호출 기록: Call history
-            서비스 흐름: Service flows
-            민감정보와 룰: SENSITIVE DATA & RULES
-            민감정보 탐지: Sensitive data detection
-            데이터 유형과 룰 관리: Data types and rules
-            접근 범위 분류: Access scope
-            점검 결과: Findings
+            호출 기록과 요청 흐름: Call history and request flow
+            서비스 흐름 (Flows): Service flows
+            민감정보: Sensitive data
+            데이터 유형과 룰: Data types and rules
+            접근 범위: Access scope
+            점검 결과 (Findings): Findings
+            수집과 스캔: Collect and scan
+            핵심 기술: CORE TECHNOLOGY
+            기술 개요: Technology overview
+            로그 정규화와 필드 감지: Log normalization
+            대용량 SIEM 수집: Large-scale SIEM collection
+            API 식별과 Shadow API: API discovery and shadow APIs
+            민감정보 탐지 엔진: Sensitive data engine
+            code2spec (코드에서 명세로): code2spec
+            code2flow (코드에서 호출 흐름으로): code2flow
+            런타임 흐름 (로그와 Trace): Runtime flow (logs and traces)
+            호출별 명세 점검: Per-call spec check
+            값을 남기지 않는 저장: Value-free storage
             운영: OPERATIONS
-            스캔과 작업: Scans and jobs
             마스킹과 데이터 보관: Masking and storage
             구성과 실행 방식: Architecture and workers
             PoC 진행 가이드: PoC guide
@@ -86,8 +98,14 @@ markdown_extensions:
   - tables
   - attr_list
   - md_in_html
+  - def_list
   - pymdownx.details
   - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+      clickable_checkbox: true
   - pymdownx.highlight:
       anchor_linenums: true
   - toc: {permalink: true}
@@ -98,26 +116,37 @@ extra:
 nav:
   - 시작하기:
       - SADE 소개: index.md
-      - 설치와 첫 스캔: getting-started/quickstart.md
+      - 설치와 첫 연결: getting-started/quickstart.md
       - 화면 둘러보기: getting-started/navigation.md
-  - 데이터 연결:
-      - 로그 연결 개요: connect/logs.md
-      - Splunk 연결: connect/splunk.md
-      - Cloudera 연결: connect/cloudera.md
+  - 연동 가이드:
+      - 연동 한눈에 보기: connect/logs.md
+      - Splunk: connect/splunk.md
+      - Cloudera (WebHDFS): connect/cloudera.md
+      - 로그 파일과 OpenTelemetry: connect/files.md
       - OpenAPI 명세: connect/specs.md
-      - 소스코드와 GitHub: connect/code.md
-  - API 탐색:
+      - GitHub 코드 스캔: connect/code.md
+  - 사용 방법:
       - API 인벤토리: features/inventory.md
       - API 상세: features/api-details.md
-      - 호출 기록: features/call-history.md
-      - 서비스 흐름: features/flows.md
-  - 민감정보와 룰:
-      - 민감정보 탐지: features/sensitive-data.md
-      - 데이터 유형과 룰 관리: policy/data-types.md
-      - 접근 범위 분류: policy/access-scope.md
-      - 점검 결과: features/findings.md
+      - 호출 기록과 요청 흐름: features/call-history.md
+      - 서비스 흐름 (Flows): features/flows.md
+      - 민감정보: features/sensitive-data.md
+      - 데이터 유형과 룰: policy/data-types.md
+      - 접근 범위: policy/access-scope.md
+      - 점검 결과 (Findings): features/findings.md
+      - 수집과 스캔: operations/scans.md
+  - 핵심 기술:
+      - 기술 개요: technology/index.md
+      - 로그 정규화와 필드 감지: technology/log-normalization.md
+      - 대용량 SIEM 수집: technology/siem-collection.md
+      - API 식별과 Shadow API: technology/api-discovery.md
+      - 민감정보 탐지 엔진: technology/sensitive-data.md
+      - code2spec (코드에서 명세로): technology/code2spec.md
+      - code2flow (코드에서 호출 흐름으로): technology/code2flow.md
+      - 런타임 흐름 (로그와 Trace): technology/runtime-flow.md
+      - 호출별 명세 점검: technology/spec-check.md
+      - 값을 남기지 않는 저장: technology/value-free-storage.md
   - 운영:
-      - 스캔과 작업: operations/scans.md
       - 마스킹과 데이터 보관: operations/masking.md
       - 구성과 실행 방식: operations/architecture.md
       - PoC 진행 가이드: poc/guide.md

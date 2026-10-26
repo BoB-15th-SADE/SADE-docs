@@ -1,26 +1,38 @@
 # Findings
 
-**Policy → Findings** reports differences established by the implemented specification checks. Detecting sensitive data is not itself treated as a policy violation.
+**Policy › Findings** collects calls that break company policy rules. Differences from the spec are not shown here; they are marked on each call.
 
-## Implemented checks
+## What shows where
 
-| Check ID | Question | Failure evidence |
-|---|---|---|
-| `api_endpoint_documented` (SPEC-001) | Is the observed method/path in the baseline? | An observed API missing from the specification |
-| `api_response_fields_documented` (SPEC-002) | Are captured JSON response fields documented? | Response fields missing from the schema |
+| Result | Where to look |
+|---|---|
+| API not in the spec (shadow API, SPEC-001) | The **Shadow** tab in Inventory |
+| Undeclared response field, type difference, missing required field, success without credentials | **Spec check** in Call History and API details › Calls |
+| Company policy violations | **Findings** |
 
-## Review workflow
+!!! note "Findings in this version"
+    Creating and evaluating company policy rules is the next step. There are no policy rules yet, so Findings is empty. Spec check results are on the screens in the table above.
 
-1. Complete Run scan.
-2. Narrow Findings by check, service and state.
-3. Read each API's evidence and explanation.
-4. Open Fields and Calls in API details to inspect differences.
-5. Correct specifications, assignment or mapping and scan again.
+## Spec check states
 
-## States
+| State | Meaning |
+|---|---|
+| Pass | The compared calls met the condition |
+| Fail | A difference was confirmed from comparable evidence |
+| Not evaluated | No spec, no response schema or no collected body, or the spec is a draft built from traffic and is not an independent baseline |
 
-- **Pass**: the inspected evidence satisfies this check.
-- **Fail**: comparable evidence establishes a mismatch.
-- **Not evaluated**: specification, observation, response schema/body or independent baseline is insufficient.
+## Review steps
 
-A traffic-derived specification cannot assess the same traffic's compliance. Response-field checks do not validate data types, required values, authorization or the legality of personal-data disclosure.
+<div class="sade-steps" markdown>
+
+1. Upload a spec and run **Run scan**.
+2. See APIs missing from the spec in the Shadow tab of Inventory.
+3. In Call History, gather calls that differ from the spec with **Spec check › Any mismatch**.
+4. Open a call and look at the offending lines.
+5. If the spec is wrong, fix the spec; if service assignment or mapping is wrong, fix the connection. Then run Run scan again.
+
+</div>
+
+The spec check judges observed calls. It does not decide authorization policy, whether sharing personal data is lawful, or whether every API is safe.
+
+[<span class="q">Curious?</span><span class="t">The rules behind the per-call spec check</span><span class="arrow">→</span>](../technology/spec-check.md){ .sade-curious }

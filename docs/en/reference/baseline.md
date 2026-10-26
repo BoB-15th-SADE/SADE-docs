@@ -1,23 +1,23 @@
 # Documentation baseline
 
-Reviewed **2026-10-25** against the current project's `feat/integration` branch at [`dcab3bb688a2c26c95ee10d6fa2d7a2ad79e8076`](https://github.com/BoB-15th-SADE/SADE/tree/dcab3bb688a2c26c95ee10d6fa2d7a2ad79e8076). This does not assume feature parity with main.
+This guide was written on **2026-10-26** against commit [`4029826`](https://github.com/BoB-15th-SADE/SADE/commit/4029826) on the `refactor/project-structure` branch of the SADE repository. It does not assume main behaves the same.
 
-## Reviewed implementation
+## Code reviewed
 
-| Area | Sources |
+| Area | Code checked (`apps/dashboard/`) |
 |---|---|
-| Navigation and details | `web/app.js`, `api-detail.js`, `privacy-ui.js`, `data-types.js`, `connector-ui.js`, `code-ui.js` |
-| Connections/collection | `remote_sources.py`, `connectors.py`, `field_detect.py`, `scanner_core.py` |
-| Detection/rules | `privacy.py`, `privacy_rules.py`, `privacy_profiles.py` |
-| HTTP API/jobs | `api_server.py`, `scanner_core.py`, `repository.py` |
-| CLI/CodeScan | `sade_cli.py`, `codescan_runner.py`, `github_connect.py` |
-| Deployment/workers | `compose.yaml`, `compose.dev.yaml`, `apps/sade-dashboard/Dockerfile` |
-| Supporting explanations | Project README and `docs/PRIVACY_DETECTION.md`, `FLOWS.md`, `GITHUB_CODE_SCAN.md` |
+| Menus and screens | `web/app.js`, `api-detail.js`, `call-history.js`, `flow-ui.js`, `flow-explorer.js`, `request-flow.js`, `privacy-ui.js`, `data-types.js`, `connector-ui.js`, `code-ui.js` |
+| Connections and collection | `backend/remote_sources.py`, `splunk_collect.py`, `connectors.py`, `field_detect.py`, `log_rollup.py`, `collection_store.py` |
+| Analysis | `backend/analysis.py`, `engine.py`, `specs.py`, `evidence.py`, `code_evidence.py` |
+| Flows | `backend/flows.py`, `flow_environment.py`, `flow_explorer.py`, `flow_sources.py`, `request_flows.py` |
+| Sensitive data | `backend/privacy.py`, `privacy_config.py`, `privacy_profiles.py` |
+| HTTP API and jobs | `backend/api_server.py`, `scanner_core.py`, `storage.py`, `operations.py` |
+| CLI and code scan | `backend/sade_cli.py`, `code_scan.py`, `github.py`, `packages/sade-codescan` |
+| Deployment | `compose.yaml`, `compose.dev.yaml`, `compose.poc.yaml`, `apps/dashboard/Dockerfile` |
+| Background docs | Repository README, `docs/PRIVACY_DETECTION.md`, `FLOWS.md`, `GITHUB_CODE_SCAN.md`, `REMOTE_CONNECTIONS.md`, `CODE_EVIDENCE.md`, `POC.md` |
 
-Where project prose differed from implementation, current code determined menus, bounds and behavior. For example, remote HTTP timeout is 90 seconds, and saving rules triggers automatic reclassification rather than requiring a manual Scan.
+Where written docs and running code disagreed, the code's menus, limits and job behavior won. For example, the repository README lists three default policies, but this commit has no policy module, so Findings is described as empty.
 
 ## Maintenance
 
-Update matching Korean/English paths together. Changes to type counts, HTTP routes, menus, validation or retention must also update their usage steps and limits.
-
-The layout uses Material's [navigation sections](https://squidfunk.github.io/mkdocs-material/setup/setting-up-navigation/#navigation-sections) and [template extension](https://squidfunk.github.io/mkdocs-material/customization/#overriding-blocks). The supplied Akto reference informed navigation and reading flow, not product features, copy or branding.
+When a feature changes, update the Korean and English files at the same path together. `tools/verify_docs.py` checks that both languages have the same files and that links resolve. When default type counts, HTTP routes, menus, limits or retention change, update the usage pages and [Scope and limits](limitations.md) as well.

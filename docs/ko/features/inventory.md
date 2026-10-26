@@ -1,31 +1,35 @@
 # API 인벤토리
 
-**APIs → Inventory**는 서비스별 API 목록입니다. 명세·코드·로그가 제공한 메서드와 경로를 합치고 각 출처를 표시합니다.
+**APIs › Inventory**는 서비스별 API 목록입니다. 명세·코드·로그에서 찾은 API를 하나로 합치고, 각각 어디서 확인했는지 표시합니다.
 
-## 빠른 확인
+## 보는 순서
 
-1. 서비스 컬렉션을 선택합니다.
-2. 메서드·경로와 출처를 확인하고 검색·필터로 범위를 좁힙니다.
-3. API 행을 눌러 [상세 패널](api-details.md)을 엽니다.
-4. 로그 기반 차이는 **Calls / Findings**, 필드 구조는 **Fields**에서 확인합니다.
+<div class="sade-steps" markdown>
 
-## 출처와 상태
+1. 서비스 목록에서 서비스를 고릅니다. 서비스마다 API 수, 민감정보가 있는 API 수, 호출 여부가 보입니다.
+2. API 목록에서 메서드·경로, 근거(`Spec` / `Code` / `Log`), 인증 방식, 공개 범위, 민감정보를 확인합니다.
+3. 위쪽 탭, 필터, 검색으로 좁힙니다. 예: Shadow만, 민감정보 후보가 있는 것만
+4. API를 누르면 [API 상세](api-details.md)가 열립니다.
 
-| 표시 | 뜻 |
+</div>
+
+## 탭과 필터
+
+| 탭 | 보이는 것 |
 |---|---|
-| Spec | 명세에서 선언한 API |
-| Code | 등록된 코드에서 찾은 API |
-| Log | 수집한 로그에서 관측한 API |
-| Shadow | 기준 명세가 있는 상태에서 명세 밖의 관측 API |
-| No traffic | 해당 수집 기간에 호출을 관측하지 못한 API |
-| No spec | 독립적인 기준 명세 없음 |
+| All | 이 서비스의 모든 API |
+| Sensitive | 민감정보 후보가 있는 API |
+| Shadow | 명세가 있는 서비스에서 명세에 없는 호출이 보인 API |
 
-명세만 있는 화면은 실제 호출 건수·값 관측·점검 성공을 만들지 않습니다. No traffic도 폐기된 API라는 확정은 아닙니다.
+필터로 **Method**, **Access type**(공개 범위), **Service**를 좁힐 수 있고, 검색창에 경로 일부를 넣어 찾을 수 있습니다.
 
-## 경로를 묶는 방법
+## 읽을 때 주의할 점
 
-로그의 숫자·UUID 등 식별자 조각을 정규화하여 같은 API에 묶습니다. 예를 들어 `/users/123`과 `/users/456`은 `/users/{id}`로 묶일 수 있습니다. 서비스의 Path prefix와 route map이 경로 연결에 영향을 줍니다.
+- **Not logged**는 "폐기된 API"가 아닙니다. 수집 기간에 안 쓰였을 뿐일 수 있습니다.
+- 명세만 있는 서비스는 호출 수나 값 관측이 없습니다. 명세는 선언입니다.
+- 호출 수는 수집한 전체 로그 기준입니다. 대용량 Splunk 소스도 모든 호출을 셉니다.
+- 같은 API가 경로 파라미터 이름만 다르면 하나로 합칩니다(`/users/{id}` = `/users/{userId}`).
 
-코드에서 생성한 명세는 독립적인 Spec 출처로 중복 계산하지 않습니다. 같은 API·필드의 여러 출처를 합쳐도 실제 호출 건수와 선언 건수는 구분합니다.
+경로가 이상하게 묶이거나 서비스가 잘못 나뉘면 [필드 매핑](../connect/logs.md#field-mapping)과 [서비스 배정](../connect/logs.md#routing), 서비스의 Path prefix를 먼저 확인하세요.
 
-필드가 비거나 서비스가 잘못 묶이면 [로그 매핑](../connect/logs.md#field-mapping)과 [서비스 배정](../connect/logs.md#routing)을 먼저 확인하세요.
+[<span class="q">궁금하신가요?</span><span class="t">`/orders/1024`를 `GET /orders/{id}`로 맞추고 Shadow API를 판단하는 방법</span><span class="arrow">→</span>](../technology/api-discovery.md){ .sade-curious }

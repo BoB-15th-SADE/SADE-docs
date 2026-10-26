@@ -1,21 +1,24 @@
 # CLI 명령
 
-CLI와 화면은 같은 작업 큐와 분석 코드를 사용합니다. SADE 저장소의 `apps/sade-dashboard`에서 실행합니다.
+CLI와 화면은 같은 작업 큐와 분석 코드를 사용합니다. SADE 저장소의 `apps/dashboard/backend`에서 실행합니다.
 
 ## 기본 명령
 
 | 명령 | 하는 일 |
 |---|---|
-| `python -m sade_cli scan` | 수집과 전체 로그 분석 실행 |
-| `python -m sade_cli sync` | 활성 소스 수집 |
-| `python -m sade_cli sync --source-id SOURCE_ID` | 특정 소스 수집 |
+| `python -m sade_cli collect` | 활성 소스에서 로그 수집 (`sync`도 같은 동작) |
+| `python -m sade_cli collect --source-id SOURCE_ID` | 특정 소스만 수집 |
+| `python -m sade_cli scan` | 최근 수집 결과를 다시 검사. 외부 조회 없음 |
+| `python -m sade_cli scan --collection-id ID` | 지정한 수집 배치를 검사 |
 | `python -m sade_cli privacy-refresh` | 외부 조회 없이 저장 자료의 민감정보 재분류 |
 | `python -m sade_cli jobs` | 현재 작업 목록 |
 | `python -m sade_cli worker --lane heavy` | 수집·로그 스캔·코드 스캔 worker |
 | `python -m sade_cli worker --lane light` | 민감정보 재분류 worker |
 | `python -m sade_cli migrate` | 기존 JSON을 보존하며 SQLite 초기화 |
+| `python -m sade_cli doctor` | 저장소·수집 상태 진단. 읽기만 하고 토큰은 출력하지 않음 |
+| `python -m sade_cli backup --output FILE` | 무결성을 확인한 SQLite 백업 |
 
-`scan`, `sync`, `privacy-refresh`의 `--submit`은 작업을 큐에 넣고 종료합니다. 처리하려면 worker가 실행 중이어야 합니다. 옵션이 없으면 같은 작업 실행 코드로 직접 완료까지 처리합니다.
+`collect`, `scan`, `privacy-refresh`의 `--submit`은 작업을 큐에 넣고 종료합니다. 처리하려면 worker가 실행 중이어야 합니다. 옵션이 없으면 같은 작업 실행 코드로 직접 완료까지 처리합니다.
 
 ## 로컬 코드 스캔
 

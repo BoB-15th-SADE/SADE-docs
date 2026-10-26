@@ -1,65 +1,139 @@
-# 설치와 첫 스캔
+# 설치와 첫 연결
 
-Docker로 SADE를 실행하고, 준비된 데이터부터 연결해 첫 결과를 확인합니다. 명세·코드·로그를 모두 갖춰야 시작할 수 있는 것은 아닙니다.
+Docker로 SADE를 띄우고 로그 하나를 연결해 첫 결과를 봅니다. 명세와 코드는 나중에 붙여도 됩니다.
 
 ## 준비물
 
-- Docker와 Docker Compose를 사용할 수 있는 환경
-- [SADE 저장소](https://github.com/BoB-15th-SADE/SADE)의 현재 소스
-- OpenAPI 3.x JSON, 읽기 가능한 GitHub 저장소 또는 HTTP 로그 중 하나 이상
+- [ ] Docker Engine과 Compose, 또는 Docker Desktop (이미지는 `linux/amd64`)
+- [ ] GHCR에서 이미지를 받을 GitHub 토큰 (`read:packages` 권한)
+- [ ] 연결할 로그: Splunk 주소·토큰·인덱스, Cloudera 주소, 또는 JSON 로그 파일
 
-## 1. SADE 실행
+## 1. 설치
 
-SADE 저장소 루트에서 실행합니다. 이 문서 저장소인 SADE-docs에서 실행하는 명령이 아닙니다.
+<div class="sade-steps" markdown>
 
-```bash
-docker compose up -d --build
-```
+1. **GHCR에 로그인합니다.** 비공개 이미지라 처음 한 번만 필요합니다.
 
-브라우저에서 [http://localhost:8765](http://localhost:8765)를 엽니다. 기본 구성은 로컬 주소에만 포트를 엽니다. API 서버, 분석용 worker, 재분류용 worker-light가 함께 실행됩니다.
+    ```bash
+    docker login ghcr.io -u <GitHub 아이디>
+    ```
 
-## 2. 준비된 자료 연결
+2. **설치 폴더를 만듭니다.**
 
-| 준비된 자료 | 이동할 화면 | 다음 단계 |
+    ```bash
+    mkdir sade && cd sade
+    mkdir -p data imports certs
+    ```
+
+3. **`docker-compose.yml`을 저장합니다.** SADE 저장소의 `deploy/docker-compose.yml`과 같은 파일입니다.
+
+    ??? example "docker-compose.yml"
+
+        ```yaml
+        name: sade
+
+        x-sade: &sade
+          image: ${SADE_IMAGE:-ghcr.io/bob-15th-sade/sade:refactor-project-structure}
+          working_dir: /workspace/apps/dashboard/backend
+          environment:
+            PYTHONUNBUFFERED: "1"
+            SADE_PROJECT_ROOT: /workspace
+          volumes:
+            - "${SADE_DATA_DIR:-./data}:/workspace/apps/dashboard/data"
+            - ./imports:/workspace/imports:ro
+            - ./certs:/workspace/certs:ro
+          restart: unless-stopped
+
+        services:
+          api:
+            <<: *sade
+            command: ["python", "api_server.py", "--host", "0.0.0.0", "--port", "8765"]
+            ports:
+              - "127.0.0.1:8765:8765"
+          worker:
+            <<: *sade
+            command: ["python", "-m", "sade_cli", "worker", "--lane", "heavy"]
+          worker-light:
+            <<: *sade
+            command: ["python", "-m", "sade_cli", "worker", "--lane", "light"]
+        ```
+
+4. **실행합니다.**
+
+    ```bash
+    docker compose up -d
+    ```
+
+5. 브라우저에서 <http://localhost:8765>를 엽니다. 포트는 이 컴퓨터(`127.0.0.1`)에만 열립니다.
+
+</div>
+
+| 폴더 | 쓰임 |
+|---|---|
+| `data/` | SADE DB(`sade.db`). 연결 설정, 수집 결과, 분석 결과 |
+| `imports/` | 로그 파일을 두는 곳 (읽기 전용으로 연결) |
+| `certs/` | 사내 CA 인증서 (읽기 전용으로 연결) |
+
+## 2. 로그 연결
+
+준비한 로그에 맞는 탭을 고르세요.
+
+=== "Splunk"
+
+    1. **Connect › Log Sources › Splunk › Connect**
+    2. Search API URL, Index, Authentication token을 넣습니다.
+    3. **Test connection** → **Save connection** → **Collect now**
+
+    자세히: [Splunk](../connect/splunk.md)
+
+=== "Cloudera"
+
+    1. **Connect › Log Sources › Cloudera › Connect**
+    2. WebHDFS URL, 인증, DataNode 주소를 넣고 **Browse folders**로 폴더를 고릅니다.
+    3. **Test connection** → **Save connection** → **Collect now**
+
+    자세히: [Cloudera](../connect/cloudera.md)
+
+=== "로그 파일"
+
+    1. 파일을 `imports/`에 둡니다.
+    2. **Connect › Log Sources**의 Files에서 Access log를 고르고 `/workspace/imports/파일이름.jsonl`을 넣습니다.
+    3. **Save connection** → **Collect now**
+
+    자세히: [로그 파일과 OpenTelemetry](../connect/files.md)
+
+로그가 SADE에서 읽히는 형식인지 미리 보고 싶으면 [로그 확인기](../connect/logs.md#log-check)에 한 줄을 붙여 넣어 보세요.
+
+## 3. 결과 보기
+
+수집이 끝나면 다음 화면이 채워집니다.
+
+| 화면 | 보이는 것 |
+|---|---|
+| **APIs › Inventory** | 서비스별 API, 호출 수, 인증 방식 |
+| **APIs › Sensitive Data** | 민감정보 유형별 API |
+| **APIs › Call History** | 최근 호출과 요청·응답 구조 |
+| **Flows** | 호출자, 게이트웨이, 서버, DB를 잇는 지도 |
+
+## 4. 더 붙이기
+
+| 붙이면 | 더해지는 것 | 가이드 |
 |---|---|---|
-| OpenAPI JSON | Connect → Specifications → Add service | 서비스와 명세를 등록하면 선언 API를 확인할 수 있습니다. |
-| GitHub 저장소 | Connect → Source Code | 토큰 연결, 저장소 선택 후 Scan selected를 실행합니다. |
-| Splunk / WebHDFS 로그 | Connect → Log Sources | 연결 정보·수집 범위·서비스 배정을 설정합니다. |
+| OpenAPI 명세 | Shadow API, 호출별 명세 점검 | [OpenAPI 명세](../connect/specs.md) |
+| GitHub 저장소 | 코드 기반 명세, 서비스 간 호출, DB 접근 | [GitHub 코드 스캔](../connect/code.md) |
+| Access·App 로그, OTel span | 요청 하나의 전체 경로 | [로그 파일과 OpenTelemetry](../connect/files.md) |
 
-서비스의 명세는 선택입니다. 로그만으로 시작하거나, 먼저 명세를 등록하고 나중에 로그를 붙일 수 있습니다.
+명세를 올린 뒤에는 **Run scan**으로 명세 점검을 실행합니다. 로그를 다시 가져오지 않습니다.
 
-## 3. 로그 연결 확인
+## 관리 명령
 
-1. Integrations에서 **Splunk** 또는 **Cloudera**의 **Connect**를 누릅니다.
-2. 접속 정보, 인증, 수집 범위를 입력합니다.
-3. **Test connection**으로 접근 가능 여부를 확인합니다.
-4. 자동 필드 매핑을 확인하고 필요하면 Manual로 바꿉니다.
-5. **Save**를 누릅니다. 저장은 실제 수집 성공과 다릅니다.
+| 할 일 | 명령 |
+|---|---|
+| 상태 확인 | `docker compose ps` |
+| 로그 보기 | `docker compose logs --tail 100 api worker worker-light` |
+| 업데이트 | `docker compose pull && docker compose up -d` |
+| 종료 (데이터 유지) | `docker compose down` |
+| 버전 고정 | `SADE_IMAGE=ghcr.io/bob-15th-sade/sade:sha-<커밋> docker compose up -d` |
 
-## 4. 분석 실행
-
-**Run scan**을 누르면 로그를 수집한 다음 인벤토리·민감정보·명세 점검·흐름을 계산합니다. Sync는 수집 상태만 확인할 때 쓰는 별도 작업이며 필수 선행 단계가 아닙니다.
-
-명세·코드만 등록했거나 룰을 바꾼 경우에는 저장된 자료로 민감 필드를 자동 재분류합니다. 이는 새 로그 스캔이나 새 정책 점검을 만들지 않습니다.
-
-## 5. 결과 확인
-
-- **Inventory**: API 목록과 Spec / Code / Log 출처
-- **Sensitive Data**: 유형별 요청·응답 API와 탐지 근거
-- **Call History**: 저장된 최근 호출과 요청·응답 구조
-- **Findings**: 명세 점검의 Pass / Fail / Not evaluated
-- **Flows**: 관측된 호출과 코드·설정의 호출 관계
-
-## 종료와 개발 실행
-
-```bash
-docker compose down
-```
-
-기본 Compose는 데이터·입력·인증서를 연결하고 코드는 이미지에 포함합니다. 소스 수정 반영이 필요한 개발 실행은 다음 구성을 사용합니다.
-
-```bash
-docker compose -f compose.yaml -f compose.dev.yaml up -d --build
-```
-
-작업이 Queued에 머물면 [문제 해결](../troubleshooting/index.md), Docker 없이 실행하려면 [구성과 실행 방식](../operations/architecture.md)을 보세요.
+!!! warning "인터넷에 바로 공개하지 마세요"
+    대시보드에는 자체 로그인이 없습니다. 원격에서 쓸 때는 SSH 터널(`ssh -L 8765:127.0.0.1:8765 USER@HOST`)이나 회사의 인증 프록시 뒤에 두세요.

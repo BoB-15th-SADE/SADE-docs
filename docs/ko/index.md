@@ -1,37 +1,51 @@
-# SADE 사용 가이드
+# SADE 문서
 
-SADE는 **로그·OpenAPI 명세·소스코드**를 하나의 API 목록으로 연결합니다. 어떤 API가 선언되어 있고, 실제 호출되며, 어떤 민감정보 필드를 다루는지 출처와 함께 확인할 수 있습니다.
-
-이 가이드는 현재 프로젝트의 설치, 연결, 분석, 룰 관리 순서를 설명합니다. 화면의 영문 메뉴 이름을 함께 표기하므로 한국어·영어 화면에서 같은 기능을 찾을 수 있습니다.
+SADE는 이미 쌓여 있는 **SIEM 로그, API 명세, 소스 코드**를 하나의 API 목록으로 맞춰서, 우리 회사에 어떤 API가 있고 그 API가 어떤 데이터를 주고받으며 어디로 흐르는지 보여 줍니다. 서비스에 에이전트를 심거나 트래픽을 가로채지 않습니다.
 
 <div class="sade-links" markdown>
 
-[**처음 시작하기**<span>설치하고 로그를 연결해 첫 스캔을 실행합니다.</span>](getting-started/quickstart.md)
+[**설치하고 연결하기**<span>Docker로 설치하고 첫 로그를 연결합니다. 10분이면 됩니다.</span>](getting-started/quickstart.md)
 
-[**데이터 연결하기**<span>Splunk, WebHDFS, 명세, GitHub를 연결합니다.</span>](connect/logs.md)
+[**연동 가이드**<span>Splunk, Cloudera, 로그 파일, OpenAPI, GitHub를 연결합니다.</span>](connect/logs.md)
 
-[**민감정보 확인하기**<span>19종의 기본 유형과 필드·값 근거를 읽습니다.</span>](features/sensitive-data.md)
+[**사용 방법**<span>인벤토리, 민감정보, 서비스 흐름, 명세 점검을 읽는 법</span>](features/inventory.md)
 
-[**탐지 룰 관리하기**<span>별칭·경로·값 패턴을 수정하고 다시 분류합니다.</span>](policy/data-types.md)
+[**핵심 기술**<span>로그 정규화부터 code2spec, code2flow까지 내부 동작</span>](technology/index.md)
 
 </div>
 
-## 세 가지 근거를 함께 보기
+## 이런 질문에 답합니다
 
-| 출처 | 알 수 있는 것 | 구분해서 읽을 점 |
+| 질문 | 보는 곳 |
+|---|---|
+| 우리 회사에 실제로 어떤 API가 있고, 명세에 없는 API는 무엇인가? | [API 인벤토리](features/inventory.md) |
+| 각 API는 어떤 개인정보·민감정보를 주고받는가? | [민감정보](features/sensitive-data.md) |
+| 요청 하나가 어느 서비스를 거쳐 어디까지 가는가? | [서비스 흐름](features/flows.md), [요청 흐름](features/call-history.md) |
+| 실제 호출이 명세와 어디서 다른가? 인증 없이 성공한 호출은? | [호출 기록과 Spec check](features/call-history.md) |
+
+## 세 가지 근거
+
+| 근거 | 알 수 있는 것 | 따로 읽어야 할 점 |
 |---|---|---|
-| Spec | 업로드한 명세의 API와 필드 선언 | 실제 호출이나 값 관측을 뜻하지 않습니다. |
-| Code | 스캔한 코드의 API·필드·HTTP 호출 | 런타임 실행을 증명하지 않습니다. |
-| Log | 수집 구간에 기록된 요청·응답 | 기록하지 않은 본문과 수집 구간 밖의 호출은 알 수 없습니다. |
+| **Log** | 실제 호출, 횟수, 인증 방식, 주고받은 필드 | 수집 기간 밖의 호출과 로그에 없는 본문은 모름 |
+| **Spec** | 서비스가 받기로 한 요청·응답 | 실제 호출이나 구현을 뜻하지 않음 |
+| **Code** | 구현된 API, 코드의 호출, 선언된 권한 검사 | 실행 여부와 횟수를 증명하지 않음 |
 
-명세만 등록해도 API와 민감 필드 후보를 볼 수 있습니다. 로그를 연결하면 실제 관측과 명세의 차이를 확인하고, 소스코드를 연결하면 구현 근거와 서비스 호출 관계를 보완합니다.
+어느 하나만으로 시작해도 됩니다. 명세만 올려도 API 목록과 민감정보 후보가 나오고, 로그를 붙이면 실제 호출이, 코드를 붙이면 구현과 서비스 간 호출이 더해집니다. 모든 API와 필드에는 어느 근거에서 왔는지 `Spec` / `Code` / `Log` 표시가 붙습니다.
 
-## 기본 사용 순서
+## 동작 방식
 
-1. **Connect**에서 명세·코드·로그 중 준비된 자료를 등록합니다.
-2. 로그를 분석하려면 **Run scan**을 실행합니다. 로그 수집도 포함되므로 Sync를 먼저 실행할 필요는 없습니다.
-3. **APIs → Inventory / Call History / Sensitive Data**에서 결과를 확인합니다.
-4. **Flows**에서 출처별 서비스 호출 관계를 봅니다.
-5. **Policy → Rules**에서 데이터 유형과 접근 범위를 관리하고 **Findings**에서 점검 결과를 읽습니다.
+<div class="sade-pipe" markdown>
+<div markdown>**연결**<p>Splunk, Cloudera, 파일, OpenAPI, GitHub</p></div>
+<div markdown>**수집** (Collect now)<p>로그를 읽어 값을 지운 근거만 저장</p></div>
+<div class="is-key" markdown>**분석**<p>API 식별, 민감정보, 흐름</p></div>
+<div markdown>**검사** (Run scan)<p>저장된 결과로 명세 점검</p></div>
+</div>
 
-SADE는 현재 PoC 도구입니다. 민감정보 발견, 접근 범위 분류, 명세 불일치는 각각 다른 근거이며 법적 위반이나 실제 인증 성공을 자동 확정하지 않습니다. [지원 범위와 제한](reference/limitations.md)을 함께 확인하세요.
+- **Collect now**는 외부 로그를 읽고 인벤토리, 민감정보, Flows를 갱신합니다. 수집 주기를 정하면 자동으로 돕니다.
+- **Run scan**은 저장된 수집 결과만 씁니다. SIEM에 다시 접속하지 않습니다.
+- 수집 결과에는 본문과 헤더의 **원문 값이 남지 않습니다.** 값은 `<string>` 같은 타입으로 바뀝니다.
+
+## 먼저 알아 둘 점
+
+SADE의 판단은 **관측한 범위에 대한 근거**입니다. 민감정보 발견, 명세 차이, Shadow API는 각각 검토할 근거이며, 법적 위반이나 전체 API의 안전을 자동으로 확정하지 않습니다. 근거가 없는 항목은 "없음"이 아니라 "미관측"이나 "Not evaluated"로 표시합니다. 자세한 범위는 [지원 범위와 제한](reference/limitations.md)에 있습니다.

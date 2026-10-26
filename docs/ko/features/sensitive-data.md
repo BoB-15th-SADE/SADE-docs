@@ -59,3 +59,5 @@ JSON 본문·헤더·쿼리·식별 가능한 경로 파라미터·쿠키·URL-e
 COMPLETE는 **전달된 자료**의 검사 완료입니다. 원래 전송 전체를 수집했다는 뜻이 아닙니다. PARTIAL / UNAVAILABLE과 Unconfirmed fields를 함께 확인하세요. HIGH / MEDIUM / LOW도 근거 등급이며 확률이나 법적 판정이 아닙니다.
 
 유형별 API 수는 요청과 응답에서 각각 고유 API를 셉니다. 필드 수·출처 수·호출 수를 더한 값이 아닙니다. NULL·빈 값·마스킹된 값은 원문 값 관측과 구분합니다.
+
+[<span class="q">궁금하신가요?</span><span class="t">이름·문맥·값 구조로 19개 유형을 가르는 엔진의 동작</span><span class="arrow">→</span>](../technology/sensitive-data.md){ .sade-curious }
