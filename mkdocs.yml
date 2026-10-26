@@ -31,6 +31,7 @@ extra_css:
 extra_javascript:
   - assets/javascripts/page-actions.js
   - assets/javascripts/log-check.js
+  - assets/javascripts/flow-sim.js
 
 plugins:
   - search:
@@ -52,6 +53,7 @@ plugins:
             화면 둘러보기: Dashboard tour
             연동 가이드: INTEGRATIONS
             연동 한눈에 보기: Integration overview
+            로그 필드 레퍼런스: Log field reference
             Cloudera (WebHDFS): Cloudera (WebHDFS)
             로그 파일과 OpenTelemetry: Log files and OpenTelemetry
             OpenAPI 명세: OpenAPI specifications
@@ -120,6 +122,7 @@ nav:
       - 화면 둘러보기: getting-started/navigation.md
   - 연동 가이드:
       - 연동 한눈에 보기: connect/logs.md
+      - 로그 필드 레퍼런스: connect/schema.md
       - Splunk: connect/splunk.md
       - Cloudera (WebHDFS): connect/cloudera.md
       - 로그 파일과 OpenTelemetry: connect/files.md

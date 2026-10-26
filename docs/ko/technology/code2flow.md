@@ -65,7 +65,7 @@ HTTP 호출은 Java·Kotlin, .NET, Python, Node.js, Go에서 찾습니다. 설�
     |---|---|
     | 시작 API | `POST /checkout` (order) |
     | 경로 | `CheckoutController.checkout` → `CheckoutService.pay` → `WebClient.post` |
-    | 주소 근거 | `application.yml:3` (`services.payment`) |
+    | 주소를 찾은 곳 | `application.yml:3` (`services.payment`) |
     | 목적지 | payment 서비스 `POST /payments` (resolved) |
 
 ## DB 접근
@@ -77,7 +77,7 @@ Spring Data Repository를 따라가 **어떤 API가 어떤 엔티티(테이블)�
 | `repository` | 이름, 메서드, 파일, 줄 |
 | `entity` | 엔티티 이름, 테이블 |
 | `operation` | read, write, unknown |
-| `datasource` | declared, candidate, unresolved와 근거 |
+| `datasource` | declared, candidate, unresolved와 찾은 위치 |
 
 실행되는 SQL이나 실제 접속 주소를 증명하지는 않습니다. 실제 DB 접근은 [런타임 흐름](runtime-flow.md)의 PostgreSQL span으로 확인합니다.
 

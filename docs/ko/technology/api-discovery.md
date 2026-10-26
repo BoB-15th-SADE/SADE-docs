@@ -43,7 +43,7 @@
     | 로그 | 맞춘 API |
     |---|---|
     | `GET /orders/1024` | `GET /orders/{id}` |
-    | `PUT /items/7` | `PUT /items/{id}` (같은 모양의 `GET /items/{itemId}`가 있어도 메서드로 구분) |
+    | `PUT /items/7` | `PUT /items/{id}` (형태가 같은 `GET /items/{itemId}`가 있어도 메서드로 구분) |
     | `GET /files/a/b/c.txt` | `GET /files/{path...}` |
 
 === "명세에 없는 경로"

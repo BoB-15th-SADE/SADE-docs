@@ -16,9 +16,9 @@
 | API가 Unassigned로 보임 | Service 배정·로그 서비스 값 | ID·별칭·Path prefix 확인 |
 | 본문·헤더가 없음 | 원천 로그의 실제 수집 여부 | 원천 로깅과 매핑 확인. 없는 값은 생성하지 않음 |
 | 필드만 매칭되고 값 체크 없음 | 선언/마스킹/미지원 프로파일 | Sensitive data의 검사 사유 확인 |
-| 룰 변경 후 일부 결과만 갱신 | Scope 또는 저장 근거 부족 | All APIs 범위 확인, 값 근거가 필요하면 다시 수집 |
+| 룰 변경 후 일부 결과만 갱신 | 룰 적용 범위, 저장된 자료 부족 | All APIs 범위 확인, 실제 값이 필요한 룰이면 다시 수집 |
 | Settings changed / Superseded | 다른 저장으로 입력 버전 변경 | 새로고침 후 최신 설정에 수정 재적용 |
-| 코드가 있는데 연결선 없음 | 동적 주소·서비스 매핑·미지원 클라이언트 | Code 근거와 Links may be missing 확인 |
+| 코드가 있는데 연결선 없음 | 동적 주소·서비스 매핑·미지원 클라이언트 | API 상세의 Code 탭과 Links may be missing 확인 |
 
 ## worker 확인
 

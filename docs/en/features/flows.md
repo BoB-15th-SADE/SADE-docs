@@ -36,6 +36,8 @@ The buttons only change the view; nothing is collected or scanned again. A code 
 
 ## For an accurate map
 
+Try the fields one by one in the [Log field reference](../connect/schema.md#levels) to see how far the map gets drawn.
+
 | You have | You see |
 |---|---|
 | Gateway logs only | Caller → gateway → API |

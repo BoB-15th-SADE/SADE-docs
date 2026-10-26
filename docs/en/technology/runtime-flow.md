@@ -10,7 +10,7 @@
 | Application log | Requests a service **sent** (target, direction) | No |
 | OpenTelemetry span | Parent-child links, host, database access | No |
 
-A request recorded in several places is counted once, on the receiving side.
+A request recorded in several places is counted once, on the receiving side. The fields each log needs are listed in the [Log field reference](../connect/schema.md#levels).
 
 ## How fragments are joined
 
@@ -24,8 +24,8 @@ The receiving side and the sending side are matched in this order. Once a step d
 
 </div>
 
-- With several candidates, nothing is joined. Concurrent requests to the same API must not get mixed up.
-- When trace data conflicts, the request ID does not override it.
+- With several matching candidates, nothing is joined, so concurrent requests to the same API never get mixed up.
+- When trace data differs, records are not joined even if the request ID matches.
 - With no caller information, the peer IP is the caller. If that IP is an alias of a registered service, that service is the caller.
 
 ### Logs with only traceparent

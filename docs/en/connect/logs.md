@@ -78,6 +78,8 @@ The kind of log (gateway, access, application) does not matter. **Each event mus
 
 Headers and bodies are optional. When they are missing, SADE shows "not captured" and does not conclude they were empty or free of personal data.
 
+The full field list, and how far Flows gets drawn with each field, is in the [Log field reference](schema.md).
+
 ### Check your own log {#log-check}
 
 Paste one log line to see which fields SADE finds and which features it supports. The check runs in your browser and sends nothing anywhere. Masked or made-up values give the same result.

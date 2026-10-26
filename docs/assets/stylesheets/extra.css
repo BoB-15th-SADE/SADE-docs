@@ -142,3 +142,53 @@ html { scroll-padding-top: 5rem; }
 .sade-logcheck__result .err { color: #9a3b2f; font-size: .72rem; margin-top: .7rem; }
 .sade-logcheck__result h4 { color: #33463e; font-size: .72rem; margin: 1rem 0 .3rem; }
 .md-typeset .sade-catalog span.sade-pill { display: inline-block; margin-top: .55rem; }
+
+/* Field → Flows simulator */
+.sade-flowsim { border: 1px solid #dfe8e3; border-radius: .55rem; display: grid; grid-template-columns: 15.5rem 1fr; margin: 1.4rem 0; overflow: hidden; }
+.sade-flowsim > .sade-flowsim__diagram { border-bottom: 1px solid #e6eeea; grid-column: 1 / -1; margin: 0; padding: 1.1rem 1rem; }
+.sade-flowsim__fields label.core span { color: #52625b; font-size: .66rem; }
+.sade-flowsim__fields { background: #f7faf8; border-right: 1px solid #e6eeea; padding: .8rem .9rem; }
+.sade-flowsim__title { color: #33463e; font-size: .68rem; font-weight: 700; letter-spacing: .03em; margin: 0 0 .5rem; }
+.sade-flowsim__fields label { align-items: flex-start; border-radius: .35rem; cursor: pointer; display: flex; gap: .5rem; padding: .32rem .35rem; }
+.sade-flowsim__fields label:hover { background: #eef4f1; }
+.sade-flowsim__fields label.core { cursor: default; opacity: .75; }
+.sade-flowsim__fields input { accent-color: #167964; margin-top: .22rem; }
+.sade-flowsim__fields span { display: flex; flex-direction: column; line-height: 1.35; }
+.md-typeset .sade-flowsim__fields code { background: none; color: #1f3029; font-size: .66rem; padding: 0; }
+.sade-flowsim__fields small { color: #74827c; font-size: .6rem; }
+.sade-flowsim__out { min-width: 0; padding: 1rem 1.1rem; }
+.sade-flowsim__diagram { align-items: center; display: flex; justify-content: center; }
+.sade-flowsim__node { border: 1px solid #cfe0d8; border-radius: .45rem; display: flex; flex: none; flex-direction: column; font-size: .66rem; line-height: 1.3; min-width: 4.6rem; padding: .45rem .6rem; text-align: center; transition: all .2s; }
+.sade-flowsim__node b { color: #1f3029; font-weight: 650; }
+.sade-flowsim__node small { color: #6c7d76; font-size: .56rem; }
+.sade-flowsim__node small.h { color: #167964; }
+.sade-flowsim__node.on { background: #f1f8f5; }
+.sade-flowsim__node.svc.on { background: #e4f3ec; border-color: #9ccbb7; }
+.sade-flowsim__node.off { border-style: dashed; opacity: .45; }
+.sade-flowsim__edge { flex: 1 1 3rem; height: 1.7rem; max-width: 5.5rem; min-width: 2rem; position: relative; }
+.sade-flowsim__edge::before { border-top: 2px solid #9ccbb7; content: ""; left: 2px; position: absolute; right: 6px; top: 50%; }
+.sade-flowsim__edge::after { border-left: 6px solid #9ccbb7; border-bottom: 4px solid transparent; border-top: 4px solid transparent; content: ""; position: absolute; right: 0; top: calc(50% - 3px); }
+.sade-flowsim__edge.off::before { border-top: 2px dashed #d5ddd9; }
+.sade-flowsim__edge.off::after { border-left-color: #d5ddd9; }
+.sade-flowsim__edge span { color: #167964; font-size: .52rem; left: 0; position: absolute; right: 0; text-align: center; top: -.15rem; white-space: nowrap; }
+.sade-flowsim__edge.off span { color: #a3aea9; }
+.sade-flowsim__res > p { color: #33463e; font-size: .68rem; font-weight: 700; margin: 0 0 .35rem; }
+.md-typeset .sade-flowsim__res ul { list-style: none; margin: 0; padding: 0; }
+.md-typeset .sade-flowsim__res li { font-size: .7rem; margin: 0; padding: .12rem 0; }
+.sade-flowsim__res li i { display: inline-block; font-style: normal; font-weight: 700; width: 1.2rem; }
+.sade-flowsim__res li.yes i { color: #167964; }
+.sade-flowsim__res li.part i { color: #b07a12; }
+.sade-flowsim__res li.no { color: #9aa6a1; }
+.sade-flowsim__notes { border-left: 3px solid #e2b553; margin-top: .7rem; padding-left: .7rem; }
+.md-typeset .sade-flowsim__notes p { color: #5d5236; font-size: .66rem; line-height: 1.55; margin: .2rem 0; }
+@media (max-width: 44.984375em) {
+  .sade-flowsim { grid-template-columns: 1fr; }
+  .sade-flowsim__fields { border-bottom: 1px solid #e6eeea; border-right: 0; }
+  .sade-flowsim__diagram { align-items: stretch; flex-direction: column; }
+  .sade-flowsim__edge { height: 1.3rem; max-width: none; flex: none; }
+  .sade-flowsim__edge::before { border-top: 0; border-left: 2px solid #9ccbb7; bottom: 6px; left: 50%; right: auto; top: 2px; }
+  .sade-flowsim__edge.off::before { border-left: 2px dashed #d5ddd9; border-top: 0; }
+  .sade-flowsim__edge::after { border-bottom: 0; border-left: 4px solid transparent; border-right: 4px solid transparent; border-top: 6px solid #9ccbb7; bottom: 0; left: calc(50% - 3px); right: auto; top: auto; }
+  .sade-flowsim__edge.off::after { border-top-color: #d5ddd9; border-left-color: transparent; }
+  .sade-flowsim__edge span { left: calc(50% + .6rem); text-align: left; top: .25rem; }
+}

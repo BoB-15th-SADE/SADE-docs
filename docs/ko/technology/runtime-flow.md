@@ -10,7 +10,7 @@
 | Application 로그 | 서비스가 **보낸** 요청 (목적지, 방향) | 세지 않음 |
 | OpenTelemetry span | 부모·자식 관계, 호스트, DB 접근 | 세지 않음 |
 
-같은 요청이 여러 곳에 기록돼도 호출 수는 받은 쪽에서 한 번만 셉니다.
+같은 요청이 여러 곳에 기록돼도 호출 수는 받은 쪽에서 한 번만 셉니다. 로그마다 어떤 필드가 있어야 하는지는 [로그 필드 레퍼런스](../connect/schema.md#levels)에 정리했습니다.
 
 ## 조각을 잇는 순서
 
@@ -18,14 +18,14 @@
 
 <div class="sade-steps" markdown>
 
-1. **Trace.** trace ID가 같고, 받은 쪽(SERVER)의 parent span ID가 보낸 쪽(CLIENT)의 span ID와 같으면 같은 호출입니다. 가장 확실한 근거입니다.
+1. **Trace.** trace ID가 같고, 받은 쪽(SERVER)의 parent span ID가 보낸 쪽(CLIENT)의 span ID와 같으면 같은 호출입니다. 가장 확실한 방법입니다.
 2. **Hop ID.** 한 번의 서비스 간 호출마다 붙는 ID가 같으면 같은 호출입니다.
 3. **Request ID.** 같은 request ID이고, 목적지 서비스·메서드·경로가 같고, 30초 안이면 같은 호출로 봅니다.
 
 </div>
 
-- 후보가 여럿이면 잇지 않고 비워 둡니다. 동시에 들어온 같은 API 요청이 섞이지 않게 하려는 것입니다.
-- trace 정보가 서로 어긋나면 request ID로 덮어써서 잇지 않습니다.
+- 맞는 후보가 여러 개면 잇지 않습니다. 같은 API로 동시에 들어온 요청끼리 뒤섞이지 않게 하려는 것입니다.
+- trace 정보가 서로 다르면 request ID가 같아도 잇지 않습니다.
 - 호출자 정보가 없으면 접속 IP를 호출자로 씁니다. 등록된 서비스의 별칭에 그 IP가 있으면 그 서비스가 호출자입니다.
 
 ### traceparent만 남은 로그
@@ -65,12 +65,12 @@ IP는 공인 주소도 그대로 남깁니다. 포트만 뗍니다. 보안 담�
 
     여러 요청을 모아 **Clients → Gateways → Hosts → Destinations** 순서로 보여 줍니다.
 
-    - **Clients**: 관측된 호출자 묶음. IP를 고르면 그 IP의 요청 경로만 펼칩니다.
+    - **Clients**: 로그에 찍힌 호출자. IP를 고르면 그 IP의 요청 경로만 펼칩니다.
     - **Gateways**: 배포 정보, 이름, 라우팅 규칙으로 정한 게이트웨이
     - **Hosts**: 수집된 호스트 정보(`host.id`, `k8s.node.name` 등)로 묶은 서버. 정보가 없으면 "Host not observed"
-    - **Destinations**: 관측된 PostgreSQL DB, 스캔 범위 밖의 외부 호스트
+    - **Destinations**: span으로 확인한 PostgreSQL DB, 스캔하지 않은 외부 호스트
 
-    같은 진입 API라도 뒤쪽 흐름이 다르면 다른 그룹으로 나눕니다. 진입 API만 보이고 뒤쪽을 이을 근거가 없으면 "Entry API observed"로 표시합니다.
+    같은 진입 API라도 뒤쪽 흐름이 다르면 다른 그룹으로 나눕니다. 진입 API만 보이고 그 뒤를 이을 기록이 없으면 "Entry API observed"로 표시합니다.
 
 ## DB 접근
 
@@ -80,9 +80,9 @@ PostgreSQL 클라이언트 span(`kind: 3`, `db.system.name: postgresql`)이 있�
 
 ## LOG / SPEC / CODE 전환
 
-Flows 화면의 세 버튼은 무엇을 근거로 선을 그릴지 고릅니다. 화면만 바뀌고 수집이나 스캔을 다시 하지 않습니다.
+Flows 화면의 세 버튼은 어떤 자료로 선을 그릴지 고릅니다. 화면만 바뀌고 수집이나 스캔을 다시 하지 않습니다.
 
-| 근거 | 원 (서비스·API) | 선 |
+| 자료 | 원 (서비스·API) | 선 |
 |---|---|---|
 | LOG | 로그·span에서 본 API | 실제 호출, 호출자, span 관계, DB 접근 |
 | CODE | 코드에 있는 API | 코드의 HTTP 호출(점선), 게이트웨이 라우팅(파선) |

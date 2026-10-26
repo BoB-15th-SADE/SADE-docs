@@ -32,7 +32,7 @@ Docker로 설치했다면 설치 폴더의 `imports/`에 파일을 둡니다. �
 
     서비스가 다른 서비스를 **부른** 기록입니다. HTTP 클라이언트 로그가 여기에 해당합니다.
 
-    - 호출 수를 늘리지 않습니다. 받은 쪽 Access 로그와 짝지어 "누가 불렀는지"를 더합니다.
+    - 호출 수를 늘리지 않습니다. 받은 쪽 Access 로그와 연결해 "누가 불렀는지"를 채워 줍니다.
     - 호출 대상(`destination`)과 방향(`event_type: client` 등)이 필요합니다.
 
     ```json
@@ -45,7 +45,7 @@ Docker로 설치했다면 설치 폴더의 `imports/`에 파일을 둡니다. �
     Collector나 계측 도구가 내보낸 span 파일입니다. 선택 사항입니다.
 
     - OTLP `resourceSpans` JSON, span 배열 JSON, span마다 한 줄인 JSONL을 읽습니다.
-    - HTTP SERVER span의 부모가 CLIENT span이면 서비스 간 호출 근거가 됩니다.
+    - HTTP SERVER span의 부모가 CLIENT span이면 두 서비스 사이의 호출로 인정합니다.
     - PostgreSQL 클라이언트 span(`kind: 3`, `db.system.name: postgresql`)으로 DB 접근을 그립니다.
     - 호출 수는 늘리지 않습니다.
 
@@ -67,16 +67,16 @@ Docker로 설치했다면 설치 폴더의 `imports/`에 파일을 둡니다. �
 
 ## 짝짓기 규칙
 
-받은 쪽(Access)과 보낸 쪽(Application)을 이 순서로 짝지어 한 번의 호출로 봅니다.
+받은 쪽(Access)과 보낸 쪽(Application) 기록을 아래 순서로 맞춰 보고, 맞으면 한 번의 호출로 봅니다.
 
-| 순서 | 근거 | 조건 |
+| 순서 | 기준 | 조건 |
 |---|---|---|
 | 1 | Trace | 같은 trace ID이고, 받은 쪽의 `parentSpanId`가 보낸 쪽의 `spanId`와 같음 |
 | 2 | Hop ID | 같은 `hop_id` |
 | 3 | Request ID | 같은 request ID, 같은 대상 서비스·메서드·경로, 30초 이내 |
 
-- trace 정보가 서로 다르면 다른 근거로 덮어쓰지 않습니다.
-- 후보가 여러 개면 짝짓지 않고 비워 둡니다. 추측해서 잇지 않습니다.
+- trace 정보가 서로 다르면 요청 ID가 같아도 잇지 않습니다.
+- 맞는 후보가 여러 개면 추측하지 않고 잇지 않습니다.
 - 같은 요청의 Access와 Application 기록은 호출 수를 두 번 세지 않습니다.
 
 [<span class="q">궁금하신가요?</span><span class="t">로그와 trace로 요청 하나의 경로를 복원하는 방법</span><span class="arrow">→</span>](../technology/runtime-flow.md){ .sade-curious }
@@ -95,6 +95,8 @@ Docker로 설치했다면 설치 폴더의 `imports/`에 파일을 둡니다. �
 DB span의 쿼리 문장, 파라미터, 연결 문자열, 결과는 저장하지 않습니다. 연산 이름은 SELECT, INSERT처럼 정해진 값만 남깁니다.
 
 ## 함께 쓰면 좋은 조합
+
+로그마다 넣을 필드는 [로그 필드 레퍼런스](schema.md)를 보세요.
 
 | 가진 것 | 보이는 것 |
 |---|---|

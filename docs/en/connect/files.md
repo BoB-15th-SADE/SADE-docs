@@ -96,6 +96,8 @@ Query text, parameters, connection strings and results of database spans are not
 
 ## Good combinations
 
+For the fields each log should carry, see the [Log field reference](schema.md).
+
 | You have | You see |
 |---|---|
 | One gateway log | Gateway → API |

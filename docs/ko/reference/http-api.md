@@ -22,7 +22,7 @@
 
 `/api/request-flow`는 `call`, `event`, `trace` 중 **하나만** 받습니다(200자 이하). 저장된 결과에 흐름이 없으면 404를 돌려줍니다.
 
-`/api/flow-explorer`는 `client`(관측된 IP) 또는 `service` 중 하나와 `offset`, `limit`(1~100, 기본 50)을 받습니다.
+`/api/flow-explorer`는 `client`(로그에 찍힌 IP) 또는 `service` 중 하나와 `offset`, `limit`(1~100, 기본 50)을 받습니다.
 
 ## 작업 실행
 

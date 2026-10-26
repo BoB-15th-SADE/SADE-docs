@@ -6,7 +6,7 @@ SADE의 작업은 **가져오기(Collect)**와 **검사하기(Scan)**로 나뉩�
 
 | 버튼 | 하는 일 | 외부 접속 | 갱신되는 것 |
 |---|---|---|---|
-| **Collect now** | 로그를 가져와 값을 지운 근거로 저장 | 함 (Splunk, WebHDFS, 파일) | 인벤토리, 민감정보, Flows, Call History |
+| **Collect now** | 로그를 가져와 값을 지운 채 저장 | 함 (Splunk, WebHDFS, 파일) | 인벤토리, 민감정보, Flows, Call History |
 | **Run scan** | 저장된 수집 결과로 명세 점검 | 안 함 | 명세 점검, Shadow API, 스캔 이력 |
 | **Refresh** | 저장된 결과를 다시 불러옴 | 안 함 | 화면만 |
 
@@ -56,7 +56,7 @@ docker compose logs --tail 100 worker worker-light
 ## 결과가 바뀌지 않을 때
 
 - 수집이 Partial이면 실패한 구간부터 다시 수집하세요. 마친 구간은 다시 읽지 않습니다.
-- 규칙을 바꿨는데 값 근거(Value matched)가 새로 생기지 않으면, 원문이 필요한 변경일 수 있습니다. 다시 수집하세요.
+- 규칙을 바꿨는데 Value matched가 새로 생기지 않으면, 실제 값이 있어야 판단할 수 있는 규칙일 수 있습니다. 다시 수집하세요.
 - 명세를 올린 뒤 Shadow나 Spec check가 안 바뀌면 Run scan을 실행하세요.
 
 [구성과 실행 방식](architecture.md), [문제 해결](../troubleshooting/index.md)도 참고하세요.

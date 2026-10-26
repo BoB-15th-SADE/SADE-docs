@@ -8,7 +8,7 @@ Swagger 문서가 없거나 오래된 회사가 많습니다. SADE CodeScan은 *
 <div markdown>**파싱**<p>tree-sitter로 구문 트리 생성</p></div>
 <div markdown>**라우트 찾기**<p>프레임워크별 등록 방식</p></div>
 <div class="is-key" markdown>**타입 따라가기**<p>요청·응답 DTO, 검증 규칙</p></div>
-<div markdown>**근거 붙이기**<p>모든 결과에 파일·줄</p></div>
+<div markdown>**출처 남기기**<p>모든 결과에 파일·줄</p></div>
 <div markdown>**OpenAPI 3.1**<p>서비스별 문서</p></div>
 </div>
 
@@ -18,7 +18,7 @@ Swagger 문서가 없거나 오래된 회사가 많습니다. SADE CodeScan은 *
 2. **라우트를 찾습니다.** Spring의 `@GetMapping("/orders/{id}")`, FastAPI의 `@app.get(...)`, Express의 `router.get(...)`, Go의 `r.HandleFunc(...)`처럼 프레임워크마다 API를 등록하는 방식을 읽습니다. 클래스 단위 경로와 메서드 단위 경로를 합칩니다.
 3. **요청과 응답 타입을 따라갑니다.** 핸들러의 파라미터와 반환 타입에서 DTO 클래스를 찾아 필드를 펼칩니다. `@NotNull`, `@Size`, `Field(max_length=...)` 같은 검증 규칙은 `required`, `maxLength` 같은 JSON Schema 키워드로 옮깁니다.
 4. **설명을 가져옵니다.** docstring, JSDoc, XML doc, 어노테이션 설명이 있으면 `description`으로 쓰고 출처를 표시합니다.
-5. **근거를 붙입니다.** 모든 API, 파라미터, 스키마 필드에 `{file, line, rule}`을 남깁니다.
+5. **출처를 남깁니다.** 모든 API, 파라미터, 스키마 필드에 어느 파일 몇 번째 줄에서 찾았는지(`{file, line, rule}`) 기록합니다.
 
 </div>
 
@@ -76,7 +76,7 @@ Swagger 문서가 없거나 오래된 회사가 많습니다. SADE CodeScan은 *
 | 파일 | 내용 |
 |---|---|
 | `openapi/{서비스}.json` | 순수 OpenAPI 3.1. 분석용 확장 정보와 소스 위치를 뺀 문서 |
-| `code_inventory.json` | API, 근거, 분석 상태, 서비스 간 호출, DB 접근 ([code2flow](code2flow.md)) |
+| `code_inventory.json` | API, 코드 위치, 분석 상태, 서비스 간 호출, DB 접근 ([code2flow](code2flow.md)) |
 | `route-map.json` | 게이트웨이 라우팅 규칙 |
 
 ## 명세와 비교하기

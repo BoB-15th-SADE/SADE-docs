@@ -68,4 +68,4 @@ HDFS에 저장된 JSON 로그 파일을 WebHDFS REST API로 읽습니다. 폴더
 - 실제 Cloudera NameNode·DataNode에 HTTPS와 CA 검증으로 연결해 폴더 탐색과 기간 수집을 확인했습니다. 대규모 운영 클러스터 검증은 별도로 필요합니다.
 - Apache Hadoop 공식 문서: [WebHDFS REST API](https://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-hdfs/WebHDFS.html)
 
-[<span class="q">궁금하신가요?</span><span class="t">어떤 형식의 로그든 같은 모양으로 맞추는 과정</span><span class="arrow">→</span>](../technology/log-normalization.md){ .sade-curious }
+[<span class="q">궁금하신가요?</span><span class="t">형식이 제각각인 로그를 하나의 형태로 맞추는 과정</span><span class="arrow">→</span>](../technology/log-normalization.md){ .sade-curious }
