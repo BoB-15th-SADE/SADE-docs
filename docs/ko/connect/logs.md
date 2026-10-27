@@ -1,6 +1,6 @@
 # 연동 한눈에 보기
 
-SADE는 이미 쌓여 있는 로그와 문서를 읽기만 합니다. 서비스에 에이전트를 설치하거나 트래픽을 가로채지 않습니다. 연결을 시작하기 전에 무엇을 연결할 수 있는지, 로그에 어떤 필드가 있어야 하는지 이 페이지에서 확인하세요.
+SADE는 회사에 이미 있는 로그, 명세, 코드를 읽기만 합니다. 서비스에 에이전트를 설치하거나 트래픽을 가로채지 않습니다. 연결을 시작하기 전에 무엇을 연결할 수 있는지, 로그에 어떤 필드가 있어야 하는지 이 페이지에서 확인하세요.
 
 ## 연결할 수 있는 것
 
@@ -10,19 +10,15 @@ SADE는 이미 쌓여 있는 로그와 문서를 읽기만 합니다. 서비스�
 
 [**Cloudera**<span>WebHDFS로 HDFS의 JSONL 파일 읽기</span><span class="sade-pill ok">지원</span>](cloudera.md)
 
-[**로그 파일**<span>Access 로그, Application 로그, SIEM CSV 내보내기</span><span class="sade-pill ok">지원</span>](files.md)
-
-[**OpenTelemetry**<span>OTLP JSON, span JSONL 파일</span><span class="sade-pill ok">지원</span>](files.md#opentelemetry)
-
 [**OpenAPI 명세**<span>OpenAPI 3.0 / 3.1 JSON 업로드</span><span class="sade-pill ok">지원</span>](specs.md)
 
 [**GitHub**<span>저장소를 골라 코드에서 API와 호출 관계 추출</span><span class="sade-pill ok">지원</span>](code.md)
 
-<div markdown>**Elasticsearch / OpenSearch**<span>직접 연결은 아직 없음. JSONL로 내보내 파일로 연결</span><span class="sade-pill no">미지원</span></div>
+<div markdown>**Elasticsearch / OpenSearch**<span>같은 수집 방식으로 확장 가능. [확장하기](../technology/extending.md)</span><span class="sade-pill part">확장</span></div>
 
-<div markdown>**Amazon S3**<span>직접 연결은 아직 없음. 내려받아 파일로 연결</span><span class="sade-pill no">미지원</span></div>
+<div markdown>**Amazon S3**<span>전송 방식만 더하면 같은 분석 사용</span><span class="sade-pill part">확장</span></div>
 
-<div markdown>**Syslog 원문**<span>JSON 이벤트로 바꿔서 연결</span><span class="sade-pill no">미지원</span></div>
+<div markdown>**Syslog 원문**<span>JSON 이벤트로 바꿔서 SIEM에 저장</span><span class="sade-pill no">미지원</span></div>
 
 </div>
 
@@ -131,7 +127,11 @@ SADE는 이미 쌓여 있는 로그와 문서를 읽기만 합니다. 서비스�
 | Access log | 서비스가 **받은** 요청. trace와 `traceparent`를 읽음 | 셈 |
 | Application log | 서비스가 **보낸** 요청 (호출자, 목적지) | 세지 않음. 호출자 정보만 더함 |
 
-서비스 간 흐름이 중요하면 Access 로그와 Application 로그를 각각 연결하세요. 자세한 내용은 [로그 파일과 OpenTelemetry](files.md)에 있습니다.
+Splunk·Cloudera 연결 하나에 한 가지 유형을 고릅니다. 서비스 간 흐름이 중요하면 Access 로그와 Application 로그를 sourcetype이나 경로로 나눠 연결을 각각 만드세요. 필드별로 흐름이 어디까지 그려지는지는 [로그 필드 레퍼런스](schema.md#levels)에 있습니다.
+
+## DB 로그
+
+연결의 **Log Format**에서 HTTP 로그 대신 **PostgreSQL / pgAudit JSON**이나 **Application SQL JSON**을 고르면 DB 로그를 수집합니다. trace 없이도 어떤 API가 어떤 DB와 테이블에 접근했는지 잇습니다. 어떤 DB 서버의 로그인지 **Database Host·Port·Name**으로 지정합니다. 잇는 방법은 [런타임 흐름 복원](../technology/runtime-flow.md#database)을 보세요.
 
 ## 보안과 저장
 

@@ -33,11 +33,11 @@ cd apps/dashboard/backend
 python -m sade_cli worker --lane light
 ```
 
-The dashboard runtime uses Python's standard library. Code analysis additionally requires CodeScan dependencies and git, included in the Docker image. For local CodeScan, follow the tool installation guide and configure `--scanner-python` / `--scanner-dir`.
+The dashboard runtime uses Python's standard library plus one package, `sqlglot`, for SQL parsing (`apps/dashboard/requirements.txt`). The Docker image includes it. Code analysis additionally requires CodeScan dependencies and git, included in the Docker image. For local CodeScan, follow the tool installation guide and configure `--scanner-python` / `--scanner-dir`.
 
 ## Result reads
 
-`/api/model` provides summaries; dedicated endpoints load individual APIs and pages of saved calls. `/api/request-flow` and `/api/flow-explorer` read only what the request flow and Flows views need from stored results. Refreshing or searching the dashboard does not fetch remote logs. `/api/export` provides the complete model.
+`/api/model` provides summaries; dedicated endpoints load individual APIs and pages of saved calls. `/api/trace-details` and `/api/flow-explorer` read only what the Trace Details and Flows views need from stored results. Refreshing or searching the dashboard does not fetch remote logs. `/api/export` provides the complete model.
 
 Production builds include application code in the image and mount only data, imports and certificates. Add `compose.dev.yaml` for development source mounts.
 

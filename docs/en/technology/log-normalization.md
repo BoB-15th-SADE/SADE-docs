@@ -5,8 +5,8 @@ Every company logs differently. The HTTP method might be `method` in one place, 
 ## Two layers
 
 <div class="sade-pipe" markdown>
-<div markdown>**Transport**<p>Local file, Splunk REST, WebHDFS</p></div>
-<div class="is-key" markdown>**Adapter**<p>JSONL, nginx combined, OTel span, auth logs</p></div>
+<div markdown>**Transport**<p>Splunk REST, WebHDFS</p></div>
+<div class="is-key" markdown>**Adapter**<p>HTTP JSON logs, PostgreSQL and SQL logs</p></div>
 <div markdown>**Common record**<p>Every analysis reads the same shape</p></div>
 </div>
 
@@ -94,6 +94,16 @@ After parsing, one log line looks like this (selected fields).
 - For `X-Forwarded-For: 203.0.113.7, 10.0.0.2` only the first address is kept as the original client. `client_ip` stays the address of the previous hop.
 - A direction of `client`, `SPAN_KIND_CLIENT`, `outbound` or `egress` marks an outgoing request. With no direction, the request is treated as incoming.
 - The same event fetched twice is kept once, using a key built from its content.
+
+## Scope and extension
+
+| | Implemented now | Widen the same way |
+|---|---|---|
+| Field names | Names from Elastic ECS, OpenTelemetry, Envoy, NGINX JSON, Kong, Splunk CIM | Name company fields with Field mapping or a log profile (no code change) |
+| Log formats | JSON HTTP logs, PostgreSQL JSON and pgAudit, application SQL JSON | Add a parser for a new format; transport and analysis stay the same |
+| Direction values | `client`, `outbound`, `egress` and others | Add company values with `client_event_types` in a log profile |
+
+[Extending for your environment](extending.md)
 
 ## Limits
 

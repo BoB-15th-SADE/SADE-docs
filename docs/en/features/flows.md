@@ -20,15 +20,30 @@ Lines between the same two ends are merged, and lines inside one server are hidd
 1. **Click Clients** to see callers grouped by entry API and downstream path. Two groups can share an entry API if their downstream paths differ.
 2. **Click an IP in a group** to expand only that IP's request paths, service by service.
 3. **Click a service under Hosts** to keep only the paths into that service and the work behind it.
-4. Choose a **Trace** in the right panel to highlight only that request's nodes and lines. **Request details** opens the request flow tree; **Environment** returns to the full map.
+4. Choose a **Trace** in the right panel to highlight only that request's nodes and lines. **Trace Details** opens that request's timeline. Click an empty part of the graph to return to the full map.
+5. Drag nodes to move them; lines are redrawn around them. **Fit to screen** and **Reset layout** are separate.
 
 </div>
+
+## Sensitive data on the map {#data-flow}
+
+Turn on **Sensitive Data** at the top and sensitive data types confirmed in real logs appear on the graph. You can see which service sends personal data to which, and whether it moves in the request or the response.
+
+| Shown | Meaning |
+|---|---|
+| Number on a node | Sensitive data types confirmed at that service |
+| Line labels | Request and response directions shown separately |
+| Click a line | Field path, caller and receiver capture points, whether it was judged by field name or value format |
+
+- Choose a trace to show only what was confirmed in that request.
+- Fields only in specs or code and classification candidates are not shown.
+- The same type on both ends does not mean the same value was passed along.
 
 ## LOG / SPEC / CODE
 
 | Evidence | Nodes | Lines |
 |---|---|---|
-| **LOG** | APIs seen in logs and spans | Real calls, callers, span links, database access |
+| **LOG** | APIs seen in logs | Real calls, callers, database access |
 | **CODE** | APIs in code | HTTP calls in code (dotted), gateway routes (dashed) |
 | **SPEC** | APIs in specs | None. A spec does not say who calls it |
 
@@ -42,9 +57,9 @@ Try the fields one by one in the [Log field reference](../connect/schema.md#leve
 |---|---|
 | Gateway logs only | Caller → gateway → API |
 | + service access and application logs | Service-to-service calls (by request ID) |
-| + traces (`traceparent` or spans) | The most exact service-to-service calls |
+| + traces (`trace_id` and `span_id`, or `traceparent`) | The most exact service-to-service calls |
 | + host data (`host.name`, `k8s.node.name`) | Placement by server |
-| + PostgreSQL spans | Database access |
+| + database logs (PostgreSQL, application SQL) | Database and table access |
 
 ## Limits
 

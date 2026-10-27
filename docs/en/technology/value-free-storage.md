@@ -26,7 +26,7 @@ Decisions that need a value (checking resident registration number structure, re
 | Original location | Hash plus Splunk `_cd`, index and time, or HDFS file and offset | You can find the raw log again |
 | Client IP, X-Forwarded-For | **As is** (port dropped) | Security teams need to trace callers |
 | Sensitive data results | Type, location, grade, rule applied, inspection state | No values |
-| Database spans | System, database name, operation | Query text, parameters and results are dropped |
+| Database logs | Database identity, operation kind, referenced table names | SQL text, literals, parameters, results and error messages are dropped |
 
 Responses that use data as object keys (`{"user@example.com": {...}}`) have those keys treated like values and replaced with `[REDACTED_KEY]`.
 
@@ -50,6 +50,10 @@ After a rule change, a light job recomputes from stored evidence without contact
 ## Older data
 
 Raw caches left by versions before this design (`source_evidence`) are not deleted automatically. `sade_cli doctor` reports how many remain, so whoever owns the data can handle them under their retention policy. Start a new PoC with a fresh data folder.
+
+## Scope and extension
+
+New log formats and database logs follow the same principle: anything that needs a value finishes in memory, and only types, locations and results are stored. If retention policy requires masking client IPs too, agree on it before adoption.
 
 ## Limits
 

@@ -1,6 +1,6 @@
 # Integration overview
 
-SADE reads logs and documents you already have. It installs no agent in your services and does not intercept traffic. Start here to see what you can connect and what your logs need to contain.
+SADE reads only the logs, specs and code your company already has. It installs no agent in your services and does not intercept traffic. Start here to see what you can connect and what your logs need to contain.
 
 ## What you can connect
 
@@ -10,19 +10,15 @@ SADE reads logs and documents you already have. It installs no agent in your ser
 
 [**Cloudera**<span>Read JSONL files in HDFS through WebHDFS</span><span class="sade-pill ok">Supported</span>](cloudera.md)
 
-[**Log files**<span>Access logs, application logs, SIEM CSV exports</span><span class="sade-pill ok">Supported</span>](files.md)
-
-[**OpenTelemetry**<span>OTLP JSON and span JSONL files</span><span class="sade-pill ok">Supported</span>](files.md#opentelemetry)
-
 [**OpenAPI specs**<span>Upload OpenAPI 3.0 / 3.1 JSON</span><span class="sade-pill ok">Supported</span>](specs.md)
 
 [**GitHub**<span>Pick repositories and extract APIs and call relations from code</span><span class="sade-pill ok">Supported</span>](code.md)
 
-<div markdown>**Elasticsearch / OpenSearch**<span>No direct connection yet. Export to JSONL and connect as a file</span><span class="sade-pill no">Not supported</span></div>
+<div markdown>**Elasticsearch / OpenSearch**<span>Can be added with the same collection approach. [Extending](../technology/extending.md)</span><span class="sade-pill part">Extensible</span></div>
 
-<div markdown>**Amazon S3**<span>No direct connection yet. Download and connect as a file</span><span class="sade-pill no">Not supported</span></div>
+<div markdown>**Amazon S3**<span>Add a transport and reuse the same analysis</span><span class="sade-pill part">Extensible</span></div>
 
-<div markdown>**Raw syslog**<span>Convert to JSON events first</span><span class="sade-pill no">Not supported</span></div>
+<div markdown>**Raw syslog**<span>Store as JSON events in the SIEM first</span><span class="sade-pill no">Not supported</span></div>
 
 </div>
 
@@ -131,7 +127,11 @@ Register services and path prefixes on the [OpenAPI specs](specs.md) screen. Cal
 | Access log | Requests a service **received**. Reads trace fields and `traceparent` | Yes |
 | Application log | Requests a service **sent** (caller, target) | No. Adds caller information only |
 
-If service-to-service flow matters, connect access logs and application logs separately. See [Log files and OpenTelemetry](files.md).
+Each Splunk or Cloudera connection takes one type. If service-to-service flow matters, split access and application logs by sourcetype or path and create a connection for each. How far flows get drawn per field is in the [Log field reference](schema.md#levels).
+
+## Database logs
+
+Choose **PostgreSQL / pgAudit JSON** or **Application SQL JSON** instead of the HTTP log under the connection's **Log Format** to collect database logs. Without traces, SADE links which API touched which database and table. Set **Database Host, Port and Name** to say which database server the log describes. See [Runtime flow reconstruction](../technology/runtime-flow.md#database).
 
 ## Security and storage
 

@@ -1,6 +1,6 @@
 # API inventory
 
-**APIs › Inventory** lists APIs by service. APIs found in specs, code and logs are merged into one entry, with a tag for each source that confirmed it.
+**APIs › Inventory** lists APIs by service. APIs found in specs, code and logs are merged into one entry, with a tag for each source that confirmed it. It is the starting point for knowing your API assets and finding shadow APIs that fell out of management.
 
 ## How to read it
 

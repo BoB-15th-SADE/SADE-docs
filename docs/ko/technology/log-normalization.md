@@ -5,8 +5,8 @@
 ## 두 단계로 나눈 이유
 
 <div class="sade-pipe" markdown>
-<div markdown>**전송 (Transport)**<p>로컬 파일, Splunk REST, WebHDFS</p></div>
-<div class="is-key" markdown>**형식 해석 (Adapter)**<p>JSONL, nginx combined, OTel span, 인증 로그</p></div>
+<div markdown>**전송 (Transport)**<p>Splunk REST, WebHDFS</p></div>
+<div class="is-key" markdown>**형식 해석 (Adapter)**<p>HTTP JSON 로그, PostgreSQL·SQL 로그</p></div>
 <div markdown>**공통 레코드**<p>모든 분석이 같은 형식을 읽음</p></div>
 </div>
 
@@ -94,6 +94,16 @@
 - `X-Forwarded-For: 203.0.113.7, 10.0.0.2`에서는 첫 주소만 원래 클라이언트로 남깁니다. `client_ip`는 직전 구간 주소 그대로 둡니다.
 - 방향 필드가 `client`, `SPAN_KIND_CLIENT`, `outbound`, `egress`이면 보낸 요청으로 봅니다. 방향이 없으면 받은 요청으로 봅니다.
 - 같은 이벤트를 두 번 가져와도 내용으로 만든 키로 한 번만 남깁니다.
+
+## 구현 범위와 확장
+
+| | 지금 구현 | 같은 방식으로 넓히기 |
+|---|---|---|
+| 필드 이름 | Elastic ECS, OpenTelemetry, Envoy, NGINX JSON, Kong, Splunk CIM의 이름 | 사내 이름은 Field mapping이나 로그 프로필로 지정 (코드 수정 없음) |
+| 로그 형식 | JSON HTTP 로그, PostgreSQL JSON·pgAudit, 애플리케이션 SQL JSON | 새 형식 해석기를 더하면 전송·분석은 그대로 씀 |
+| 방향 값 | `client`, `outbound`, `egress` 등 | 사내 값은 로그 프로필의 `client_event_types`로 추가 |
+
+[기업 환경에 맞게 확장하기](extending.md)
 
 ## 한계
 

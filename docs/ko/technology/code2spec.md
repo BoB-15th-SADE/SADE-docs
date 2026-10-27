@@ -92,6 +92,16 @@ Swagger 문서가 없거나 오래된 회사가 많습니다. SADE CodeScan은 *
 
 Go의 포인터 필드(`anyOf [X, null]`)는 "null일 수 있는 X"로 봅니다. 게이트웨이 API는 route map을 따라가 **실제로 구현한 서비스의 코드**와 비교합니다.
 
+## 구현 범위와 확장
+
+| | 지금 구현 | 같은 방식으로 넓히기 |
+|---|---|---|
+| 프레임워크 | Spring, JAX-RS, Go 6종, FastAPI·Flask·Django, Express·NestJS·Next.js, ASP.NET Core | 같은 입출력 계약(`ADAPTER_CONTRACT.md`)을 지키는 분석기를 더하면 사내 프레임워크나 다른 언어도 그대로 인벤토리·명세 비교에 들어감 |
+| 저장소 구조 | 자동 감지 | `service_roots`로 모노레포의 서비스 폴더 지정, `exclude_dirs`로 제외 |
+| 사내 공통 요청 파서 | | `generic_body_decoders`에 함수 이름을 넣으면 그 함수가 읽는 타입을 요청 스키마로 인식 |
+
+[기업 환경에 맞게 확장하기](extending.md)
+
 ## 한계
 
 - 정적 분석이라 실제 배포 여부, 외부 접근 가능 여부를 증명하지 않습니다. 실제 호출은 로그로 확인합니다.

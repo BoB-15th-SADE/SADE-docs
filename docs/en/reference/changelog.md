@@ -1,5 +1,20 @@
 # Documentation changes
 
+## 2026-10-27
+
+- Moved the baseline to SADE `refactor/project-structure`, `2373ca9`.
+- Rewrote the docs around **problem → method → reference implementation → extension**. Renamed "Core technology" to "Methods" and added [Extending for your environment](../technology/extending.md).
+- Added a **Scope and extension** section to every method page.
+- Settled inputs as logs, specs and code, and dropped the log file connection page.
+- Covered linking APIs to databases and tables through database logs (PostgreSQL, pgAudit, application SQL), the sensitive Data Flow overlay and the Trace Details screen.
+- Covered the change that records without a shared ID are no longer linked by time and path alone.
+- Added database log fields and inferred-link fields to the log field reference.
+
+## 2026-10-26 (2)
+
+- Added the log field reference and the per-field Flows simulator.
+- Smoothed translated-sounding Korean phrasing.
+
 ## 2026-10-26
 
 - Moved the baseline to SADE `refactor/project-structure`, commit `4029826`.

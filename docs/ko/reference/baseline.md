@@ -1,15 +1,15 @@
 # 문서 기준
 
-이 가이드는 **2026-10-26**, SADE 저장소의 `refactor/project-structure` 브랜치 커밋 [`4029826`](https://github.com/BoB-15th-SADE/SADE/commit/4029826)을 기준으로 작성했습니다. main과 같다고 가정하지 않습니다.
+이 가이드는 **2026-10-27**, SADE 저장소의 `refactor/project-structure` 브랜치 커밋 [`2373ca9`](https://github.com/BoB-15th-SADE/SADE/commit/2373ca9)을 기준으로 작성했습니다. main과 같다고 가정하지 않습니다.
 
 ## 검토한 구현
 
 | 문서 영역 | 확인한 코드 (`apps/dashboard/`) |
 |---|---|
-| 메뉴·화면 | `web/app.js`, `api-detail.js`, `call-history.js`, `flow-ui.js`, `flow-explorer.js`, `request-flow.js`, `privacy-ui.js`, `data-types.js`, `connector-ui.js`, `code-ui.js` |
-| 연동과 수집 | `backend/remote_sources.py`, `splunk_collect.py`, `connectors.py`, `field_detect.py`, `log_rollup.py`, `collection_store.py` |
+| 메뉴·화면 | `web/app.js`, `api-detail.js`, `call-history.js`, `flow-ui.js`, `flow-explorer.js`, `flow-layout.js`, `flow-data.js`, `request-flow.js`, `privacy-ui.js`, `data-types.js`, `connector-ui.js`, `code-ui.js` |
+| 연동과 수집 | `backend/remote_sources.py`, `splunk_collect.py`, `connectors.py`, `field_detect.py`, `log_rollup.py`, `collection_store.py`, `sql_logs.py` |
 | 분석 | `backend/analysis.py`, `engine.py`, `specs.py`, `evidence.py`, `code_evidence.py` |
-| 흐름 | `backend/flows.py`, `flow_environment.py`, `flow_explorer.py`, `flow_sources.py`, `request_flows.py` |
+| 흐름 | `backend/flows.py`, `flow_environment.py`, `flow_explorer.py`, `flow_sources.py`, `flow_data.py`, `log_links.py`, `request_flows.py` |
 | 민감정보 | `backend/privacy.py`, `privacy_config.py`, `privacy_profiles.py` |
 | HTTP API·작업 | `backend/api_server.py`, `scanner_core.py`, `storage.py`, `operations.py` |
 | CLI·코드 스캔 | `backend/sade_cli.py`, `code_scan.py`, `github.py`, `packages/sade-codescan` |

@@ -29,3 +29,8 @@
 | Superseded | 실행 중 입력이 바뀌어 결과를 적용하지 않은 작업 |
 | Partial | 일부 소스나 구간만 처리된 작업 |
 | Not evaluated | 비교할 자료가 없음. Pass와 다름 |
+| Trace Details | 요청 하나의 기록 지점을 타임라인으로 보여 주는 화면 |
+| Data Flow | Flows 그래프에 실제 로그에서 확인한 민감정보 유형을 요청·응답 방향별로 표시하는 기능 |
+| SQL operation ID | 애플리케이션 SQL 로그와 DB 로그의 같은 실행을 잇는 ID |
+| Inferred | 공통 ID 없이 인스턴스·스레드·요청 처리 구간으로 추정한 연결. 점선으로 표시 |
+| 참조 구현 | 방법론을 대표 환경(Splunk, Spring Boot 등)에서 동작하도록 만든 구현 |

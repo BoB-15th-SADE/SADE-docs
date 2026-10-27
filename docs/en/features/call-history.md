@@ -1,6 +1,6 @@
 # Call history and request flow
 
-**APIs › Call History** shows the most recent collected calls. Each call is marked where it differs from the spec, and you can pick one call to follow the path that request took.
+**APIs › Call History** shows the most recent collected calls. It picks out calls that need attention right away, such as personal data the spec does not declare going out in a response or calls that succeed without credentials, and lets you follow the path one request took.
 
 ## The list
 
@@ -35,19 +35,20 @@ content-type: application/json
 - Values are not stored, so they show as types such as `<string>` and `<integer>`. Auth headers show their scheme, such as `<JWT>`; empty values show as `(empty)`.
 - **Client** shows the original client and the previous hop together, for example `203.0.113.7 via 10.0.4.12`.
 
-## Request flow {#request-flow}
+## Trace Details {#request-flow}
 
-Open **Request flow** from a call's details to see every record linked to that request as a tree.
+Click **Trace Details** in a call's details to open a screen for that request. When you come back, your list and filters are where you left them.
 
 <div class="sade-steps" markdown>
 
-1. Records linked to the same request, through gateway, services and database, appear in order.
-2. Each point shows the sensitive fields in its request and response and how much was inspected.
-3. The evidence that links them (trace, hop ID, request ID) and the reasons links could not be made (missing parent, several candidates, conflict) are shown.
+1. Records linked to the same request, through gateway, services and database, appear as a **timeline** drawn from real span parent links and execution times.
+2. Pick a span to see the sensitive data in its request and response and how it was captured.
+3. What linked the records (trace, hop ID, request ID, SQL operation ID) is shown, and where links could not be made, the reason (missing parent, several candidates, conflict).
+4. Switch to other stored request examples of the same API.
 
 </div>
 
-The same field type at several points does not mean the same value was passed along. Up to 1,000 records per request are shown; beyond that, or when the chain breaks, it is marked **Partial**.
+The same field type at several points does not mean the same value was passed along. Up to 1,000 records per request are shown; beyond that, when the chain breaks, or when timing is missing, it is marked **Partial**.
 
 ## What is kept
 

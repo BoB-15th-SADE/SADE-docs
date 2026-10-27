@@ -67,3 +67,10 @@ Values are not stored, so the screen shows types such as `<string>` ([Value-free
 ## Relation to Run scan
 
 The check runs on the stored collection. After you change a spec, **Run scan** recomputes it without contacting the SIEM again. Large SIEM sources are checked on samples per API and status, so a difference in one call out of ten thousand can be missed.
+
+## Scope and extension
+
+| | Implemented now | Widen the same way |
+|---|---|---|
+| Baseline spec | Uploaded OpenAPI, specs built from code | For services without a spec, build one first with [code2spec](code2spec.md) |
+| Checks | Undeclared fields, missing required fields, type differences, success without credentials | Company policy rules (for example, warn when a type goes to an external API) are the next step |

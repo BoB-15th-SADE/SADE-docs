@@ -113,3 +113,16 @@ Going over a limit, duplicate JSON keys, parse failures, unsupported formats and
 ## Sources
 
 Email follows WHATWG/RFC grammar, phone numbers follow libphonenumber Korean metadata, card numbers follow the Microsoft Presidio pattern plus Luhn, passport and alien registration numbers follow issuing-agency material, and tokens and cookies follow the OAuth, JWT and Cookie RFCs. Aliases and context rules are SADE policy; no academically validated accuracy figure is claimed.
+
+## Scope and extension
+
+The 19 built-in types are a starting point. Field names and in-house ID formats differ by company, so the security team can widen them directly in **Policy › Rules › Data Types**.
+
+| Goal | How | Example |
+|---|---|---|
+| Add a company field name | Field name rule | `cust_mbl_no` → PHONE |
+| Give meaning at one location | Field path rule | `$.member.contact` → EMAIL |
+| Turn an in-house ID into a new type | New type + value pattern | `EMP-[0-9]{6}` → EMPLOYEE_ID |
+| Exclude a false positive | Exclusion (reason and expiry) | `name` on one API |
+
+New value checks such as checksums are added as validators. [Extending for your environment](extending.md)

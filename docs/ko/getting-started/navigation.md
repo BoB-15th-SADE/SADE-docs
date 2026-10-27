@@ -4,7 +4,7 @@
 
 | 메뉴 | 하는 일 | 가이드 |
 |---|---|---|
-| **Connect › Log Sources** | Splunk, Cloudera, 로그 파일 연결과 수집 | [연동 한눈에 보기](../connect/logs.md) |
+| **Connect › Log Sources** | Splunk, Cloudera 연결과 수집 | [연동 한눈에 보기](../connect/logs.md) |
 | **Connect › Specifications** | 서비스와 OpenAPI 명세 등록 | [OpenAPI 명세](../connect/specs.md) |
 | **Connect › Source Code** | GitHub 스캔, 코드 인벤토리, route map | [GitHub 코드 스캔](../connect/code.md) |
 | **Overview** | 전체 현황 요약 | |

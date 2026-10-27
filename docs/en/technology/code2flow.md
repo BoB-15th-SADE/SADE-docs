@@ -79,7 +79,7 @@ Following Spring Data repositories, CodeScan records **which API reads or writes
 | `operation` | read, write, unknown |
 | `datasource` | declared, candidate or unresolved, with evidence |
 
-This does not prove the SQL that runs or the actual connection address. Real database access comes from PostgreSQL spans in [runtime flow](runtime-flow.md).
+This does not prove the SQL that runs or the actual connection address. Real database access comes from database logs in [Runtime flow reconstruction](runtime-flow.md#database).
 
 ## Reading it with logs
 
@@ -88,6 +88,19 @@ This does not prove the SQL that runs or the actual connection address. Real dat
 | Call present | Call seen | Implementation and real use agree |
 | Call present | No call | Unused during the window, or rarely used (worth reviewing) |
 | No call | Call seen | A call code analysis missed (dynamic address, unsupported library) |
+
+## Scope and extension
+
+The representative environment, **Spring Boot**, is followed end to end, including config resolution and database access. Because analysis is split into **a language-neutral walk plus per-language detectors**, other environments follow the same way once a detector is added.
+
+| | Implemented now | Widen the same way |
+|---|---|---|
+| HTTP clients | RestTemplate, WebClient·RestClient, Feign, Java HttpClient, .NET HttpClient·Refit, requests, axios, fetch, Go `http.Get` | Add detection rules for in-house HTTP client wrappers |
+| Address resolution | `application*.yml`, properties, Compose, gateway and Ingress | Add parsers for other frameworks' config formats |
+| Database access | Spring Data repositories | Add detectors for MyBatis, JDBC Template and other data access layers |
+| Gateways | Spring Cloud Gateway, Zuul, nginx, Kong, Ingress / HTTPRoute | Add your gateway's config format |
+
+[Extending for your environment](extending.md)
 
 ## Limits
 

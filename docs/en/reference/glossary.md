@@ -29,3 +29,8 @@
 | Superseded | A job whose result was not applied because inputs changed while it ran |
 | Partial | A job that processed only some sources or windows |
 | Not evaluated | No evidence to compare. Not the same as Pass |
+| Trace Details | The screen showing one request's records as a timeline |
+| Data Flow | Showing sensitive data types confirmed in real logs on the Flows graph, by request and response direction |
+| SQL operation ID | An ID linking the same execution in application SQL and database logs |
+| Inferred | A link made without shared IDs, from instance, thread and request interval. Drawn dashed |
+| Reference implementation | The implementation that runs the methods in representative environments (Splunk, Spring Boot and so on) |

@@ -4,7 +4,7 @@ The left menu runs **connect → overview → explore APIs → rules**. Menu nam
 
 | Menu | What it does | Guide |
 |---|---|---|
-| **Connect › Log Sources** | Connect and collect Splunk, Cloudera and log files | [Integration overview](../connect/logs.md) |
+| **Connect › Log Sources** | Connect and collect Splunk and Cloudera | [Integration overview](../connect/logs.md) |
 | **Connect › Specifications** | Register services and OpenAPI specs | [OpenAPI specs](../connect/specs.md) |
 | **Connect › Source Code** | GitHub scans, code inventories, route maps | [GitHub code scan](../connect/code.md) |
 | **Overview** | Summary of everything | |

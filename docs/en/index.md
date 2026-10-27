@@ -1,51 +1,60 @@
-# SADE documentation
+# SADE
 
-SADE lines up the **SIEM logs, API specs and source code** you already have into one API list, so you can see which APIs your company runs, what data they exchange and where requests go. It installs no agent in your services and does not intercept traffic.
+The first questions an enterprise security team runs into are simple: **which APIs does the company run, what personal data moves through them, and how far does a request travel?** The material to answer them already exists inside the company, scattered: call logs in the SIEM, source code in repositories, API specs with development teams. The trouble is that these three are not connected.
+
+SADE is a **methodology** for this problem and a **reference implementation** that tests it in real environments. Without installing agents or intercepting traffic, it rebuilds API assets and data flows from the logs, code and specs the company already has.
 
 <div class="sade-links" markdown>
 
-[**Install and connect**<span>Install with Docker and connect your first log in about ten minutes.</span>](getting-started/quickstart.md)
+[**Methods**<span>code2spec, code2flow, sensitive data detection, runtime flow reconstruction and more, problem by problem</span>](technology/index.md)
 
-[**Integration guide**<span>Connect Splunk, Cloudera, log files, OpenAPI and GitHub.</span>](connect/logs.md)
+[**Extending for your environment**<span>Widen frameworks, field names, log formats and SIEMs to fit your company</span>](technology/extending.md)
 
-[**Using SADE**<span>How to read the inventory, sensitive data, service flows and spec checks.</span>](features/inventory.md)
+[**Integration guide**<span>Connect Splunk, Cloudera, OpenAPI specs and GitHub code</span>](connect/logs.md)
 
-[**Core technology**<span>How it works inside, from log normalization to code2spec and code2flow.</span>](technology/index.md)
+[**Install and try it**<span>Install with Docker, connect your first log and see results</span>](getting-started/quickstart.md)
 
 </div>
 
-## Questions it answers
+## The problems
 
-| Question | Where to look |
-|---|---|
-| Which APIs do we really run, and which are missing from the spec? | [API inventory](features/inventory.md) |
-| What personal or sensitive data does each API exchange? | [Sensitive data](features/sensitive-data.md) |
-| Which services does one request pass through, and how far does it go? | [Service flows](features/flows.md), [Request flow](features/call-history.md) |
-| Where do real calls differ from the spec? Which calls succeed without credentials? | [Call history and spec check](features/call-history.md) |
-
-## Three kinds of evidence
-
-| Evidence | Tells you | Keep in mind |
+| Security team's question | Why it is hard today | SADE's approach |
 |---|---|---|
-| **Log** | Real calls, counts, auth method, fields exchanged | Calls outside the collection window and bodies not logged are unknown |
-| **Spec** | The requests and responses a service promises | Does not mean the API is called or implemented |
-| **Code** | Implemented APIs, calls in code, declared auth checks | Does not prove it runs, or how often |
+| Which APIs do we really run? Which are missing from the spec? | Specs are stale or missing; real calls live only in the SIEM | Match real log paths to spec and code APIs and separate calls that match nothing as shadow APIs ([API discovery](technology/api-discovery.md)) |
+| What is the API contract of a service with no Swagger? | Development teams do not maintain specs | Build an OpenAPI spec from source code alone ([code2spec](technology/code2spec.md)) |
+| Which APIs exchange personal data? | Field names differ by company and team | Judge by field name, sibling fields and value format, and add company-specific names as rules ([Sensitive data detection](technology/sensitive-data.md)) |
+| Which services and databases does one request pass through? | Each service logs separately | Join scattered logs by request ID and trace ([Runtime flow reconstruction](technology/runtime-flow.md)) |
+| Which call paths never showed up in logs? | Logs cannot show what was not called during the window | Find service calls and database access in code ([code2flow](technology/code2flow.md)) |
+| Which calls send personal data the spec never mentions? | Reviewing only the spec misses them | Compare every call with the spec and mark differences ([Per-call spec check](technology/spec-check.md)) |
 
-You can start with any one of them. A spec alone gives an API list and sensitive data candidates. Logs add real calls; code adds implementation and service-to-service calls. Every API and field carries a `Spec` / `Code` / `Log` tag showing where it came from.
+## Three inputs
 
-## How it works
+| Input | Tells you | Cannot tell you |
+|---|---|---|
+| **Logs** (SIEM, data lake) | Real calls, counts, auth method, fields exchanged, database access | Calls outside the collection window, bodies not logged |
+| **Specs** (OpenAPI) | The request and response shape a service promises | Whether it is called or implemented |
+| **Code** (Git repositories) | Implemented APIs, calls to other services, database access, auth checks | Whether that code runs, and how often |
 
-<div class="sade-pipe" markdown>
-<div markdown>**Connect**<p>Splunk, Cloudera, files, OpenAPI, GitHub</p></div>
-<div markdown>**Collect** (Collect now)<p>Read logs; store evidence with values removed</p></div>
-<div class="is-key" markdown>**Analyze**<p>API identification, sensitive data, flows</p></div>
-<div markdown>**Check** (Run scan)<p>Spec check on stored results</p></div>
-</div>
+You can start with any one, and each one you add fills gaps in the others. Every API and field carries a `Spec` / `Code` / `Log` tag showing where it was confirmed.
 
-- **Collect now** reads outside logs and updates the inventory, sensitive data and Flows. Set a schedule and it runs on its own.
-- **Run scan** uses only stored results. It does not contact the SIEM again.
-- Collected results keep **no raw body or header values.** Values become types such as `<string>`.
+## Scope of the reference implementation
 
-## Before you read results
+The methodology is not tied to a product or language. This implementation covers representative enterprise environments so you can try it right away.
 
-SADE's findings are **evidence about what was observed**. Sensitive data, spec differences and shadow APIs are things to review; they do not automatically establish a legal violation or that every API is safe. Items without evidence show as "not observed" or "Not evaluated", never as "none". See [Scope and limits](reference/limitations.md).
+| Area | Implemented now | Can be widened the same way to |
+|---|---|---|
+| Log collection | Splunk, Cloudera (WebHDFS) | Elasticsearch, other SIEMs and data lakes |
+| Log formats | JSON HTTP logs (ECS, OTel, Envoy, NGINX, Kong, Splunk CIM names), PostgreSQL and application SQL logs | Company-specific log formats, other database logs |
+| Code → spec | Major Spring, Go, Python, Node.js and .NET frameworks | In-house frameworks, other languages |
+| Code → call flow | HTTP clients in 5 languages; config resolution and database access for Spring Boot | Config and data layers of other frameworks |
+| Sensitive data | 19 personal, financial and credential types | Company field names, in-house ID formats |
+
+See [Extending for your environment](technology/extending.md).
+
+## Principles
+
+- **No guessing.** When evidence is short, SADE leaves a gap marked "not confirmed" instead of linking. For security decisions, a blank beats a plausible guess.
+- **No execution.** Code is only read. SADE sends no requests to your services.
+- **No stored values.** So a tool that finds personal data does not pile it up, raw values are deleted right after they are judged.
+
+What SADE shows is **what was confirmed within the collected range**. It does not decide legal violations or that every API is safe; it narrows down what the security team should review. See [Scope and limits](reference/limitations.md).

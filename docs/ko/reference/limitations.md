@@ -7,12 +7,12 @@
 | 항목 | 현재 범위 |
 |---|---|
 | 원격 로그 | Splunk Search REST API, Cloudera WebHDFS의 JSON HTTP 이벤트 |
-| 파일 | JSON Lines 로그, OpenTelemetry JSON span |
+| DB 로그 | PostgreSQL JSON·pgAudit, 애플리케이션 SQL JSON (Splunk·WebHDFS의 Log Format으로 선택) |
 | 명세 | OpenAPI 3.0 / 3.1 JSON. 업로드 최대 10 MB |
 | Splunk 수집 | 시간 창 단위 전체 수집. 창당 최대 500,000건, 한 번에 최대 5,000개 창 |
 | WebHDFS 수집 | 한 번에 최대 256 MB, 파일·폴더 100,000개. 남은 분량은 다음 수집이 이어서 읽음 |
 | 원격 HTTP 대기 | 요청당 90초 |
-| 미지원 연결 | Elasticsearch, Amazon S3 직접 연결 |
+| 미지원 연결 | Elasticsearch, Amazon S3 직접 연결 (같은 수집 방식으로 확장 가능) |
 | GitHub | 한 작업 최대 50개 저장소, 목록 최대 2,000개 |
 
 ## 분석 한계
@@ -22,7 +22,8 @@
 - 기관별 계좌·운전면허·CI·DI 값 검증은 하지 않고 필드 의미로 판단합니다.
 - 값 형식 검사는 발급 여부, 소유자, 인증 성공, JWT 서명 검증과 다릅니다.
 - HTTP REST만 다룹니다. gRPC와 메시지 큐는 분석하지 않습니다.
-- 실행 중에 정해지는 HTTP 대상과 지원하지 않는 코드 라이브러리는 흐름에서 빠질 수 있습니다. DB 접근은 코드에서는 Spring Data, 로그에서는 PostgreSQL span만 읽습니다.
+- 실행 중에 정해지는 HTTP 대상과 지원하지 않는 코드 라이브러리는 흐름에서 빠질 수 있습니다. DB 접근은 코드에서는 Spring Data, 로그에서는 PostgreSQL 로그와 애플리케이션 SQL 로그를 읽습니다.
+- 공통 ID(trace, hop ID, request ID, SQL operation ID)가 없는 기록은 시간과 경로가 비슷해도 잇지 않습니다. 애플리케이션 SQL만 인스턴스·스레드·요청 처리 구간이 모두 맞을 때 추정(Inferred)으로 잇습니다.
 - 명세 점검은 전체 보안 진단, 권한 검증, 규정 준수 검증이 아닙니다.
 - 회사 정책 규칙(Findings)은 아직 없습니다.
 

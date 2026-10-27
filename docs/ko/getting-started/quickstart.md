@@ -1,12 +1,12 @@
 # 설치와 첫 연결
 
-Docker로 SADE를 띄우고 로그 하나를 연결해 첫 결과를 봅니다. 명세와 코드는 나중에 붙여도 됩니다.
+Docker로 SADE 참조 구현을 띄우고 로그 하나를 연결해 첫 결과를 봅니다. 명세와 코드는 나중에 붙여도 됩니다.
 
 ## 준비물
 
 - [ ] Docker Engine과 Compose, 또는 Docker Desktop (이미지는 `linux/amd64`)
 - [ ] GHCR에서 이미지를 받을 GitHub 토큰 (`read:packages` 권한)
-- [ ] 연결할 로그: Splunk 주소·토큰·인덱스, Cloudera 주소, 또는 JSON 로그 파일
+- [ ] 연결할 로그: Splunk 주소·토큰·인덱스, 또는 Cloudera WebHDFS 주소
 
 ## 1. 설치
 
@@ -71,7 +71,6 @@ Docker로 SADE를 띄우고 로그 하나를 연결해 첫 결과를 봅니다. 
 | 폴더 | 쓰임 |
 |---|---|
 | `data/` | SADE DB(`sade.db`). 연결 설정, 수집 결과, 분석 결과 |
-| `imports/` | 로그 파일을 두는 곳 (읽기 전용으로 연결) |
 | `certs/` | 사내 CA 인증서 (읽기 전용으로 연결) |
 
 ## 2. 로그 연결
@@ -94,14 +93,6 @@ Docker로 SADE를 띄우고 로그 하나를 연결해 첫 결과를 봅니다. 
 
     자세히: [Cloudera](../connect/cloudera.md)
 
-=== "로그 파일"
-
-    1. 파일을 `imports/`에 둡니다.
-    2. **Connect › Log Sources**의 Files에서 Access log를 고르고 `/workspace/imports/파일이름.jsonl`을 넣습니다.
-    3. **Save connection** → **Collect now**
-
-    자세히: [로그 파일과 OpenTelemetry](../connect/files.md)
-
 로그가 SADE에서 읽히는 형식인지 미리 보고 싶으면 [로그 확인기](../connect/logs.md#log-check)에 한 줄을 붙여 넣어 보세요.
 
 ## 3. 결과 보기
@@ -121,7 +112,7 @@ Docker로 SADE를 띄우고 로그 하나를 연결해 첫 결과를 봅니다. 
 |---|---|---|
 | OpenAPI 명세 | Shadow API, 호출별 명세 점검 | [OpenAPI 명세](../connect/specs.md) |
 | GitHub 저장소 | 코드 기반 명세, 서비스 간 호출, DB 접근 | [GitHub 코드 스캔](../connect/code.md) |
-| Access·App 로그, OTel span | 요청 하나의 전체 경로 | [로그 파일과 OpenTelemetry](../connect/files.md) |
+| 서비스 간 호출 로그(Access·Application), DB 로그 | 요청 하나의 전체 경로, DB 접근 | [로그 필드 레퍼런스](../connect/schema.md) |
 
 명세를 올린 뒤에는 **Run scan**으로 명세 점검을 실행합니다. 로그를 다시 가져오지 않습니다.
 

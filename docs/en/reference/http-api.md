@@ -11,7 +11,7 @@ These are the dashboard's current HTTP routes. The default base is `http://127.0
 | GET | `/api/export` | Complete model |
 | GET | `/api/apis/{id}` | Details/calls for a URL-encoded API ID |
 | GET | `/api/calls` | Retained call page |
-| GET | `/api/request-flow` | Request flow tree for one call |
+| GET | `/api/trace-details` | Trace Details for one call (the older `/api/request-flow` returns the same) |
 | GET | `/api/flow-explorer` | Traces for a client IP or service picked in Flows |
 | GET | `/api/jobs/{id}` | Job status, outcome and errors |
 | GET | `/api/connections` | Registered services and sources |
@@ -20,7 +20,7 @@ These are the dashboard's current HTTP routes. The default base is `http://127.0
 
 `/api/calls` accepts `offset` (default 0), `limit` (default 20, maximum 200), `api`, `method`, `status` (2/3/4/5), `check` and `q`. It returns `calls`, `total`, `offset` and `limit`. `check` is `any` or one spec check reason.
 
-`/api/request-flow` takes **exactly one** of `call`, `event` or `trace` (up to 200 characters). It returns 404 when the saved result has no flow.
+`/api/trace-details` takes **exactly one** of `call`, `event` or `trace` (up to 200 characters). It returns 404 when the saved result has no flow.
 
 `/api/flow-explorer` takes one of `client` (an observed IP) or `service`, plus `offset` and `limit` (1–100, default 50).
 

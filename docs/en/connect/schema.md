@@ -21,15 +21,14 @@ Tick the fields your logs have to see how much of Flows gets drawn.
 | 5 | A caller-side record: `event_type` (client) + `destination` | **Service → service** lines, paired by the `request_id` from step 4 or a `hop_id` |
 | 6 | `trace_id`, `span_id`, `parent_span_id` (or `traceparent`) | The most exact service lines, the full path of one request, and the Trace list |
 | 7 | `host.name` or `k8s.node.name` | Hosts: which server runs each service |
-| 8 | OpenTelemetry PostgreSQL spans | Destinations: which API touched which database |
+| 8 | Database logs: application SQL or PostgreSQL logs + `request_id` and `operation_id` | Destinations: which API touched which database and table |
 
 !!! warning "IDs alone do not draw service-to-service lines"
     A `request_id` or `trace_id` says "same request". It does not say **who called whom**. To draw a line from service A to B, A must also leave a record saying "I sent this to B". Either one works:
 
     - An application log line from A with `event_type: "client"` and `destination: "B"`
-    - An OpenTelemetry CLIENT span from A
 
-    If the `parent_span_id` in B's log (or the parent span in its `traceparent`) equals A's CLIENT span ID, the two are linked by trace. Otherwise SADE looks for a record with the same `hop_id` or `request_id` within 30 seconds.
+    If the `parent_span_id` in B's log (or the parent span in its `traceparent`) equals A's CLIENT span ID, the two are linked by trace. Otherwise SADE looks for a record with the same `hop_id` or `request_id` within 30 seconds. **Without any shared ID, records are not linked even if time and path are close.**
 
 ## One request across three logs
 
@@ -185,8 +184,32 @@ Hosts come only from these fields. SADE never guesses them from peer addresses o
 
 NGINX `request_time` is in seconds and is not mapped automatically. Log milliseconds instead.
 
-## OpenTelemetry spans
+### Database logs {#database}
 
-Fields read from span files are listed in [Log files and OpenTelemetry](files.md#opentelemetry). Spans never add to call counts; they add service relationships, hosts and database access.
+Read from sources whose **Log Format** is PostgreSQL / pgAudit JSON or Application SQL JSON. They never add to call counts; they only add links between APIs and databases and tables.
+
+| Field | Log | Example | Used for |
+|---|---|---|---|
+| `timestamp`, `service` | Application SQL | `order` | Time, the service that ran the SQL |
+| `sql` | Application SQL | `SELECT … FROM member` | Operation kind and referenced tables. **The text is not stored** |
+| `request_id` | Both | `9f2c1d7e4b` | Groups with the HTTP records of the same request |
+| `operation_id` | Both | `q-31` | Links the same execution in application SQL and PostgreSQL logs |
+| `parent_hop_id` | Application SQL | `h-71` | Picks out the request that ran the SQL |
+| `instance_id`, `thread` | Application SQL, HTTP logs | `order-7f9c`, `http-nio-8080-exec-3` | Conditions for inferred links when IDs are missing |
+| `duration_ms` | Application SQL | `3.2` | Execution time |
+| `application_name` | PostgreSQL | `order` | Maps to a service only when it exactly equals a service ID, name or alias |
+
+- For PostgreSQL logs, set the database server with **Database Host, Port and Name** on the connection.
+- If logging fields is hard, put a `/*sade request_id=… operation_id=…*/` comment before the SQL.
+- For different names, use Field mapping.
+
+### HTTP log fields for inferred links
+
+To link application SQL without IDs to a request by inference, the service's HTTP logs need the values below. Links are drawn dashed (Inferred) only when every condition holds.
+
+| Field | Example | Used for |
+|---|---|---|
+| `instance_id`, `thread` | `order-7f9c`, `http-nio-8080-exec-3` | Same instance and thread |
+| `request_start`, `request_end` | ISO 8601 or epoch | The request interval. Without `request_end`, it is computed from `duration_ms` |
 
 [<span class="q">Curious?</span><span class="t">The rules that join scattered log records into the path of one request</span><span class="arrow">→</span>](../technology/runtime-flow.md){ .sade-curious }

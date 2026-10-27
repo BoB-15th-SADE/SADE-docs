@@ -92,6 +92,16 @@ If you uploaded a spec, it is compared with the code spec field by field. Only r
 
 A Go pointer field (`anyOf [X, null]`) is read as "X that may be null". Gateway APIs are followed through the route map and compared with **the code of the service that implements them**.
 
+## Scope and extension
+
+| | Implemented now | Widen the same way |
+|---|---|---|
+| Frameworks | Spring, JAX-RS, six Go routers, FastAPI, Flask, Django, Express, NestJS, Next.js, ASP.NET Core | An analyzer that keeps the same contract (`ADAPTER_CONTRACT.md`) brings an in-house framework or another language straight into the inventory and spec comparison |
+| Repository layout | Auto-detected | Set monorepo service folders with `service_roots`; skip with `exclude_dirs` |
+| In-house request parsers | | Put the function name in `generic_body_decoders` and the type it reads becomes the request schema |
+
+[Extending for your environment](extending.md)
+
 ## Limits
 
 - Static analysis does not prove that an API is deployed or reachable. Use logs for real calls.

@@ -36,7 +36,7 @@ Go through this with your Splunk admin. Click an item to tick it.
 
     - The path SADE server → Splunk search head `:8089` (HTTPS) must be open.
     - Splunk Cloud may need the SADE address on the management port allow list.
-    - If the search head certificate does not match the address you connect to, TLS verification fails. Use a certificate that includes the address, or connect JSON exported from Splunk as a [log file](files.md).
+    - If the search head certificate does not match the address you connect to, TLS verification fails. Use a certificate that includes the address.
 
 ## 2. Connect in SADE
 

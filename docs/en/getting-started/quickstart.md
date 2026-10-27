@@ -1,12 +1,12 @@
 # Install and first connection
 
-Run SADE with Docker and connect one log to see your first results. Specs and code can come later.
+Run the SADE reference implementation with Docker and connect one log to see your first results. Specs and code can come later.
 
 ## You need
 
 - [ ] Docker Engine with Compose, or Docker Desktop (the image is `linux/amd64`)
 - [ ] A GitHub token with `read:packages` to pull the image from GHCR
-- [ ] A log to connect: Splunk address, token and index, a Cloudera address, or a JSON log file
+- [ ] A log to connect: Splunk address, token and index, or a Cloudera WebHDFS address
 
 ## 1. Install
 
@@ -71,7 +71,6 @@ Run SADE with Docker and connect one log to see your first results. Specs and co
 | Folder | Use |
 |---|---|
 | `data/` | The SADE database (`sade.db`): connections, collections, results |
-| `imports/` | Log files (mounted read-only) |
 | `certs/` | Internal CA certificates (mounted read-only) |
 
 ## 2. Connect a log
@@ -94,14 +93,6 @@ Pick the tab for the log you have.
 
     More: [Cloudera](../connect/cloudera.md)
 
-=== "Log file"
-
-    1. Put the file in `imports/`.
-    2. Under Files in **Connect › Log Sources**, choose Access log and enter `/workspace/imports/your-file.jsonl`.
-    3. **Save connection** → **Collect now**
-
-    More: [Log files and OpenTelemetry](../connect/files.md)
-
 To see in advance whether SADE can read your log, paste one line into the [log checker](../connect/logs.md#log-check).
 
 ## 3. See results
@@ -121,7 +112,7 @@ When collection finishes, these screens fill in.
 |---|---|---|
 | OpenAPI specs | Shadow APIs, per-call spec check | [OpenAPI specs](../connect/specs.md) |
 | GitHub repositories | Specs from code, service calls, database access | [GitHub code scan](../connect/code.md) |
-| Access and app logs, OTel spans | The full path of one request | [Log files and OpenTelemetry](../connect/files.md) |
+| Service call logs (access and application), database logs | The full path of one request, database access | [Log field reference](../connect/schema.md) |
 
 After uploading a spec, run the spec check with **Run scan**. Logs are not fetched again.
 

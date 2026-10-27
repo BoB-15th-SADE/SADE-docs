@@ -33,11 +33,11 @@ cd apps/dashboard/backend
 python -m sade_cli worker --lane light
 ```
 
-대시보드 런타임은 Python 표준 라이브러리를 사용합니다. 코드 분석에는 별도 CodeScan 의존성과 git이 필요하며 Docker 이미지는 이를 포함합니다. 로컬 CodeScan은 도구의 설치 안내와 `--scanner-python`, `--scanner-dir` 설정을 확인하세요.
+대시보드 런타임은 Python 표준 라이브러리와 SQL 구문 분석용 `sqlglot` 하나를 씁니다(`apps/dashboard/requirements.txt`). Docker 이미지에는 포함되어 있습니다. 코드 분석에는 별도 CodeScan 의존성과 git이 필요하며 Docker 이미지는 이를 포함합니다. 로컬 CodeScan은 도구의 설치 안내와 `--scanner-python`, `--scanner-dir` 설정을 확인하세요.
 
 ## 결과 조회 방식
 
-`/api/model`은 화면 요약을 제공하고, API 상세와 호출 목록은 전용 경로에서 필요한 분량만 읽습니다. 요청 흐름과 Flows 탐색은 `/api/request-flow`, `/api/flow-explorer`가 저장된 결과에서 필요한 만큼만 읽습니다. 화면을 새로고침하거나 검색해도 원격 로그를 조회하지 않습니다. `/api/export`는 전체 모델을 제공합니다.
+`/api/model`은 화면 요약을 제공하고, API 상세와 호출 목록은 전용 경로에서 필요한 분량만 읽습니다. 요청 흐름과 Flows 탐색은 `/api/trace-details`, `/api/flow-explorer`가 저장된 결과에서 필요한 만큼만 읽습니다. 화면을 새로고침하거나 검색해도 원격 로그를 조회하지 않습니다. `/api/export`는 전체 모델을 제공합니다.
 
 기본 배포는 소스를 이미지에 포함하고 데이터·imports·certs만 마운트합니다. 개발용 소스 마운트는 `compose.dev.yaml`을 추가할 때만 사용합니다.
 

@@ -92,3 +92,13 @@ A shadow API is **a call seen in the logs, on a service that has a spec, whose m
 | API in code that is never called | No. Shown as `Code only` or `Implemented, no traffic` |
 
 The combined list of specs, code and logs does not prove you have found every deployed API. An API that left no log and whose code was never scanned stays unknown.
+
+## Scope and extension
+
+| | Implemented now | Widen the same way |
+|---|---|---|
+| Service assignment | Path prefix, service name in logs | Register prefixes and aliases (other names, server IPs) per service |
+| Path templates | Spec and code paths, plus automatic ID segments (numbers, UUIDs, emails and so on) | More specs and code make it more exact |
+| Exposure | | Classify Internal / Public / Partner by host and path rules in Access Scope |
+
+[Extending for your environment](extending.md)

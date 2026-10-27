@@ -21,15 +21,12 @@ SADE가 로그에서 읽는 필드를 모두 정리했습니다. 로그 형식�
 | 5 | 호출한 쪽 기록: `event_type`(client) + `destination` | **서비스 → 서비스** 선. 4단계의 `request_id`나 `hop_id`로 짝을 지음 |
 | 6 | `trace_id`, `span_id`, `parent_span_id` (또는 `traceparent`) | 서비스 간 선을 가장 정확하게 잇고, 요청 하나의 전체 경로와 Trace 목록이 생김 |
 | 7 | `host.name` 또는 `k8s.node.name` | Hosts: 어느 서버에서 도는 서비스인지 |
-| 8 | OpenTelemetry PostgreSQL span | Destinations: 어느 API가 어느 DB에 접근했는지 |
+| 8 | DB 로그: 애플리케이션 SQL 로그 또는 PostgreSQL 로그 + `request_id`·`operation_id` | Destinations: 어느 API가 어느 DB와 테이블에 접근했는지 |
 
 !!! warning "ID만으로는 서비스 간 선이 생기지 않습니다"
-    `request_id`나 `trace_id`는 "같은 요청"이라는 표시일 뿐, **누가 불렀는지**는 알려 주지 않습니다. 서비스 A가 B를 부른 선을 그리려면 A 쪽에 "B로 보냈다"는 기록이 하나 더 있어야 합니다. 둘 중 하나면 됩니다.
+    `request_id`나 `trace_id`는 "같은 요청"이라는 표시일 뿐, **누가 불렀는지**는 알려 주지 않습니다. 서비스 A가 B를 부른 선을 그리려면 A의 Application 로그에 "B로 보냈다"는 줄(`event_type: "client"`, `destination: "B"`)이 있어야 합니다.
 
-    - A의 Application 로그: `event_type: "client"`, `destination: "B"`가 있는 줄
-    - A의 OpenTelemetry CLIENT span
-
-    받은 쪽 B의 로그에 있는 `parent_span_id`(또는 `traceparent`의 부모 span)가 A의 CLIENT span ID와 같으면 trace로 잇고, 없으면 같은 `hop_id`나 `request_id`로 30초 안의 기록을 찾아 잇습니다.
+    받은 쪽 B의 로그에 있는 `parent_span_id`(또는 `traceparent`의 부모 span)가 A가 보낸 기록의 `span_id`와 같으면 trace로 잇고, 없으면 같은 `hop_id`나 `request_id`로 30초 안의 기록을 찾아 잇습니다. **공통 ID가 하나도 없으면 시간과 경로가 비슷해도 잇지 않습니다.**
 
 ## 같은 요청을 남기는 예
 
@@ -185,8 +182,32 @@ IP는 공인 주소도 그대로 저장하고 포트만 뗍니다. 서비스에 
 
 NGINX의 `request_time`은 초 단위라서 자동으로 연결하지 않습니다. 밀리초로 바꿔 남기세요.
 
-## OpenTelemetry span
+### DB 로그 {#database}
 
-span 파일에서 읽는 필드는 [로그 파일과 OpenTelemetry](files.md#opentelemetry)에 있습니다. span은 호출 수를 늘리지 않고, 서비스 간 관계와 호스트, DB 접근만 더합니다.
+연결의 **Log Format**을 PostgreSQL / pgAudit JSON이나 Application SQL JSON으로 고른 소스에서 읽습니다. 호출 수는 늘리지 않고, API와 DB·테이블의 연결만 더합니다.
+
+| 필드 | 로그 | 예 | 쓰이는 곳 |
+|---|---|---|---|
+| `timestamp`, `service` | 애플리케이션 SQL | `order` | 시각, SQL을 실행한 서비스 |
+| `sql` | 애플리케이션 SQL | `SELECT … FROM member` | 연산 종류와 참조 테이블 해석. **원문은 저장하지 않음** |
+| `request_id` | 둘 다 | `9f2c1d7e4b` | 같은 요청의 HTTP 기록과 묶음 |
+| `operation_id` | 둘 다 | `q-31` | 애플리케이션 SQL과 PostgreSQL 로그의 같은 실행을 이음 |
+| `parent_hop_id` | 애플리케이션 SQL | `h-71` | SQL을 실행시킨 요청을 구분 |
+| `instance_id`, `thread` | 애플리케이션 SQL, HTTP 로그 | `order-7f9c`, `http-nio-8080-exec-3` | ID가 없을 때 추정 연결의 조건 |
+| `duration_ms` | 애플리케이션 SQL | `3.2` | 실행 시간 |
+| `application_name` | PostgreSQL | `order` | 서비스 ID·이름·별칭과 정확히 같을 때만 그 서비스로 봄 |
+
+- PostgreSQL 로그는 어느 DB 서버의 로그인지 연결 설정의 **Database Host·Port·Name**으로 지정합니다.
+- 필드로 남기기 어려우면 SQL 앞에 `/*sade request_id=… operation_id=…*/` 주석을 붙여도 됩니다.
+- 이름이 다르면 Field mapping으로 지정합니다.
+
+### 추정 연결용 HTTP 로그 필드
+
+ID가 없는 애플리케이션 SQL을 요청에 추정으로 이으려면, 서비스의 HTTP 로그에 아래 값이 있어야 합니다. 조건이 모두 맞을 때만 점선(Inferred)으로 잇습니다.
+
+| 필드 | 예 | 쓰임 |
+|---|---|---|
+| `instance_id`, `thread` | `order-7f9c`, `http-nio-8080-exec-3` | 같은 인스턴스·스레드인지 |
+| `request_start`, `request_end` | ISO 8601 또는 epoch | 요청 처리 구간. `request_end`가 없으면 `duration_ms`로 계산 |
 
 [<span class="q">궁금하신가요?</span><span class="t">흩어진 로그 조각을 요청 하나의 경로로 잇는 규칙</span><span class="arrow">→</span>](../technology/runtime-flow.md){ .sade-curious }

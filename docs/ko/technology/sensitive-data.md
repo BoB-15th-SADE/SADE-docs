@@ -113,3 +113,16 @@ HIGH / MEDIUM / LOW는 **얼마나 확실하게 판단했는지**를 나타냅�
 ## 참고한 기준
 
 이메일은 WHATWG/RFC 문법, 전화번호는 libphonenumber 한국 메타데이터, 카드번호는 Microsoft Presidio의 정규식 + Luhn 방식, 여권·외국인등록번호는 발급기관 자료, 토큰과 쿠키는 OAuth·JWT·Cookie RFC를 참고했습니다. 별칭과 문맥 규칙은 SADE의 정책이며, 학술적으로 검증된 정확도 수치를 주장하지 않습니다.
+
+## 구현 범위와 확장
+
+기본 19개 유형은 출발점입니다. 회사마다 개인정보 필드 이름과 사내 식별번호 형식이 다르므로, 보안 담당자가 **Policy › Rules › Data Types**에서 직접 넓혀 쓰도록 만들었습니다.
+
+| 하고 싶은 일 | 방법 | 예 |
+|---|---|---|
+| 사내 필드 이름 추가 | Field name 규칙 | `cust_mbl_no` → PHONE |
+| 특정 위치에만 의미 부여 | Field path 규칙 | `$.member.contact` → EMAIL |
+| 사내 식별번호를 새 유형으로 | 새 유형 + Value pattern | `EMP-[0-9]{6}` → EMPLOYEE_ID |
+| 오탐 제외 | Exclusion (사유·만료일) | 특정 API의 `name` 필드 |
+
+새 체크섬 같은 값 검증 방식은 검증기를 더하는 방식으로 넓힙니다. [기업 환경에 맞게 확장하기](extending.md)

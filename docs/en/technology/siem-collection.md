@@ -98,6 +98,16 @@ For volume, 232,292 YAS events (104 MB) were served from a local HTTPS server th
 | Peak memory | | About 380 MB |
 | Recollecting the same range | | 0 new windows, 0.3 s, no change in numbers |
 
+## Scope and extension
+
+| | Implemented now | Widen the same way |
+|---|---|---|
+| SIEMs | Splunk (export search), Cloudera WebHDFS | Any store that can be searched by time range can use the same windows and checkpoints (for example Elasticsearch) |
+| Windows and samples | 60-minute windows, 5 per API and status | Tune `window_minutes` (5–1440) and `samples_per_api` (1–100) per source |
+| Where counting happens | In SADE | At hundreds of millions of events a day, pre-aggregate in the SIEM |
+
+[Extending for your environment](extending.md)
+
 ## Limits
 
 - Call History, the spec check, value-based sensitive data detection and Flows work **on samples**. A field sent in one call out of ten thousand can be missed.

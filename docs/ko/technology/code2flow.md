@@ -79,7 +79,7 @@ Spring Data Repository를 따라가 **어떤 API가 어떤 엔티티(테이블)�
 | `operation` | read, write, unknown |
 | `datasource` | declared, candidate, unresolved와 찾은 위치 |
 
-실행되는 SQL이나 실제 접속 주소를 증명하지는 않습니다. 실제 DB 접근은 [런타임 흐름](runtime-flow.md)의 PostgreSQL span으로 확인합니다.
+실행되는 SQL이나 실제 접속 주소를 증명하지는 않습니다. 실제 DB 접근은 [런타임 흐름 복원](runtime-flow.md#database)에서 DB 로그로 확인합니다.
 
 ## 로그와 함께 보면
 
@@ -88,6 +88,19 @@ Spring Data Repository를 따라가 **어떤 API가 어떤 엔티티(테이블)�
 | 호출 있음 | 호출 보임 | 구현과 실제 사용이 일치 |
 | 호출 있음 | 호출 없음 | 수집 기간에 안 쓰였거나 드물게 쓰이는 경로 (검토 후보) |
 | 호출 없음 | 호출 보임 | 코드에서 못 찾은 호출 (동적 주소, 읽지 않는 라이브러리) |
+
+## 구현 범위와 확장
+
+지금은 대표 환경인 **Spring Boot**에서 설정 해석과 DB 접근까지 끝까지 따라가도록 구현했습니다. 분석 구조가 **언어 공통 탐색 + 언어별 탐지기**로 나뉘어 있어, 다른 환경도 탐지기만 더하면 같은 방식으로 따라갑니다.
+
+| | 지금 구현 | 같은 방식으로 넓히기 |
+|---|---|---|
+| HTTP 클라이언트 | RestTemplate, WebClient·RestClient, Feign, Java HttpClient, .NET HttpClient·Refit, requests, axios, fetch, Go `http.Get` | 사내 HTTP 클라이언트 래퍼를 탐지 규칙으로 추가 |
+| 주소 해석 | `application*.yml`, properties, Compose, 게이트웨이·Ingress | 다른 프레임워크의 설정 형식 해석 추가 |
+| DB 접근 | Spring Data Repository | MyBatis, JDBC Template 등 다른 DB 접근 계층 탐지 추가 |
+| 게이트웨이 | Spring Cloud Gateway, Zuul, nginx, Kong, Ingress / HTTPRoute | 사내 게이트웨이 설정 형식 추가 |
+
+[기업 환경에 맞게 확장하기](extending.md)
 
 ## 한계
 

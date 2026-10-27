@@ -11,7 +11,7 @@
 | GET | `/api/export` | 전체 모델 |
 | GET | `/api/apis/{id}` | URL 인코딩한 API ID의 상세와 호출 |
 | GET | `/api/calls` | 저장된 호출 페이지 |
-| GET | `/api/request-flow` | 호출 하나의 요청 흐름 트리 |
+| GET | `/api/trace-details` | 호출 하나의 Trace Details (예전 `/api/request-flow`도 같은 응답) |
 | GET | `/api/flow-explorer` | Flows에서 고른 클라이언트 IP·서비스의 trace 목록 |
 | GET | `/api/jobs/{id}` | 작업 상태·결과·오류 |
 | GET | `/api/connections` | 서비스·소스 등록 정보 |
@@ -20,7 +20,7 @@
 
 `/api/calls`는 `offset`(기본 0), `limit`(기본 20, 최대 200), `api`, `method`, `status`(2/3/4/5), `check`, `q`를 지원합니다. 반환값은 `calls`, `total`, `offset`, `limit`입니다. `check`는 `any` 또는 명세 점검 이유 하나입니다.
 
-`/api/request-flow`는 `call`, `event`, `trace` 중 **하나만** 받습니다(200자 이하). 저장된 결과에 흐름이 없으면 404를 돌려줍니다.
+`/api/trace-details`는 `call`, `event`, `trace` 중 **하나만** 받습니다(200자 이하). 저장된 결과에 흐름이 없으면 404를 돌려줍니다.
 
 `/api/flow-explorer`는 `client`(로그에 찍힌 IP) 또는 `service` 중 하나와 `offset`, `limit`(1~100, 기본 50)을 받습니다.
 
