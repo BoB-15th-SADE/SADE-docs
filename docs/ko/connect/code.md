@@ -91,6 +91,21 @@ Connect > Source Code에서 GitHub 저장소를 연결해 스캔합니다.
 
     파일이 많은 저장소는 스캔 중에 한도에 걸릴 수 있습니다. 비공개 저장소가 없어도 토큰을 쓰기를 권합니다.
 
+??? note "다른 팀에 요청할 것: GitHub 관리자"
+
+    저장소 이름만 바꿔 보냅니다.
+
+    ```text
+    [요청] API 점검 도구(SADE) 코드 스캔용 GitHub 읽기 토큰 발급
+
+    - 용도: 사내 설치형 도구가 Java Spring Boot 저장소의 API 선언을 읽어 API 목록을 만듭니다.
+    - 대상 저장소: <저장소 이름 목록>
+    - 권한: Fine-grained 토큰, 위 저장소만, Contents Read-only, Metadata Read-only
+    - 쓰기 권한은 필요 없습니다. 저장소를 복제하지 않고 GitHub API로 파일만 읽습니다.
+    - 토큰은 설치 서버에 암호화해 보관하며 화면과 로그에 나오지 않습니다.
+    - 네트워크: 설치 서버에서 GitHub 주소로 HTTPS(443) 나가는 연결이 필요합니다.
+    ```
+
 ## 1. GitHub 연결
 
 <div class="sade-steps" markdown>

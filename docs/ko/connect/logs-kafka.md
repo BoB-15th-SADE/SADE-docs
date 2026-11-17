@@ -123,6 +123,24 @@ SADE는 컨슈머 그룹(기본 `sade`) 외에 `<그룹>-preview-…`(샘플용)
 | 보안 | 평문, TLS(사내 CA), mTLS, SASL PLAIN, SCRAM-SHA-256, SCRAM-SHA-512, SASL과 TLS 함께 | Kerberos(GSSAPI), OAUTHBEARER(AWS MSK IAM 등) |
 | 메시지 | JSON, nginx와 Apache 접근 로그 한 줄, Filebeat, Fluent Bit, Logstash가 감싼 메시지(`message`, `log`) | Avro, Protobuf(Schema Registry) |
 
+??? note "다른 팀에 요청할 것: Kafka 담당"
+
+    토픽 이름을 채워 보냅니다.
+
+    ```text
+    [요청] 로그 토픽 읽기 계정 발급
+
+    - 용도: 사내 설치형 API 점검 도구(SADE)가 접근 로그 토픽을 읽기만 합니다. 쓰지 않습니다.
+    - 토픽: <토픽 이름>
+    - 컨슈머 그룹: sade (sade로 시작하는 그룹 전체에 읽기 권한, prefixed ACL)
+    - 필요한 것
+      - 브로커 주소 (host:port)와 SADE가 쓸 리스너
+      - 보안 방식: TLS, mTLS, SASL PLAIN, SCRAM-SHA-256, SCRAM-SHA-512 중 하나
+      - 계정 또는 클라이언트 인증서, TLS면 사내 CA 인증서
+    - 네트워크: SADE 서버 → 브로커 주소와 advertised.listeners 주소 연결 허용
+    - 메시지 형식: JSON, nginx, Apache 접근 로그, 또는 Filebeat, Fluent Bit, Logstash가 감싼 메시지
+    ```
+
 ## 1. Connect
 
 <div class="sade-steps" markdown>

@@ -5,10 +5,12 @@ SADE는 기업의 소스 코드, API 명세(OpenAPI), 로그를 합쳐 API 목�
 SADE는 기업 내부망에 Docker 컨테이너로 설치합니다.
 
 - 트래픽 경로에 장비를 두지 않습니다.
-- 서비스에 요청을 보내지 않습니다.
+- API를 호출해 점검하지 않습니다.
 - 요청을 차단하지 않습니다.
 
 <div class="sade-links" markdown>
+
+[<span class="sade-card-title">보안 검토 자료</span><span>저장하는 것, 네트워크, 인증 정보 보관</span>](getting-started/security-review.md)
 
 [<span class="sade-card-title">설치와 첫 연결</span><span>Docker로 설치하고 첫 자료를 연결합니다</span>](getting-started/quickstart.md)
 

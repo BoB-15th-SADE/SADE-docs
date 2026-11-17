@@ -306,3 +306,6 @@ html { scroll-padding-top: 5rem; }
 .md-typeset .sade-frame__shot > a { display: block; }
 .md-typeset .sade-spot { border: 2px solid #d9480f; border-radius: 2px; box-shadow: 0 0 0 4px rgba(217, 72, 15, .16); margin: -4px 0 0 -4px; padding: 4px; pointer-events: none; position: absolute; box-sizing: content-box; }
 .md-typeset .sade-spot__tag { background: #d9480f; color: #fff; font-family: var(--md-code-font); font-size: .58rem; font-weight: 700; left: -2px; line-height: 1; padding: .18rem .3rem; position: absolute; top: -1.05rem; }
+
+/* Terms explained in place (terms.js) */
+.md-typeset abbr.sade-term { border-bottom: 1px dotted #8a9892; cursor: help; text-decoration: none; }
