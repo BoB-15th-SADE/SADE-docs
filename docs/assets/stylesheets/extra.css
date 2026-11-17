@@ -56,6 +56,7 @@ html { scroll-padding-top: 5rem; }
 .md-typeset .sade-links p { margin: 0; }
 .sade-links strong { display: block; font-size: .85rem; margin-bottom: .3rem; }
 .sade-links span { color: #64716c; font-size: .72rem; }
+.sade-links span.sade-card-title { color: #233c30; display: block; font-size: .85rem; font-weight: 600; margin-bottom: .3rem; }
 @media (min-width: 76.25em) {
   .md-sidebar--secondary { display: none; }
   .md-content__inner { margin-left: 3.5rem; }

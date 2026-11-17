@@ -1,60 +1,48 @@
 # SADE
 
-기업 보안 담당자가 가장 먼저 부딪히는 질문은 단순합니다. **우리 회사에 어떤 API가 있고, 그 API로 어떤 개인정보가 오가며, 요청이 어디까지 흘러가는가.** 그런데 이 질문에 답할 자료는 이미 회사 안에 흩어져 있습니다. SIEM에는 호출 로그가, 저장소에는 소스 코드가, 개발팀에는 API 명세가 있습니다. 문제는 이 세 가지가 서로 연결되어 있지 않다는 점입니다.
+SADE는 기업의 소스 코드, API 명세(OpenAPI), 로그를 합쳐 API 목록(Inventory)과 서비스 사이 호출 흐름(Flows)을 만들고, API마다 관리 우선순위(P1~P4)를 매기는 도구입니다. 보안 담당자는 이 결과로 먼저 검토할 API를 고릅니다.
 
-SADE는 이 문제에 대한 **방법론**과, 그 방법론을 실제 환경에서 검증한 **참조 구현**입니다. 새 에이전트를 설치하거나 트래픽을 가로채지 않고, 회사가 이미 가진 로그·코드·명세만으로 API 자산과 데이터 흐름을 다시 그려 냅니다.
+SADE는 기업 내부망에 Docker 컨테이너로 설치합니다.
+
+- 트래픽 경로에 장비를 두지 않습니다.
+- 서비스에 요청을 보내지 않습니다.
+- 요청을 차단하지 않습니다.
 
 <div class="sade-links" markdown>
 
-[**방법론**<span>code2spec, code2flow, 민감정보 탐지, 런타임 흐름 복원 등 문제별 접근 방법</span>](technology/index.md)
+[<span class="sade-card-title">설치와 첫 연결</span><span>Docker로 설치하고 첫 자료를 연결합니다</span>](getting-started/quickstart.md)
 
-[**기업 환경에 맞게 확장하기**<span>프레임워크, 필드 이름, 로그 형식, SIEM을 회사 사정에 맞게 넓히는 방법</span>](technology/extending.md)
+[<span class="sade-card-title">연동 가이드</span><span>소스 코드, OpenAPI 명세, 로그(CSV, syslog, Kafka) 연결</span>](connect/logs.md)
 
-[**연동 가이드**<span>Splunk, Cloudera, OpenAPI 명세, GitHub 코드를 연결하는 방법</span>](connect/logs.md)
+[<span class="sade-card-title">관리 우선순위</span><span>P1~P4를 정하는 신호와 규칙</span>](features/priority.md)
 
-[**설치하고 써 보기**<span>Docker로 설치하고 첫 로그를 연결해 결과를 확인합니다</span>](getting-started/quickstart.md)
+[<span class="sade-card-title">화면 둘러보기</span><span>메뉴와 화면별 기능</span>](getting-started/navigation.md)
 
 </div>
 
-## 풀려는 문제
+## 화면별로 확인하는 것
 
-| 보안 담당자의 질문 | 지금 어려운 이유 | SADE의 접근 |
+| 확인할 것 | 화면 |
+|---|---|
+| 기업에 있는 API, 명세에 없는 API | [Inventory](features/inventory.md)의 Shadow, Undocumented 표시 |
+| 먼저 검토할 API | [관리 우선순위](features/priority.md)의 P1~P4와 판정 근거 |
+| 외부에서 호출되는 API, 민감정보를 주고받는 API | [API 상세](features/api-details.md)의 노출, 인증 선언, 민감 유형 |
+| 요청이 지나가는 서비스, DB, 외부 목적지 | [Flows](features/flows.md) |
+| API를 고칠 담당 후보 | [API 상세](features/api-details.md)의 Owners 탭 (CODEOWNERS) |
+
+## 입력
+
+| 입력 | 받는 방법 | 알 수 있는 것 |
 |---|---|---|
-| 우리 회사에 실제로 어떤 API가 있나? 명세에 없는 API는? | 명세는 오래되었거나 없고, 실제 호출은 SIEM에만 있음 | 로그의 실제 경로를 명세·코드의 API에 맞추고, 어디에도 없는 호출을 Shadow API로 분리 ([API 식별](technology/api-discovery.md)) |
-| Swagger가 없는 서비스의 API 계약은? | 개발팀이 명세를 관리하지 않음 | 소스 코드만 읽어 OpenAPI 명세를 만듦 ([code2spec](technology/code2spec.md)) |
-| 어떤 API가 개인정보를 주고받나? | 필드 이름이 회사·팀마다 다름 | 필드 이름, 주변 필드, 값 형식으로 판단하고 회사 고유 이름을 규칙으로 추가 ([민감정보 탐지](technology/sensitive-data.md)) |
-| 요청 하나가 어느 서비스와 DB를 거쳐 가나? | 서비스마다 로그가 따로 쌓임 | 요청 ID와 trace로 흩어진 로그를 이어 붙임 ([런타임 흐름](technology/runtime-flow.md)) |
-| 로그에 안 남은 호출 경로는? | 수집 기간에 호출되지 않으면 로그로는 알 수 없음 | 코드에서 서비스 간 호출과 DB 접근을 찾음 ([code2flow](technology/code2flow.md)) |
-| 명세와 다르게 개인정보가 나가는 호출은? | 명세만 보고 검토하면 놓침 | 호출마다 명세와 비교해 차이를 표시 ([호출별 명세 점검](technology/spec-check.md)) |
+| 소스 코드 | GitHub 저장소 스캔 (GitHub.com, Enterprise Cloud, Enterprise Server) | 코드에 선언된 API와 위치, 인증 선언, 서비스 사이 호출, DB 접근, 게이트웨이 경로 규칙 |
+| 명세 | OpenAPI 3.0, 3.1 JSON 업로드, 내부 주소에서 가져오기 | 문서로 관리하는 API와 필드 |
+| 로그 | CSV 업로드, syslog(TLS) 수신, Kafka 구독 | 실제 호출된 API, 호출 수, 호출한 주소, 서비스 사이 흐름 |
 
-## 입력은 세 가지입니다
+입력 하나만 있어도 결과가 나옵니다. API마다 확인한 입력을 `Code`, `Spec`, `Log`로 표시합니다.
 
-| 입력 | 알 수 있는 것 | 알 수 없는 것 |
-|---|---|---|
-| **로그** (SIEM, 데이터 레이크) | 실제 호출, 호출 횟수, 인증 방식, 주고받은 필드, DB 접근 | 수집 기간 밖의 호출, 로그에 남지 않은 본문 |
-| **명세** (OpenAPI) | 서비스가 약속한 요청·응답 형식 | 실제로 호출되는지, 구현되어 있는지 |
-| **코드** (Git 저장소) | 구현된 API, 다른 서비스 호출, DB 접근, 권한 검사 코드 | 실제로 실행되는지, 얼마나 자주인지 |
+## 원칙
 
-셋 중 하나만으로도 시작할 수 있고, 하나씩 더할수록 서로의 빈 곳을 메웁니다. 모든 API와 필드에는 어느 입력에서 확인했는지 `Spec` / `Code` / `Log` 표시가 붙습니다.
-
-## 참조 구현의 범위
-
-방법론은 특정 제품이나 언어에 묶여 있지 않습니다. 이번 구현은 대표적인 기업 환경에서 바로 써 볼 수 있도록 아래 범위로 만들었습니다.
-
-| 영역 | 지금 구현한 범위 | 같은 방식으로 넓힐 수 있는 곳 |
-|---|---|---|
-| 로그 수집 | Splunk, Cloudera(WebHDFS) | Elasticsearch, 다른 SIEM, 데이터 레이크 |
-| 로그 형식 | JSON HTTP 로그(ECS, OTel, Envoy, NGINX, Kong, Splunk CIM 이름), PostgreSQL·애플리케이션 SQL 로그 | 회사 고유 로그 형식, 다른 DB 로그 |
-| 코드 → 명세 | Spring, Go, Python, Node.js, .NET 주요 프레임워크 | 사내 프레임워크, 다른 언어 |
-| 코드 → 호출 흐름 | HTTP 클라이언트는 5개 언어, 설정 해석과 DB 접근은 Spring Boot | 다른 프레임워크의 설정·DB 계층 |
-| 민감정보 | 개인정보·금융·인증정보 19개 유형 | 회사 고유 필드 이름, 사내 식별번호 형식 |
-
-자세한 확장 방법은 [기업 환경에 맞게 확장하기](technology/extending.md)에 있습니다.
-
-## 지켜야 할 원칙
-
-- **추측하지 않습니다.** 근거가 모자라면 잇지 않고 "확인 안 됨"으로 남깁니다. 보안 판단에 쓰는 자료이므로, 그럴듯한 추정보다 빈칸이 낫습니다.
-- **실행하지 않습니다.** 코드는 읽기만 하고, 서비스에 요청을 보내지 않습니다.
-- **값을 남기지 않습니다.** 개인정보를 찾는 도구가 개인정보를 쌓아 두지 않도록, 실제 값은 판단 후 바로 지웁니다.
-
-SADE가 보여 주는 것은 **수집한 범위 안에서 확인한 사실**입니다. 법 위반 여부나 전체 API의 안전을 자동으로 판정하지 않으며, 담당자가 검토할 대상을 좁혀 주는 역할을 합니다. 자세한 범위는 [지원 범위와 제한](reference/limitations.md)을 보세요.
+- 근거가 모자라면 "모름"이나 "미평가"로 표시합니다. 확인하지 못한 항목을 안전으로 표시하지 않습니다.
+- 코드는 읽기만 합니다.
+- 로그 본문은 저장 전에 값을 타입으로 바꿉니다. 민감정보는 유형 이름만 남깁니다.
+- 결과는 수집한 범위에서 확인한 사실과 검토 신호입니다. 취약점과 법 위반은 판정하지 않습니다. 범위는 [지원 범위와 제한](reference/limitations.md)에 있습니다.

@@ -1,5 +1,5 @@
 site_name: SADE Docs
-site_description: 로그·명세·코드로 API와 민감정보를 확인하는 SADE 사용 가이드
+site_description: 코드, 명세, 로그로 API 목록과 관리 우선순위를 만드는 SADE 사용 가이드
 site_url: https://bob-15th-sade.github.io/SADE-docs/
 repo_url: https://github.com/BoB-15th-SADE/SADE-docs
 repo_name: SADE-docs
@@ -52,43 +52,19 @@ plugins:
             설치와 첫 연결: Install and connect
             화면 둘러보기: Dashboard tour
             연동 가이드: INTEGRATIONS
-            연동 한눈에 보기: Integration overview
-            로그 필드 레퍼런스: Log field reference
-            Cloudera (WebHDFS): Cloudera (WebHDFS)
+            소스 코드 (GitHub): Source code (GitHub)
             OpenAPI 명세: OpenAPI specifications
-            GitHub 코드 스캔: GitHub code scan
+            로그 (CSV, syslog, Kafka): Logs (CSV, syslog, Kafka)
+            로그 필드: Log fields
             사용 방법: USING SADE
-            API 인벤토리: API inventory
+            관리 우선순위 (P1~P4): Management priority (P1-P4)
             API 상세: API details
-            호출 기록과 Trace Details: Call history and Trace Details
-            서비스 흐름 (Flows): Service flows
-            민감정보: Sensitive data
-            데이터 유형과 룰: Data types and rules
-            접근 범위: Access scope
-            점검 결과 (Findings): Findings
-            수집과 스캔: Collect and scan
-            방법론: METHODS
-            방법론 개요: Methods overview
-            로그 정규화와 필드 감지: Log normalization
-            대용량 SIEM 수집: Large-scale SIEM collection
-            API 식별과 Shadow API: API discovery and shadow APIs
-            민감정보 탐지: Sensitive data detection
-            code2spec (코드에서 명세로): code2spec
-            code2flow (코드에서 호출 흐름으로): code2flow
-            런타임 흐름 복원: Runtime flow reconstruction
-            호출별 명세 점검: Per-call spec check
-            값을 남기지 않는 저장: Value-free storage
-            기업 환경에 맞게 확장하기: Extending for your environment
+            프레임워크 점검 (준비 중): Framework assessments (in preparation)
+            Data Types (민감정보 유형): Data Types
+            Access Scope와 Settings: Access Scope and Settings
             운영: OPERATIONS
-            마스킹과 데이터 보관: Masking and storage
-            구성과 실행 방식: Architecture and workers
-            PoC 진행 가이드: PoC guide
-            API 레퍼런스: API REFERENCE
-            HTTP API: HTTP API
-            CLI 명령: CLI commands
-            문제 해결: TROUBLESHOOTING
-            연결·분석 문제 해결: Connection and analysis issues
-            자주 묻는 질문: FAQ
+            구성과 데이터 처리: Architecture and data handling
+            문제 해결: Troubleshooting
             참고: REFERENCE
             용어: Glossary
             지원 범위와 제한: Supported scope and limits
@@ -120,45 +96,23 @@ nav:
       - SADE 소개: index.md
       - 설치와 첫 연결: getting-started/quickstart.md
       - 화면 둘러보기: getting-started/navigation.md
-  - 방법론:
-      - 방법론 개요: technology/index.md
-      - 로그 정규화와 필드 감지: technology/log-normalization.md
-      - 대용량 SIEM 수집: technology/siem-collection.md
-      - API 식별과 Shadow API: technology/api-discovery.md
-      - 민감정보 탐지: technology/sensitive-data.md
-      - code2spec (코드에서 명세로): technology/code2spec.md
-      - code2flow (코드에서 호출 흐름으로): technology/code2flow.md
-      - 런타임 흐름 복원: technology/runtime-flow.md
-      - 호출별 명세 점검: technology/spec-check.md
-      - 값을 남기지 않는 저장: technology/value-free-storage.md
-      - 기업 환경에 맞게 확장하기: technology/extending.md
   - 연동 가이드:
-      - 연동 한눈에 보기: connect/logs.md
-      - 로그 필드 레퍼런스: connect/schema.md
-      - Splunk: connect/splunk.md
-      - Cloudera (WebHDFS): connect/cloudera.md
+      - 소스 코드 (GitHub): connect/code.md
       - OpenAPI 명세: connect/specs.md
-      - GitHub 코드 스캔: connect/code.md
+      - 로그 (CSV, syslog, Kafka): connect/logs.md
+      - 로그 필드: connect/schema.md
   - 사용 방법:
-      - API 인벤토리: features/inventory.md
+      - Overview: features/overview.md
+      - Inventory: features/inventory.md
+      - 관리 우선순위 (P1~P4): features/priority.md
       - API 상세: features/api-details.md
-      - 호출 기록과 Trace Details: features/call-history.md
-      - 서비스 흐름 (Flows): features/flows.md
-      - 민감정보: features/sensitive-data.md
-      - 데이터 유형과 룰: policy/data-types.md
-      - 접근 범위: policy/access-scope.md
-      - 점검 결과 (Findings): features/findings.md
-      - 수집과 스캔: operations/scans.md
+      - Flows: features/flows.md
+      - 프레임워크 점검 (준비 중): features/assessments.md
+      - Data Types (민감정보 유형): policy/data-types.md
+      - Access Scope와 Settings: policy/access-scope.md
   - 운영:
-      - 마스킹과 데이터 보관: operations/masking.md
-      - 구성과 실행 방식: operations/architecture.md
-      - PoC 진행 가이드: poc/guide.md
-  - API 레퍼런스:
-      - HTTP API: reference/http-api.md
-      - CLI 명령: reference/cli.md
-  - 문제 해결:
-      - 연결·분석 문제 해결: troubleshooting/index.md
-      - 자주 묻는 질문: reference/faq.md
+      - 구성과 데이터 처리: operations/architecture.md
+      - 문제 해결: troubleshooting/index.md
   - 참고:
       - 용어: reference/glossary.md
       - 지원 범위와 제한: reference/limitations.md

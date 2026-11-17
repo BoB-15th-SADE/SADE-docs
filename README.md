@@ -2,7 +2,7 @@
 
 SADE 문서 사이트 (한국어, English). MkDocs Material + GitHub Pages.
 
-현재 가이드는 SADE `feat/integration`의 `dcab3bb` 기준입니다. 설치·연동·API 탐색·민감정보·룰·운영·HTTP API·CLI·문제 해결을 한국어와 영어 각각 28개 페이지로 제공합니다. 검토한 코드는 사이트의 **참고 → 문서 기준**에 기록합니다.
+현재 가이드는 SADE `feat/api-asset-prioritization`의 `f512bc0`(2026-11-16) 기준입니다. 설치, 연동(소스 코드, OpenAPI 명세, 로그), 화면 기능(Overview, Inventory, 관리 우선순위, API 상세, Flows), 규칙, 운영, 문제 해결을 다룹니다. 지금은 한국어 본문만 새로 썼고, 영어 페이지는 한국어 페이지로 안내합니다. 검토한 코드는 사이트의 **참고 → 문서 기준**에 기록합니다.
 
 ## 로컬에서 보기
 

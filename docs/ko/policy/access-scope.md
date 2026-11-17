@@ -1,24 +1,26 @@
-# 접근 범위 분류
+# Access Scope와 Settings
 
-**Policy → Rules → Access Scope**는 호스트와 경로 패턴으로 API를 Internal / Public / Partner / Unknown으로 분류합니다. 방화벽이나 서버 접근 권한을 설정하는 기능은 아닙니다.
+## Access Scope (접근 범위)
 
-## 빠른 설정
+Rules > Access Scope에서 호출 주소를 내부, 파트너, 공개로 나누는 기준을 정합니다. SADE는 이 기준으로 로그의 출발지 IP를 나눠 API마다 접근 범위를 판정합니다. 판정 결과는 [관리 우선순위](../features/priority.md)의 외부 접근 신호(E)에 들어갑니다.
 
-1. **Add scope rule**을 누릅니다.
-2. Rule name을 입력합니다.
-3. Host pattern과 Path pattern에 정규표현식을 입력합니다.
-4. 적용할 Scope를 선택하고 저장합니다.
-5. 새 분석 결과에서 대상 API의 범위를 확인합니다. Scan required가 남으면 Run scan을 실행합니다.
+| 범위 | 정하는 방법 |
+|---|---|
+| Internal | 기업 내부 대역을 CIDR로 넣습니다. 쉼표로 여러 개를 넣을 수 있고, `/비트`가 없으면 주소 하나입니다 |
+| Partner | 파트너마다 이름을 붙이고 대역을 넣습니다 |
+| Public | 내부와 파트너 대역 밖의 모든 주소. 따로 넣지 않습니다 |
 
-| 항목 | 예시 | 의미 |
-|---|---|---|
-| Rule name | Internal APIs | 관리용 이름 |
-| Host pattern | `^api\.internal\.example$` | 내부 호스트에 일치 |
-| Path pattern | `^/admin(?:/.*)?$` | 해당 관리 경로에 일치 |
-| Scope | Internal | 분류 결과 |
+- 내부 대역을 저장하지 않으면 기본 사설 대역(예: `10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`)을 내부로 봅니다.
+- 게이트웨이 뒤 서비스의 로그에는 게이트웨이 주소가 찍힙니다. SADE는 프록시가 넘긴 원래 주소(`X-Forwarded-For`, `network.forwarded_ip`)도 함께 봅니다.
+- Test an address에 주소를 넣으면 판정된 범위와 맞은 대역이 나옵니다. 테스트는 저장한 설정으로 합니다.
 
-패턴이 너무 넓으면 관련 없는 API까지 같은 범위로 분류될 수 있습니다. 실제 호스트·경로 예시로 겹치는 룰을 확인하세요.
+저장하면 매핑이 다시 돌고, Inventory와 Flows의 접근 범위가 바뀝니다.
 
-## 해석할 때 주의할 점
+## Settings: 서비스 이름 합치기 {#settings}
 
-Public은 인터넷에서 실제 접근 가능하다는 네트워크 검증 결과가 아닙니다. Partner도 제3자 조직의 법적 식별이나 제공 동의 확인을 뜻하지 않습니다. 범위 분류와 민감정보 탐지, 명세 점검을 별도로 읽어야 합니다.
+같은 서비스가 코드, 명세, 로그에서 다른 이름으로 찍히면 노드 두 개로 나뉩니다. 예를 들어 코드는 `order-service`, 로그는 `orders`인 경우입니다. 메뉴 아래쪽 Settings에서 다른 이름(Other name)을 기준 서비스(Merge into)에 합칩니다.
+
+- 이름 하나는 한 번만 넣습니다.
+- 자기 자신으로는 합치지 못합니다.
+- 다른 서비스에 이미 합쳐진 서비스를 기준으로 고르지 못합니다. 그 서비스가 합쳐진 기준 서비스를 고릅니다.
+- 저장하면 다시 분석해 Inventory와 Flows에 반영합니다.

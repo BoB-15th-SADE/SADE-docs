@@ -1,48 +1,30 @@
-# 데이터 유형과 룰 관리
+# Data Types (민감정보 유형)
 
-**Policy → Rules → Data Types**에서 기본 19종과 사용자 유형의 탐지 조건을 관리합니다. 필드명은 별칭 사전을 기본으로 제공하고, 경로와 값 패턴을 추가할 수 있습니다.
+Rules > Data Types에서 SADE가 찾는 민감정보 유형과 탐지 규칙을 봅니다.
 
-## 빠른 수정
+!!! note "보기만 가능"
+    규칙 저장과 테스트는 연결 작업이 끝나지 않았습니다. 화면에서 유형과 규칙을 볼 수 있습니다. 기업 고유 필드 이름을 추가하고 저장하는 기능은 다음 버전에 들어갑니다.
 
-1. 유형을 선택해 상세 패널을 엽니다.
-2. 변경할 룰의 **Edit**를 누르거나 **Add rule**로 새 조건을 만듭니다.
-3. 필드명·경로·값 패턴 중 필요한 조건을 입력합니다.
-4. **Test sample**에 합성 JSON을 넣고 **Test**로 결과를 확인합니다.
-5. **Save**를 누르면 설정 버전이 저장되고 기존 자료의 민감 필드를 자동 재분류합니다.
+## 기본 유형 19개
 
-## 룰의 종류
-
-| Match by | 설정 | 용도 |
-|---|---|---|
-| Built-in detection | 기본 별칭과 내장 프로파일, 선택적 추가 값 조건 | 기본 유형 조정 |
-| Field name | 필드명 별칭 | `member_mail` 같은 조직별 명칭 추가 |
-| Field path | 명시적인 필드 경로 | `$.customer.contact`에 의미 부여 |
-| Value pattern | 값 전체와 비교할 정규표현식 | `EMP-[0-9]{6}` 같은 사용자 형식 |
-
-필드명 사전은 정규화한 별칭을 사용합니다. 값 패턴 칸과 혼동해 필드명에 정규식을 입력하지 마세요. 기본 룰의 추가 값 조건은 내장 구조·체크섬 검사를 좁히는 조건이며 실패를 우회하지 않습니다. 정규식은 지원 문법과 길이에 제한이 있습니다.
-
-## 전체 적용과 Scope
-
-기본 Scope인 **All APIs / Request and response**의 룰을 수정하면 해당 룰을 사용하는 전체 API에 적용합니다. 특정 API나 위치로 범위를 제한한 룰은 지정 범위에만 적용합니다. Scope를 펼쳐 저장 범위를 확인하세요.
-
-룰 저장 후에는 light worker가 **저장된 명세·코드·로그 결과**를 다시 분류합니다. 원격 서버를 다시 조회하지 않고 과거 스캔 기록도 덮어쓰지 않습니다. 원문 값은 저장하지 않으므로, 새 룰이 값 형식을 봐야 하면 Collect now로 다시 수집해야 Value matched가 생깁니다.
-
-## 삭제·비활성화·초기화
-
-| 대상 | 가능한 동작 |
+| 분류 | 유형 |
 |---|---|
-| 기본 룰 | Edit, Disable / Enable, 변경한 경우 Reset |
-| 사용자 룰 | Edit, Disable / Enable, Delete |
-| 기본 유형 | 유형 전체 Disable / Enable |
-| 사용자 유형 | 이름·카테고리 수정, 유형과 현재 룰·예외 삭제 |
-| 저장된 버전 | History에서 확인하고 Restore |
+| 개인정보 (11) | NAME, EMAIL, PHONE, ADDRESS, RRN(주민등록번호), FOREIGN_ID(외국인등록번호), CI, DI, DRIVER_LICENSE, PASSPORT, BIRTH_DATE |
+| 금융 (2) | ACCOUNT_NO, CARD_NO |
+| 인증 정보 (6) | PASSWORD, ACCESS_TOKEN, REFRESH_TOKEN, API_KEY, SESSION_COOKIE, SECRET |
 
-기본 룰을 사용자 룰처럼 삭제하는 동작은 제공하지 않습니다. 사용자 항목을 삭제해도 저장된 과거 버전은 History에 남습니다.
+## 탐지 규칙
 
-## 오탐 제외
+| 규칙 | 찾는 방법 | 적용 대상 |
+|---|---|---|
+| 필드 이름 규칙 | 필드 이름이 목록과 맞는지 봅니다 (예: `phone`, `mobile_no`, `cust_nm`) | 코드, 명세, 로그 |
+| 값 규칙 | 값의 형식을 봅니다. EMAIL, PHONE, RRN, FOREIGN_ID, CARD_NO(카드번호 검증 포함), ACCESS_TOKEN(JWT 형식) | 로그 본문 |
 
-유형 상세의 **Exclusions → Add exclusion**에서 API, 위치, 필드 경로, 사유, 만료일을 지정합니다. 예외는 지정한 유형과 범위에만 적용합니다. 필드명 하나를 전체에서 제외할지, 특정 API의 같은 경로만 제외할지 구분하세요.
+- 코드에서는 이름만으로 정하기 어려운 필드를 주변 코드로 한 번 더 확인합니다. 예: `name`이 사람 이름인지 상품 이름인지
+- 로그 본문은 저장 전에 검사합니다. 유형 이름만 남기고 값과 값의 위치는 남기지 않습니다.
 
-Test는 최대 32 KiB의 샘플을 공용 탐지기로 검사하며 저장하지 않습니다. 실제 개인정보 대신 합성 값을 사용하면 결과를 공유하기도 쉽습니다.
+찾은 유형은 다음 곳에 쓰입니다.
 
-[<span class="q">궁금하신가요?</span><span class="t">필드 이름과 값으로 민감정보를 판단하는 방법</span><span class="arrow">→</span>](../technology/sensitive-data.md){ .sade-curious }
+- Inventory의 민감 유형 필터
+- API 상세의 Sensitive Data 탭
+- [관리 우선순위](../features/priority.md)의 민감정보 신호(S)
