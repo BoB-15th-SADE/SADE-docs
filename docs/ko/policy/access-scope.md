@@ -53,9 +53,12 @@ SADE는 이 기준으로 로그의 출발지 IP를 나눠 API마다 접근 범�
 
 1. Test an address에 IP를 넣습니다. `X-Forwarded-For` 값도 함께 넣을 수 있습니다.
 
-2. 판정된 범위(Scope), 맞은 대역(Matched range), 실제로 판정에 쓴 주소(Address used)가 나옵니다.
+2. 테스트를 누르면 판정된 범위(Scope), 맞은 대역(Matched range), 실제로 판정에 쓴 주소(Address used)가 나옵니다.
 
 </div>
+
+[![주소 판정 테스트](../../assets/screens/scope-test.png){ loading=lazy }](../../assets/screens/scope-test.png)
+<small>게이트웨이 뒤 요청의 시험 (가상 데이터). 클라이언트 IP는 내부 주소지만 X-Forwarded-For의 공개 주소로 판정해 Public이 나옵니다</small>
 
 - 시험은 저장한 설정으로 합니다. 저장하지 않은 수정은 반영되지 않습니다.
 - `X-Forwarded-For`의 어느 값을 출발지로 쓸지는 backend가 정하며 화면에서 바꿀 수 없습니다. 시험 결과의 Address used로 확인합니다.

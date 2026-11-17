@@ -42,9 +42,9 @@ SADE는 컨슈머 그룹(기본 `sade`) 외에 `<그룹>-preview-…`(샘플용)
     - mTLS: 클라이언트 인증서와 키를 함께 넣습니다. 키가 암호화돼 있으면 키 비밀번호도 넣습니다.
     - SASL: 방식(PLAIN, SCRAM-SHA-256, SCRAM-SHA-512), 계정 이름(SASL user name), 비밀번호를 넣습니다.
 
-5. Check connection(연결 확인)을 누릅니다. 연결되면 토픽 목록이 나옵니다. 내부 토픽은 숨깁니다.
+5. Check connection(연결 확인)을 누릅니다. 브로커마다 연결 결과가 나오고, 연결되면 토픽 목록이 나옵니다. 내부 토픽은 숨깁니다.
 
-6. 읽을 토픽을 고릅니다. 파티션 수가 함께 나옵니다.
+6. 읽을 토픽을 체크합니다. 파티션 수, 보관 중인 메시지 수, 가장 오래된 메시지 시각이 함께 나옵니다.
 
 7. 필요하면 기간(Period start, Period end)을 정합니다.
 
@@ -56,12 +56,18 @@ SADE는 컨슈머 그룹(기본 `sade`) 외에 `<그룹>-preview-…`(샘플용)
 
 </div>
 
+[![Kafka Connect 화면](../../assets/screens/kafka-connect.png){ loading=lazy }](../../assets/screens/kafka-connect.png)
+<small>연결 확인 뒤 토픽을 고른 화면 (가상 데이터)</small>
+
 !!! warning "SASL만 쓰는 연결"
     TLS 없이 SASL을 쓰면 비밀번호가 암호화되지 않고 갑니다. 기업이 믿는 내부망에서만 씁니다.
 
 인증 정보는 SADE 서버로만 보내고, backend와 Vector만 읽는 `kafka-secrets` 볼륨에 둡니다. 저장한 뒤에는 화면에 다시 보여 주지 않습니다.
 
 ## 2. 샘플 받기
+
+[![Kafka 샘플 받기 화면](../../assets/screens/kafka-samples.png){ loading=lazy }](../../assets/screens/kafka-samples.png)
+<small>샘플 받기 (가상 데이터). 토픽, 파티션, offset이 메시지마다 나옵니다</small>
 
 - 별도 미리보기 그룹으로 읽어서, 본 그룹의 읽은 위치(offset)는 바뀌지 않습니다.
 - 10초마다 최대 50개씩 넘겨 받고, 최근 50개를 보여 줍니다. 이 단계에서는 저장하지 않습니다.
@@ -73,21 +79,35 @@ SADE는 컨슈머 그룹(기본 `sade`) 외에 `<그룹>-preview-…`(샘플용)
 
 ## 3. 필드 매핑
 
-받은 메시지의 키 목록(Keys in the received messages)에서 SADE 필드에 맞는 키를 고릅니다.
+Map fields(필드 매핑)를 누르면 받은 메시지의 키 목록(Keys in the received messages)에서 SADE 필드에 맞는 키를 고릅니다. 화면 구성은 [syslog](logs-syslog.md)와 같습니다.
+
+[![Kafka 필드 매핑 화면](../../assets/screens/kafka-map.png){ loading=lazy }](../../assets/screens/kafka-map.png)
+<small>필드 매핑 (가상 데이터)</small>
 
 - Filebeat, Fluent Bit, Logstash가 감싼 메시지는 안쪽 `message`, `log`를 자동으로 읽습니다(Read automatically from).
 - 키 이름이 기업마다 다르면 고르기만 합니다. 예: `req.uri` → `url.path`, `src_ip` → `client.ip`
-- 다 고르면 Check stored rows(저장 결과 확인)를 누릅니다. 이때부터 본 그룹으로 읽고 저장합니다.
+- 다 고르면 Apply and start storing(반영하고 저장 시작)을 누릅니다. 이때부터 본 그룹으로 읽고 저장합니다.
 
 ## 4. 저장 결과 확인
 
-매핑을 적용한 뒤 저장된 줄 수가 나옵니다.
+<div class="sade-steps" markdown>
 
-저장된 줄을 열어 값이 맞는 필드에 들어갔는지 봅니다. 틀렸으면 Back to mapping(매핑으로 돌아가기)을 누릅니다.
+1. 매핑을 적용한 뒤 저장된 줄 수가 나옵니다.
+
+2. 저장 결과 확인(Check stored rows)을 눌러 저장된 줄을 열고, 값이 맞는 필드에 들어갔는지 봅니다.
+
+3. 틀렸으면 매핑으로 돌아가기(Back to mapping), 맞으면 확인 완료를 누릅니다.
+
+</div>
 
 ## 5. 반영
 
-Apply to inventory and flows(Inventory와 Flows에 반영)를 누르면 로그 분석이 시작됩니다. 연결은 그 뒤에도 유지되고 새 메시지는 계속 저장됩니다.
+Apply to inventory and flows(Inventory와 Flows에 반영)를 누르면 로그 분석이 시작됩니다. 끝나면 찾은 API 목록이 나옵니다.
+
+[![Kafka 반영 결과 화면](../../assets/screens/kafka-apply.png){ loading=lazy }](../../assets/screens/kafka-apply.png)
+<small>반영 결과 (가상 데이터)</small>
+
+연결은 그 뒤에도 유지되고 새 메시지는 계속 저장됩니다. 새로 저장된 로그는 Log Sources에서 Analyze again을 눌러야 분석됩니다.
 
 ## 운영 중 상태
 
