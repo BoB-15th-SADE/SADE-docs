@@ -8,8 +8,35 @@ SADE는 이 기준으로 로그의 출발지 IP를 나눠 API마다 접근 범�
 
 판정 방식은 [노출 판정](../how-it-works/exposure.md)에 있습니다.
 
-[![Access Scope 화면](../../assets/screens/scope.png){ loading=lazy }](../../assets/screens/scope.png)
-<small>예시 화면 (가상 데이터)</small>
+화면을 좌우로 넘겨 봅니다.
+
+<div class="sade-slides" markdown>
+
+<div class="sade-slide" markdown data-title="대역 설정">
+
+[![대역 설정](../../assets/screens/scope.png){ loading=lazy }](../../assets/screens/scope.png)
+
+<small>Internal, Partner 대역과 Public 기준 (가상 데이터)</small>
+
+</div>
+
+<div class="sade-slide" markdown data-title="주소 테스트">
+
+[![주소 테스트](../../assets/screens/scope-test.png){ loading=lazy }](../../assets/screens/scope-test.png)
+
+<small>클라이언트 IP는 내부 주소지만 X-Forwarded-For의 공개 주소로 판정해 Public (가상 데이터)</small>
+
+</div>
+
+<div class="sade-slide" markdown data-title="서비스 이름 합치기">
+
+[![서비스 이름 합치기](../../assets/screens/settings.png){ loading=lazy }](../../assets/screens/settings.png)
+
+<small>다른 이름을 기준 서비스에 합침 (가상 데이터)</small>
+
+</div>
+
+</div>
 
 | 범위 | 정하는 방법 |
 |---|---|
@@ -57,9 +84,6 @@ SADE는 이 기준으로 로그의 출발지 IP를 나눠 API마다 접근 범�
 
 </div>
 
-[![주소 판정 테스트](../../assets/screens/scope-test.png){ loading=lazy }](../../assets/screens/scope-test.png)
-<small>게이트웨이 뒤 요청의 시험 (가상 데이터). 클라이언트 IP는 내부 주소지만 X-Forwarded-For의 공개 주소로 판정해 Public이 나옵니다</small>
-
 - 시험은 저장한 설정으로 합니다. 저장하지 않은 수정은 반영되지 않습니다.
 - `X-Forwarded-For`의 어느 값을 출발지로 쓸지는 backend가 정하며 화면에서 바꿀 수 없습니다. 시험 결과의 Address used로 확인합니다.
 
@@ -75,9 +99,6 @@ SADE는 이 기준으로 로그의 출발지 IP를 나눠 API마다 접근 범�
 같은 서비스가 코드, 명세, 로그에서 다른 이름으로 찍히면 노드 두 개로 나뉩니다.
 
 예를 들어 코드는 `order-service`, 로그는 `orders`인 경우입니다. 메뉴 아래쪽 Settings에서 다른 이름(Other name)을 기준 서비스(Merge into)에 합칩니다.
-
-[![Settings 화면](../../assets/screens/settings.png){ loading=lazy }](../../assets/screens/settings.png)
-<small>예시 화면 (가상 데이터)</small>
 
 <div class="sade-steps" markdown>
 

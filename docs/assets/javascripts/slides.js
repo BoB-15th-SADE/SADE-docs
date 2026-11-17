@@ -13,6 +13,7 @@
     slides.forEach((s) => track.appendChild(s));
     const chips = document.createElement("div");
     chips.className = "sade-slides__chips";
+    chips.style.position = "relative";
     chips.setAttribute("role", "tablist");
     const buttons = slides.map((s, i) => {
       const b = document.createElement("button");
@@ -39,6 +40,10 @@
       buttons.forEach((b, k) => { b.setAttribute("aria-selected", k === i ? "true" : "false"); b.classList.toggle("on", k === i); });
       count.textContent = (i + 1) + " / " + slides.length;
       prev.disabled = i === 0; next.disabled = i === slides.length - 1;
+      const b = buttons[i];
+      if (b.offsetLeft < chips.scrollLeft || b.offsetLeft + b.offsetWidth > chips.scrollLeft + chips.clientWidth) {
+        chips.scrollTo({ left: b.offsetLeft - 16, behavior: "smooth" });
+      }
     }
     function go(i) {
       i = Math.max(0, Math.min(slides.length - 1, i));
