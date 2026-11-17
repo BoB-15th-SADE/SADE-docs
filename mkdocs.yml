@@ -49,6 +49,7 @@ plugins:
           nav_translations:
             시작하기: Get started
             SADE 소개: Introduction
+            보안 검토 자료: Security review
             설치와 첫 연결: Install and connect
             샘플로 첫 결과 보기: First results with a sample
             점검 흐름: Review workflow
@@ -108,6 +109,7 @@ extra:
 nav:
   - 시작하기:
       - SADE 소개: index.md
+      - 보안 검토 자료: getting-started/security-review.md
       - 설치와 첫 연결: getting-started/quickstart.md
       - 샘플로 첫 결과 보기: getting-started/first-run.md
       - 점검 흐름: getting-started/workflow.md
