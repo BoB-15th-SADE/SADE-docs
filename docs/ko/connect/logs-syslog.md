@@ -68,6 +68,24 @@ SADE는 TCP 6514에서 TLS syslog를 받습니다. 연결 뒤에는 보내는 �
     sudo iptables -I DOCKER-USER -i eth0 -p tcp --dport 6514 ! -s 10.0.1.0/24 -j DROP
     ```
 
+??? note "다른 팀에 요청할 것: 서버, 네트워크 담당"
+
+    설치 서버 이름과 보내는 서버 목록을 채워 보냅니다.
+
+    ```text
+    [요청] 접근 로그 syslog(TLS) 전송 설정
+
+    - 용도: 사내 설치형 API 점검 도구(SADE)로 게이트웨이, 서버 접근 로그를 보냅니다.
+    - 보내는 서버: <서버 목록>
+    - 받는 곳: <SADE 서버 이름>:6514, TCP, TLS (RFC 5425)
+    - 보내는 서버 작업
+      1. rsyslog-gnutls 패키지 설치
+      2. 첨부한 인증서를 /etc/rsyslog.d/sade-syslog.crt로 저장
+      3. 첨부한 설정을 /etc/rsyslog.d/60-sade.conf로 저장 후 rsyslog 재시작
+    - 방화벽: 보내는 서버 → SADE 서버 TCP 6514 허용. SADE 서버의 6514는 위 서버 IP만 허용
+    - 메시지 형식: JSON 한 줄, 또는 nginx, Apache 접근 로그 형식
+    ```
+
 ## 1. Connect
 
 <div class="sade-steps" markdown>
