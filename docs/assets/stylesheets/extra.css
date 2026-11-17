@@ -233,3 +233,8 @@ html { scroll-padding-top: 5rem; }
 .md-typeset details > summary::before { background-color: #6f8a7e !important; }
 .md-typeset details.warning > summary::before { background-color: #b7791f !important; }
 .md-typeset details > summary::after { background-color: #8a9892 !important; }
+
+/* Top-level groups (시작하기, 연동, 사용 방법, 더 알아보기) are toggles too */
+.md-nav--primary > .md-nav__list > .md-nav__item { margin-top: .25rem; }
+.md-nav--primary > .md-nav__list > .md-nav__item--nested > .md-nav__link { color: #17231e; font-size: .76rem; font-weight: 650; }
+.md-nav--primary > .md-nav__list > .md-nav__item--nested > .md-nav > .md-nav__list { border-left: 0; margin: .1rem 0 .6rem .3rem; padding-left: .3rem; }
