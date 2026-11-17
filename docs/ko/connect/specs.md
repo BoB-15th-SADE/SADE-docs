@@ -2,23 +2,37 @@
 
 Connect > Specifications에서 기업이 관리하는 OpenAPI 명세를 등록합니다. 등록한 명세는 Inventory의 `Spec` 출처가 되고, 명세에 없는 API(Undocumented, Shadow)를 가리는 기준이 됩니다.
 
-화면을 좌우로 넘겨 봅니다.
+<div class="sade-slides sade-walk" markdown>
 
-<div class="sade-slides" markdown>
+<div class="sade-slide" markdown data-title="명세 추가" data-spot="90.14,3.89,6.53,3.56" data-url="/#/specs">
 
-<div class="sade-slide" markdown data-title="명세 목록">
+<p class="sade-say">Connect > Specifications에서 명세 추가를 누릅니다.</p>
 
-[![명세 목록](../../assets/screens/specs.png){ loading=lazy }](../../assets/screens/specs.png)
-
-<small>등록한 명세와 코드에서 만든 명세, 위쪽에 빠진 자료 표 (가상 데이터)</small>
+[![명세 추가](../../assets/screens/w-specs-1.png){ loading=lazy }](../../assets/screens/w-specs-1.png)
 
 </div>
 
-<div class="sade-slide" markdown data-title="명세 추가">
+<div class="sade-slide" markdown data-title="서비스 이름" data-spot="25.07,39.23,49.86,3.56" data-url="/#/specs">
 
-[![명세 추가](../../assets/screens/specs-add.png){ loading=lazy }](../../assets/screens/specs-add.png)
+<p class="sade-say">서비스명에 코드 스캔과 같은 서비스 이름을 넣습니다.</p>
 
-<small>파일 업로드와 URL에서 가져오기 중 하나를 고름 (가상 데이터)</small>
+[![서비스 이름](../../assets/screens/w-specs-2.png){ loading=lazy }](../../assets/screens/w-specs-2.png)
+
+</div>
+
+<div class="sade-slide" markdown data-title="파일 고르기" data-spot="25.07,52.79,49.86,3.56" data-url="/#/specs">
+
+<p class="sade-say">파일 업로드를 고른 상태에서 OpenAPI JSON 파일을 고릅니다.</p>
+
+[![파일 고르기](../../assets/screens/w-specs-3.png){ loading=lazy }](../../assets/screens/w-specs-3.png)
+
+</div>
+
+<div class="sade-slide" markdown data-title="업로드" data-spot="25.07,67.32,49.86,3.56" data-url="/#/specs">
+
+<p class="sade-say">업로드를 누릅니다. 파일을 고르기 전에는 버튼이 꺼져 있습니다.</p>
+
+[![업로드](../../assets/screens/w-specs-4.png){ loading=lazy }](../../assets/screens/w-specs-4.png)
 
 </div>
 

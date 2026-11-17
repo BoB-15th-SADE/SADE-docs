@@ -4,47 +4,93 @@
 
 SADE는 TCP 6514에서 TLS syslog를 받습니다. 연결 뒤에는 보내는 대로 계속 저장합니다.
 
-단계별 화면입니다. 좌우로 넘기거나 단계 이름을 눌러 봅니다.
+<div class="sade-slides sade-walk" markdown>
 
-<div class="sade-slides" markdown>
+<div class="sade-slide" markdown data-title="syslog 연결 열기" data-spot="38.73,90.83,5.43,3.56" data-url="/#/logs">
 
-<div class="sade-slide" markdown data-title="Log Sources">
+<p class="sade-say">Connect > Log Sources에서 syslog 카드의 Connect를 누릅니다.</p>
 
-[![Log Sources](../../assets/screens/syslog.png){ loading=lazy }](../../assets/screens/syslog.png)
-
-<small>syslog 카드가 있는 연결 화면</small>
+[![syslog 연결 열기](../../assets/screens/w-syslog-1.png){ loading=lazy }](../../assets/screens/w-syslog-1.png)
 
 </div>
 
-<div class="sade-slide" markdown data-title="Connect">
+<div class="sade-slide" markdown data-title="인증서 받기" data-spot="19.03,42.27,7.71,3.56" data-url="/#/syslog">
 
-[![Connect](../../assets/screens/syslog-connect.png){ loading=lazy }](../../assets/screens/syslog-connect.png)
+<p class="sade-say">인증서 다운로드로 인증서를 받아 보내는 서버마다 넣습니다.</p>
 
-<small>받는 주소, 인증서, rsyslog 설정 예시</small>
-
-</div>
-
-<div class="sade-slide" markdown data-title="샘플 받기">
-
-[![샘플 받기](../../assets/screens/syslog-samples.png){ loading=lazy }](../../assets/screens/syslog-samples.png)
-
-<small>받은 메시지와 형식. 못 읽은 메시지는 "해석 안 됨"</small>
+[![인증서 받기](../../assets/screens/w-syslog-2.png){ loading=lazy }](../../assets/screens/w-syslog-2.png)
 
 </div>
 
-<div class="sade-slide" markdown data-title="필드 매핑">
+<div class="sade-slide" markdown data-title="rsyslog 설정" data-spot="19.03,50.75,76.18,12.74" data-url="/#/syslog">
 
-[![필드 매핑](../../assets/screens/syslog-map.png){ loading=lazy }](../../assets/screens/syslog-map.png)
+<p class="sade-say">rsyslog 설정 예시를 보내는 서버의 /etc/rsyslog.d/60-sade.conf로 저장합니다.</p>
 
-<small>메시지 키를 SADE 필드에 맞춤. hostname은 syslog 헤더에서 읽음</small>
+[![rsyslog 설정](../../assets/screens/w-syslog-3.png){ loading=lazy }](../../assets/screens/w-syslog-3.png)
 
 </div>
 
-<div class="sade-slide" markdown data-title="저장 결과 확인">
+<div class="sade-slide" markdown data-title="샘플 받기 시작" data-spot="88.22,88.4,6.99,3.56" data-url="/#/syslog">
 
-[![저장 결과 확인](../../assets/screens/syslog-stored.png){ loading=lazy }](../../assets/screens/syslog-stored.png)
+<p class="sade-say">보내는 서버에서 rsyslog를 다시 시작한 뒤 샘플 받기 시작을 누릅니다.</p>
 
-<small>매핑 적용 뒤 저장된 줄 수</small>
+[![샘플 받기 시작](../../assets/screens/w-syslog-4.png){ loading=lazy }](../../assets/screens/w-syslog-4.png)
+
+</div>
+
+<div class="sade-slide" markdown data-title="샘플 확인" data-spot="85.12,74.87,10.09,3.56" data-url="/#/syslog">
+
+<p class="sade-say">받은 메시지와 형식을 확인하고 필드 매핑을 누릅니다.</p>
+
+[![샘플 확인](../../assets/screens/w-syslog-5.png){ loading=lazy }](../../assets/screens/w-syslog-5.png)
+
+</div>
+
+<div class="sade-slide" markdown data-title="매핑 확인" data-spot="41.22,46.32,25.71,3.56" data-url="/#/syslog">
+
+<p class="sade-say">메시지 키가 SADE 필드에 맞게 추천됐는지 확인합니다. 틀린 칸은 다른 키로 바꿉니다.</p>
+
+[![매핑 확인](../../assets/screens/w-syslog-6.png){ loading=lazy }](../../assets/screens/w-syslog-6.png)
+
+</div>
+
+<div class="sade-slide" markdown data-title="저장 시작" data-spot="86.6,90.84,8.61,3.56" data-url="/#/syslog">
+
+<p class="sade-say">맨 아래 반영하고 저장 시작을 누릅니다.</p>
+
+[![저장 시작](../../assets/screens/w-syslog-7.png){ loading=lazy }](../../assets/screens/w-syslog-7.png)
+
+</div>
+
+<div class="sade-slide" markdown data-title="저장 결과 확인" data-spot="87.18,44.83,7.13,3.56" data-url="/#/syslog">
+
+<p class="sade-say">저장된 줄 수가 나오면 저장 결과 확인을 누릅니다.</p>
+
+[![저장 결과 확인](../../assets/screens/w-syslog-8.png){ loading=lazy }](../../assets/screens/w-syslog-8.png)
+
+</div>
+
+<div class="sade-slide" markdown data-title="저장된 줄 확인" data-spot="74.65,87.5,5.14,3.56" data-url="/#/syslog">
+
+<p class="sade-say">값이 맞는 필드에 들어갔는지 보고 확인 완료를 누릅니다.</p>
+
+[![저장된 줄 확인](../../assets/screens/w-syslog-9.png){ loading=lazy }](../../assets/screens/w-syslog-9.png)
+
+</div>
+
+<div class="sade-slide" markdown data-title="반영" data-spot="83.33,51.16,11.88,3.56" data-url="/#/syslog">
+
+<p class="sade-say">Inventory와 Flows에 반영을 누릅니다.</p>
+
+[![반영](../../assets/screens/w-syslog-10.png){ loading=lazy }](../../assets/screens/w-syslog-10.png)
+
+</div>
+
+<div class="sade-slide" markdown data-title="결과 보기" data-spot="87.67,84.82,7.54,3.56" data-url="/#/syslog">
+
+<p class="sade-say">찾은 API를 확인하고 Inventory 열기로 목록을 엽니다.</p>
+
+[![결과 보기](../../assets/screens/w-syslog-11.png){ loading=lazy }](../../assets/screens/w-syslog-11.png)
 
 </div>
 
