@@ -4,8 +4,6 @@ Connect > Source Code에서 GitHub 저장소를 연결해 스캔합니다.
 
 코드 스캔은 Java Spring Boot 서비스를 읽습니다. 코드는 읽기만 하고 저장소에 쓰지 않습니다.
 
-단계별 화면입니다. 좌우로 넘기거나 단계 이름을 눌러 봅니다.
-
 <div class="sade-slides" markdown>
 
 <div class="sade-slide" markdown data-title="Source Code">
@@ -79,7 +77,7 @@ Connect > Source Code에서 GitHub 저장소를 연결해 스캔합니다.
 
 ??? note "다른 팀에 요청할 것: GitHub 관리자"
 
-    아래 문장을 그대로 보내도 됩니다. 저장소 이름은 바꿔 넣습니다.
+    저장소 이름만 바꿔 보냅니다.
 
     ```text
     [요청] API 점검 도구(SADE) 코드 스캔용 GitHub 읽기 토큰 발급

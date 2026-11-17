@@ -4,8 +4,6 @@ SIEM, 게이트웨이, 서비스에서 기간을 정해 내보낸 CSV를 올립�
 
 연동 승인 전에 기업 로그 형식을 확인할 때 씁니다. 처음이면 [샘플 로그로 첫 결과 보기](../getting-started/first-run.md)로 화면 흐름을 먼저 익힙니다.
 
-단계별 화면입니다. 좌우로 넘기거나 단계 이름을 눌러 봅니다.
-
 <div class="sade-slides" markdown>
 
 <div class="sade-slide" markdown data-title="업로드">

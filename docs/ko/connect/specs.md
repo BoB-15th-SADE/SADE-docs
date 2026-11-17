@@ -2,8 +2,6 @@
 
 Connect > Specifications에서 기업이 관리하는 OpenAPI 명세를 등록합니다. 등록한 명세는 Inventory의 `Spec` 출처가 되고, 명세에 없는 API(Undocumented, Shadow)를 가리는 기준이 됩니다.
 
-화면을 좌우로 넘겨 봅니다.
-
 <div class="sade-slides" markdown>
 
 <div class="sade-slide" markdown data-title="명세 목록">
@@ -49,7 +47,7 @@ YAML이나 Swagger 2.0 파일은 공개된 변환 도구(예: `swagger2openapi`,
 
 ??? note "다른 팀에 요청할 것: 개발 팀"
 
-    서비스마다 명세 파일을 받거나, 명세 주소를 받습니다.
+    서비스마다 명세 파일이나 명세 주소를 받습니다.
 
     ```text
     [요청] 서비스별 OpenAPI 명세 파일 공유

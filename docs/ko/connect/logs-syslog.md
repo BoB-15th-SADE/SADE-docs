@@ -4,8 +4,6 @@
 
 SADE는 TCP 6514에서 TLS syslog를 받습니다. 연결 뒤에는 보내는 대로 계속 저장합니다.
 
-단계별 화면입니다. 좌우로 넘기거나 단계 이름을 눌러 봅니다.
-
 <div class="sade-slides" markdown>
 
 <div class="sade-slide" markdown data-title="Log Sources">

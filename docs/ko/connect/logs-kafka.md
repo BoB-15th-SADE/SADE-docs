@@ -4,8 +4,6 @@
 
 SADE는 토픽을 읽기만 하고 쓰지 않습니다. 연결 뒤에는 새 메시지를 계속 저장합니다.
 
-단계별 화면입니다. 좌우로 넘기거나 단계 이름을 눌러 봅니다.
-
 <div class="sade-slides" markdown>
 
 <div class="sade-slide" markdown data-title="Log Sources">
@@ -71,7 +69,7 @@ SADE는 컨슈머 그룹(기본 `sade`) 외에 `<그룹>-preview-…`(샘플용)
 
 ??? note "다른 팀에 요청할 것: Kafka 담당"
 
-    토픽 이름과 설치 서버 정보를 채워 보냅니다.
+    토픽 이름을 채워 보냅니다.
 
     ```text
     [요청] 로그 토픽 읽기 계정 발급

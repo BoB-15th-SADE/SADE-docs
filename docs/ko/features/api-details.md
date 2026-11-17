@@ -2,9 +2,7 @@
 
 Inventory에서 API를 누르고 Full Screen(전체 화면)을 누르면 API 상세가 열립니다. 위쪽에 서비스, 메서드, 경로, 관리 우선순위, 출처(`Code`, `Spec`, `Log`)가 나옵니다.
 
-탭별 화면을 좌우로 넘겨 봅니다.
-
-<div class="sade-slides" markdown>
+탭별 <div class="sade-slides" markdown>
 
 <div class="sade-slide" markdown data-title="Overview">
 
