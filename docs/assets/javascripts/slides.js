@@ -26,12 +26,12 @@
     const nav = document.createElement("div");
     nav.className = "sade-slides__nav";
     const prev = document.createElement("button");
-    prev.type = "button"; prev.className = "prev"; prev.setAttribute("aria-label", korean ? "이전 단계" : "Previous step"); prev.textContent = "‹";
+    prev.type = "button"; prev.className = "prev"; prev.setAttribute("aria-label", korean ? "이전 단계" : "Previous step"); prev.textContent = korean ? "← 이전" : "← Previous";
     const next = document.createElement("button");
-    next.type = "button"; next.className = "next"; next.setAttribute("aria-label", korean ? "다음 단계" : "Next step"); next.textContent = "›";
+    next.type = "button"; next.className = "next"; next.setAttribute("aria-label", korean ? "다음 단계" : "Next step"); next.textContent = korean ? "다음 →" : "Next →";
     const count = document.createElement("span");
     count.className = "count";
-    nav.append(prev, count, next);
+    nav.append(count, prev, next);
     root.append(chips, track, nav);
     let current = 0;
     function mark(i) {

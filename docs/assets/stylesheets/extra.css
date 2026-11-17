@@ -259,3 +259,40 @@ html { scroll-padding-top: 5rem; }
 .md-typeset .sade-slides__nav button:hover:not(:disabled) { border-color: #a8c8b7; color: #167964; }
 .md-typeset .sade-slides__nav button:disabled { cursor: default; opacity: .35; }
 .md-typeset .sade-slides__nav .count { color: #64716c; font-size: .66rem; min-width: 2.6rem; text-align: center; }
+
+/* ---------- Flat look: square corners, underline tabs, no pills or circles ---------- */
+.md-header .md-search__form,
+.sade-copy-page,
+.md-typeset table:not([class]),
+.md-typeset .admonition,
+.md-typeset details,
+.md-typeset .sade-links a,
+.md-typeset .sade-pipe > div,
+.md-typeset .tabbed-set,
+.md-typeset a.sade-curious,
+.md-typeset .sade-catalog > p > a, .md-typeset .sade-catalog > div { border-radius: 3px !important; }
+.md-typeset details > summary, .md-typeset details[open] > summary { border-radius: 0 !important; }
+.md-typeset .sade-pill { border-radius: 2px; }
+/* sidebar: active page is a left rule, not a filled pill */
+.md-nav--primary .md-nav__link { border-left: 2px solid transparent; border-radius: 0; margin-top: 0; padding: .3rem .6rem; }
+.md-nav--primary .md-nav__link:is(:hover, :focus-visible) { background: none; color: #167964; }
+.md-nav--primary .md-nav__link--active,
+.md-nav--primary .md-nav__item .md-nav__link--active { background: none; border-left-color: #167964; color: #13684f; font-weight: 600; }
+.md-nav--primary > .md-nav__list > .md-nav__item--nested > .md-nav__link { border-left-color: transparent !important; }
+/* numbered steps: plain number on a thin rule */
+.md-typeset .sade-steps > ol > li { border-left: 1px solid #dfe5e2; margin-left: .6rem; padding-left: 1.4rem; }
+.md-typeset .sade-steps > ol > li::before { background: #fff; border: 0; border-radius: 0; color: #167964; font-family: var(--md-code-font); font-size: .7rem; font-weight: 700; height: 1.3rem; left: -.55rem; width: 1.1rem; }
+/* step slider: underline tabs + text buttons */
+.md-typeset .sade-slides { border: 1px solid #dfe5e2; border-radius: 3px; }
+.md-typeset .sade-slides__chips { background: #fff; flex-wrap: nowrap; gap: 0; overflow-x: auto; padding: 0 .4rem; scrollbar-width: none; }
+.md-typeset .sade-slides__chips::-webkit-scrollbar { display: none; }
+.md-typeset .sade-slides__chips button { background: none; border: 0; border-bottom: 2px solid transparent; border-radius: 0; color: #64716c; flex: none; font-size: .68rem; gap: .3rem; margin-bottom: -1px; padding: .6rem .65rem .5rem; white-space: nowrap; }
+.md-typeset .sade-slides__chips button .n { background: none; border-radius: 0; color: #8a9892; font-family: var(--md-code-font); font-size: .64rem; font-weight: 600; height: auto; width: auto; }
+.md-typeset .sade-slides__chips button:hover { border-color: transparent; color: #17231e; }
+.md-typeset .sade-slides__chips button.on { background: none; border-bottom-color: #167964; color: #17231e; font-weight: 600; }
+.md-typeset .sade-slides__chips button.on .n { background: none; color: #167964; }
+.md-typeset .sade-slide { padding: .9rem 1rem .3rem; }
+.md-typeset .sade-slide img { border: 1px solid #e6ebe9; border-radius: 0; }
+.md-typeset .sade-slides__nav { background: #fafbfb; gap: .4rem; justify-content: flex-end; padding: .45rem .7rem; }
+.md-typeset .sade-slides__nav .count { color: #64716c; font-family: var(--md-code-font); font-size: .64rem; margin-right: auto; min-width: 0; text-align: left; }
+.md-typeset .sade-slides__nav button { border: 1px solid #d6dedb; border-radius: 3px; font: inherit; font-size: .66rem; height: auto; padding: .25rem .6rem; width: auto; }
