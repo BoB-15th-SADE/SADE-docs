@@ -2,9 +2,7 @@
 
 메뉴와 화면 제목은 영어, 설명은 한국어로 표시합니다. 화면의 English, 한국어 버튼으로 언어를 바꿉니다.
 
-주요 화면을 좌우로 넘겨 봅니다.
-
-<div class="sade-slides" markdown>
+주요 <div class="sade-slides" markdown>
 
 <div class="sade-slide" markdown data-title="Overview">
 

@@ -2,8 +2,6 @@
 
 Connect > Specifications에서 기업이 관리하는 OpenAPI 명세를 등록합니다. 등록한 명세는 Inventory의 `Spec` 출처가 되고, 명세에 없는 API(Undocumented, Shadow)를 가리는 기준이 됩니다.
 
-화면을 좌우로 넘겨 봅니다.
-
 <div class="sade-slides" markdown>
 
 <div class="sade-slide" markdown data-title="명세 목록">
@@ -46,6 +44,19 @@ Connect > Specifications에서 기업이 관리하는 OpenAPI 명세를 등록�
 | 서비스 이름 | 코드 스캔의 서비스 이름과 같게 넣습니다. 이름이 다르면 같은 API가 두 서비스로 나뉩니다 |
 
 YAML이나 Swagger 2.0 파일은 공개된 변환 도구(예: `swagger2openapi`, `yq`)로 바꿉니다. 여러 파일로 나뉜 명세는 `redocly bundle` 같은 도구로 한 파일로 묶습니다.
+
+??? note "다른 팀에 요청할 것: 개발 팀"
+
+    서비스마다 명세 파일이나 명세 주소를 받습니다.
+
+    ```text
+    [요청] 서비스별 OpenAPI 명세 파일 공유
+
+    - 용도: 사내 설치형 API 점검 도구(SADE)에서 명세에 없는 API를 찾습니다.
+    - 받을 것: 서비스마다 OpenAPI 3.0 또는 3.1 JSON 파일 한 개 (2 MiB 이하, 외부 $ref 없이 한 파일로)
+    - 서비스 이름: 각 파일이 어떤 서비스의 명세인지 알려 주세요. 코드의 spring.application.name과 같으면 가장 좋습니다.
+    - 파일 대신 주소로 받을 수도 있습니다: 설치 서버에서 닿는 내부 주소(예: http://orders:8080/v3/api-docs)
+    ```
 
 ## 1. 파일로 등록
 

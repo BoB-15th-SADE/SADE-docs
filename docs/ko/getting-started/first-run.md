@@ -18,8 +18,6 @@ time,svc,method,path,status,src_ip,host,req_body
 2026-11-16T09:03:10+09:00,payment-service,POST,/api/payments,200,10.0.2.15,pay-1,"{""order_id"":1001,""card_no"":""4111111111111111""}"
 ```
 
-단계별 화면입니다. 좌우로 넘기거나 단계 이름을 눌러 봅니다.
-
 <div class="sade-slides" markdown>
 
 <div class="sade-slide" markdown data-title="필드 매핑">

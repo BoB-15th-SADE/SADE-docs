@@ -8,8 +8,6 @@ SADE는 이 기준으로 로그의 출발지 IP를 나눠 API마다 접근 범�
 
 판정 방식은 [노출 판정](../how-it-works/exposure.md)에 있습니다.
 
-화면을 좌우로 넘겨 봅니다.
-
 <div class="sade-slides" markdown>
 
 <div class="sade-slide" markdown data-title="대역 설정">
