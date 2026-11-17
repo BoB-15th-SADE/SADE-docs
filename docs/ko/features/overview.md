@@ -2,6 +2,10 @@
 
 Overview는 마지막으로 끝난 분석 결과를 요약합니다. 화면 위의 분석 완료 시각은 선택한 분석이 끝난 시각입니다. 실시간 수집 시각과 다릅니다.
 
+
+[![Overview 화면](../../assets/screens/overview.png){ loading=lazy }](../../assets/screens/overview.png)
+<small>예시 화면 (가상 데이터). 점검이 준비 중이어서 Assessments Score 값은 화면 예시입니다</small>
+
 | 영역 | 내용 |
 |---|---|
 | Management Priority | P1~P4와 미평가(Unassessed) API 수. 누르면 그 등급으로 거른 Inventory가 열립니다 |

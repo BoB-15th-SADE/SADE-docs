@@ -2,6 +2,8 @@
 
 ## 2026-11-17
 
+- 화면 사진 17장을 넣었습니다. Overview, Inventory, API 상세(개요, 관리, 담당자), Flows, Log Sources(CSV, syslog, Kafka), Specifications, Source Code, Data Types, Access Scope, Settings, Assessments. 개발용 가짜 API로 띄운 화면이며 값은 모두 가상입니다.
+- 한국어 화면에 나오는 이름(예: Spec 누락, 관리 탭)을 표에 함께 적었습니다.
 - 기준을 SADE `feat/api-asset-prioritization` `f512bc0`로 올렸습니다. 새 구조(컨테이너 7개, PostgreSQL, ClickHouse, Vector)에 맞춰 문서를 다시 썼습니다.
 - 관리 우선순위(P1~P4), Overview, 프레임워크 점검(준비 중) 페이지를 새로 넣었습니다.
 - 연동을 소스 코드(GitHub), OpenAPI 명세(파일, 내부 주소), 로그(CSV, syslog, Kafka)로 정리했습니다.

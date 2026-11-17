@@ -5,6 +5,10 @@ Rules > Data Types에서 SADE가 찾는 민감정보 유형과 탐지 규칙을 
 !!! note "보기만 가능"
     규칙 저장과 테스트는 연결 작업이 끝나지 않았습니다. 화면에서 유형과 규칙을 볼 수 있습니다. 기업 고유 필드 이름을 추가하고 저장하는 기능은 다음 버전에 들어갑니다.
 
+
+[![Data Types 화면](../../assets/screens/datatypes.png){ loading=lazy }](../../assets/screens/datatypes.png)
+<small>예시 화면 (가상 데이터)</small>
+
 ## 기본 유형 19개
 
 | 분류 | 유형 |

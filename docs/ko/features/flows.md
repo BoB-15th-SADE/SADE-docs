@@ -2,6 +2,10 @@
 
 APIs > Flows는 클라이언트, 서비스, API, DB, 외부 목적지 사이의 연결을 그래프로 그립니다. 보안 담당자는 이 화면에서 입구(외부에서 닿는 서비스), 민감정보가 있는 곳, 입구에서 그곳까지의 경로를 찾습니다.
 
+
+[![Flows 화면](../../assets/screens/flows.png){ loading=lazy }](../../assets/screens/flows.png)
+<small>예시 화면 (가상 데이터)</small>
+
 ## 노드와 선
 
 | 노드 | 뜻 |

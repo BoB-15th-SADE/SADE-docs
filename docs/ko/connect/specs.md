@@ -2,6 +2,12 @@
 
 Connect > Specifications에서 기업이 관리하는 OpenAPI 명세를 등록합니다. 등록한 명세는 Inventory의 `Spec` 출처가 되고, 코드나 로그에만 있는 API(Undocumented, Shadow)를 가리는 기준이 됩니다.
 
+
+[![Specifications 화면](../../assets/screens/specs.png){ loading=lazy }](../../assets/screens/specs.png)
+<small>예시 화면 (가상 데이터)</small>
+
+위쪽 "우선순위 판단에 빠진 자료" 표는 이 자료가 없어 관리 우선순위를 판단하지 못한 항목과 영향받는 API 수를 보여 줍니다.
+
 ## 등록
 
 Add specification을 누르고 서비스 이름과 함께 등록합니다.
