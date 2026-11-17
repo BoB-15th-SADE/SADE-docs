@@ -1,143 +1,81 @@
-# 연동 한눈에 보기
+# 로그 (CSV, syslog, Kafka)
 
-SADE는 회사에 이미 있는 로그, 명세, 코드를 읽기만 합니다. 서비스에 에이전트를 설치하거나 트래픽을 가로채지 않습니다. 연결을 시작하기 전에 무엇을 연결할 수 있는지, 로그에 어떤 필드가 있어야 하는지 이 페이지에서 확인하세요.
+Connect > **Log Sources**에서 로그를 연결합니다. 로그는 실제로 호출된 API, 호출 수, 호출한 주소, 서비스 사이 흐름의 근거가 됩니다.
 
-## 연결할 수 있는 것
+## 방식 고르기
 
-<div class="sade-catalog" markdown>
+| 방식 | 이런 환경에 | 방향 | 회사에서 준비할 것 |
+|---|---|---|---|
+| **CSV 업로드** | 연동 승인 전에 먼저 시험해 볼 때 | 사람이 파일을 올림 | SIEM, 게이트웨이, 서비스에서 기간을 정해 내보낸 CSV |
+| **syslog 수신** | 서버나 게이트웨이가 rsyslog로 로그를 보낼 수 있을 때 | 회사 서버 → SADE (TCP 6514, TLS) | rsyslog 설정 몇 줄, 방화벽 허용 |
+| **Kafka 구독** | 로그가 Kafka 토픽에 모일 때 | SADE → Kafka 브로커 (읽기만) | 브로커 주소, 읽기 권한, 인증 정보 |
 
-[**Splunk**<span>Search REST API로 인덱스 검색</span><span class="sade-pill ok">지원</span>](splunk.md)
+!!! tip "CSV로 먼저 확인하세요"
+    하루치 로그를 CSV로 먼저 올려 필드 매핑이 맞는지 확인한 뒤 syslog나 Kafka를 연결하기를 권합니다. 같은 로그 줄은 어떤 경로로 들어와도 한 번만 저장됩니다.
 
-[**Cloudera**<span>WebHDFS로 HDFS의 JSONL 파일 읽기</span><span class="sade-pill ok">지원</span>](cloudera.md)
+모든 방식은 같은 순서로 처리됩니다. 받은 로그를 [로그 필드](schema.md)에 맞춰 바꾸고, Vector가 본문 값을 타입으로 가린 뒤 ClickHouse에 저장합니다. 그다음 로그를 분석하면 Inventory와 Flows가 다시 만들어집니다.
 
-[**OpenAPI 명세**<span>OpenAPI 3.0 / 3.1 JSON 업로드</span><span class="sade-pill ok">지원</span>](specs.md)
+## CSV 업로드
 
-[**GitHub**<span>저장소를 골라 코드에서 API와 호출 관계 추출</span><span class="sade-pill ok">지원</span>](code.md)
+Log Sources에서 CSV를 고르면 업로드 화면이 열립니다.
 
-<div markdown>**Elasticsearch / OpenSearch**<span>같은 수집 방식으로 확장 가능. [확장하기](../technology/extending.md)</span><span class="sade-pill part">확장</span></div>
-
-<div markdown>**Amazon S3**<span>전송 방식만 더하면 같은 분석 사용</span><span class="sade-pill part">확장</span></div>
-
-<div markdown>**Syslog 원문**<span>JSON 이벤트로 바꿔서 SIEM에 저장</span><span class="sade-pill no">미지원</span></div>
-
-</div>
-
-명세, 코드, 로그는 순서와 상관없이 하나씩 붙일 수 있습니다. 명세만 올려도 API 목록과 민감정보 후보가 나오고, 로그를 붙이면 실제 호출이, 코드를 붙이면 구현 위치와 서비스 간 호출이 더해집니다.
-
-## 처음 연결하는 순서
-
-<div class="sade-steps" markdown>
-
-1. **로그를 연결합니다.** Connect › Log Sources에서 Splunk나 Cloudera를 고르고 접속 정보만 넣습니다. 수집 기간과 주기는 기본값이 있습니다.
-2. **Test connection**으로 접속과 검색 권한을 확인한 뒤 **Save connection**을 누릅니다. 저장만 해서는 접속이 되는지 알 수 없습니다.
-3. **Collect now**로 로그를 가져옵니다. API 인벤토리, 민감정보, Flows가 채워집니다.
-4. (선택) Connect › Specifications에서 OpenAPI 명세를 올립니다. 명세가 있어야 Shadow API와 명세 점검이 나옵니다.
-5. **Run scan**으로 명세 점검을 실행합니다. 저장된 수집 결과만 쓰므로 SIEM에 다시 접속하지 않습니다.
-
-</div>
-
-## 로그에 남아 있어야 하는 것
-
-로그 이름(게이트웨이, 접근 로그, 애플리케이션 로그)은 상관없습니다. **이벤트 하나가 JSON 객체 하나**이고 아래 필드가 있으면 됩니다. 필드 이름은 SADE가 흔한 형식(Elastic ECS, OpenTelemetry, Envoy, NGINX JSON, Kong, Splunk CIM)에서 자동으로 찾습니다.
-
-=== "필수"
-
-    | 필드 | 예시 필드 이름 | 없으면 |
-    |---|---|---|
-    | 시각 | `time`, `@timestamp`, `_time` | 수집하지 않음 |
-    | 메서드 | `method`, `http.request.method` | 수집하지 않음 |
-    | 경로 | `path`, `url.path`, `request_uri` | 수집하지 않음 |
-    | 상태 코드 | `status`, `http.response.status_code` | 수집하지 않음 |
-
-    이 네 가지만 있어도 **API 인벤토리, 호출 수, Shadow API**가 나옵니다. 시각은 시간대(`Z` 또는 `+09:00`)가 있는 ISO 8601이나 epoch 초·밀리초여야 합니다.
-
-=== "권장"
-
-    | 필드 | 예시 | 더해지는 기능 |
-    |---|---|---|
-    | 요청 ID | `request_id`, `X-Request-ID` | 게이트웨이 로그와 서비스 로그를 한 호출로 합침 |
-    | 요청 헤더 | `Authorization`, `Cookie`, `X-API-Key` | 인증 방식 분석, 인증 없이 성공한 호출 탐지 |
-    | 응답 본문 | 값, 또는 필드 이름과 타입만 | 호출별 명세 점검, 값으로 민감정보 확인 |
-    | 서비스 이름 | `service.name` | 경로 접두사 없이도 서비스 구분 |
-
-    인증 헤더는 값이 가려져 있어도 됩니다. `Bearer ***`처럼 방식 단어만 남아 있으면 인증 방식을 읽습니다.
-
-=== "있으면 더 좋음"
-
-    | 필드 | 예시 | 더해지는 기능 |
-    |---|---|---|
-    | Trace | `traceId`, `spanId`, `parentSpanId`, W3C `traceparent` | 가장 정확한 서비스 간 호출 흐름 |
-    | 호출 대상, 방향 | `destination.address`, `span.kind` | 누가 누구를 불렀는지 |
-    | 원래 클라이언트 | `X-Forwarded-For` | 프록시 뒤의 실제 호출자 IP |
-    | 접속 IP | `client_ip`, `remote_addr` | 호출자 구분 |
-    | 응답 시간, 크기 | `duration_ms`, `bytes_sent` | Call History 표시 |
-
-헤더와 본문은 선택입니다. 없으면 "수집 안 됨"으로 표시하고, 비어 있다거나 개인정보가 없다고 판단하지 않습니다.
-
-전체 필드 목록과 필드별로 Flows가 어디까지 그려지는지는 [로그 필드 레퍼런스](schema.md)에 있습니다.
-
-### 내 로그로 확인해 보기 {#log-check}
-
-로그 한 줄을 붙여 넣으면 SADE가 어떤 필드를 찾는지, 어떤 기능을 쓸 수 있는지 바로 보여 줍니다. 브라우저 안에서만 확인하고 어디로도 보내지 않습니다. 실제 값 대신 가린 값이나 예시를 넣어도 결과는 같습니다.
-
-<div class="sade-logcheck" data-lang="ko">
-  <div class="sade-logcheck__head"><span>로그 한 줄 (JSON)</span><div class="sade-logcheck__samples"><button type="button" data-sample="nginx">nginx JSON</button><button type="button" data-sample="ecs">Elastic ECS</button><button type="button" data-sample="minimal">필수만</button><button type="button" data-sample="broken">JSON 아닌 형식</button></div></div>
-  <textarea spellcheck="false" aria-label="로그 한 줄" placeholder='{"time":"2026-10-26T09:12:03+09:00","method":"GET","path":"/api/orders/1","status":200}'></textarea>
-  <div class="sade-logcheck__note">자동 감지와 같은 별칭 목록으로 판단합니다. traceparent는 Flow 로그 유형이 Access인 소스에서 읽습니다.</div>
-  <div class="sade-logcheck__result" aria-live="polite"></div>
-</div>
-
-[<span class="q">궁금하신가요?</span><span class="t">필드를 자동으로 찾고, 형식이 다른 로그를 하나로 맞추는 방법</span><span class="arrow">→</span>](../technology/log-normalization.md){ .sade-curious }
-
-## 필드 매핑 {#field-mapping}
-
-| 방식 | 언제 쓰나 |
+| 조건 | 내용 |
 |---|---|
-| **Auto-detect** (기본) | 대부분. 가져온 이벤트에서 예시 이름을 찾고 값 형식까지 확인합니다. |
-| **Manual** | 자동 감지가 다른 필드를 골랐을 때. 값이 아니라 **필드 경로**를 씁니다. 로그가 `{"http":{"method":"GET"}}`이면 Method에 `http.method`를 넣습니다. |
-| **Log profile** | 회사 고유 필드 이름이 많을 때. 아래 JSON을 올리면 기본 이름보다 먼저 찾습니다. |
+| 파일 | 한 번에 5개까지, 파일당 200 MB |
+| 형식 | 첫 줄이 열 이름. UTF-8 또는 CP949. 구분자는 쉼표, 탭, `;`, `|` |
 
-```json
-{
-  "field_aliases": { "path": ["req.full_path"], "service": ["app_name"] },
-  "client_event_types": ["egress_call"]
-}
-```
+1. 파일을 고르면 열 이름을 보고 SADE 필드를 추천합니다. 회사 열 이름이 달라도 대응 관계만 고르면 됩니다(예: `svc` → `service.name`).
+2. 서비스 이름 열이 없으면 파일마다 고정 서비스 이름을 넣을 수 있습니다.
+3. 보내면 파일마다 저장됨, 이미 저장됨, 보관 기간보다 오래되어 버림, 매핑한 칸이 비어 버림으로 나눠 보여 줍니다.
+4. **Apply to inventory and flows**를 누르면 로그 분석이 시작되고, 끝나면 Inventory와 Flows가 바뀝니다.
 
-## 로그를 서비스로 나누기 {#routing}
+!!! note "시각 열을 매핑하세요"
+    `@timestamp`를 매핑하지 않으면 저장 시각이 로그 시각이 됩니다. 이때 같은 파일을 다시 올리면 같은 줄이 다시 저장됩니다.
 
-로그 하나에 여러 서비스의 호출이 섞여 있는 경우가 많습니다. 연결의 추가 설정 › **Service matching**에서 나누는 방법을 고릅니다. 경로 접두사가 등록된 서비스가 있으면 새 연결은 처음부터 경로 매칭으로 설정됩니다.
+## syslog 수신
 
-| 선택 | 동작 | 이럴 때 |
+SADE가 TCP 6514에서 TLS syslog를 받습니다. 보내는 서버에는 화면에서 받은 인증서와 rsyslog 설정 예시를 넣습니다.
+
+| 항목 | 내용 |
+|---|---|
+| 형식 | RFC 5424, RFC 3164. 메시지 본문은 JSON, nginx, Apache 접근 로그 한 줄 |
+| 인증서 | `.env`의 `SADE_SYSLOG_HOST`(이 서버의 이름이나 IP)로 자체 서명 인증서를 만듭니다. 회사 인증서는 `syslog-certs` 볼륨에 `server.crt`, `server.key`로 넣습니다 |
+| 서비스 이름 | 본문의 서비스 이름을 먼저 쓰고, 없으면 syslog의 앱 이름을 씁니다 |
+| 상태 | 1시간 넘게 저장된 로그가 없으면 "확인 필요"로 표시합니다 |
+
+!!! warning "보내는 서버 IP만 허용하세요"
+    syslog는 보내는 쪽을 인증하지 않습니다. 6514에 닿는 누구나 로그를 넣어 Inventory와 Flows를 바꿀 수 있으므로, 방화벽에서 보내는 서버 IP만 허용하세요. Docker가 연 포트는 호스트의 ufw 규칙을 거치지 않으므로 `DOCKER-USER` 체인이나 앞단 방화벽에서 막습니다.
+
+    ```bash
+    sudo iptables -I DOCKER-USER -i eth0 -p tcp --dport 6514 ! -s 10.0.1.0/24 -j DROP
+    ```
+
+### 평문 syslog (내부망 전용)
+
+TLS를 못 보내는 장비를 위해 평문 TCP, UDP 수신을 켤 수 있습니다. 기본은 꺼져 있고, 화면에서 보내는 서버의 IP나 대역(예: `10.0.0.0/8`)을 넣고 켜야 Vector가 1514를 듣습니다. 이 허용 목록은 TCP에만 적용되므로 UDP는 방화벽에서 막습니다. 포트는 기본으로 이 서버(`127.0.0.1`)에만 열리며, 다른 서버에서 받으려면 `.env`에 `SADE_SYSLOG_PLAIN_BIND`, `SADE_SYSLOG_PLAIN_PORT`를 넣고 다시 시작합니다. 내용이 암호화되지 않으므로 내부망에서만 쓰고 위의 IP 제한을 TCP와 UDP에 모두 겁니다.
+
+## Kafka 구독
+
+SADE가 회사 Kafka 토픽을 **읽기만** 합니다. 토픽에 쓰지 않습니다.
+
+1. 브로커 주소와 보안 방식을 넣고 연결을 확인합니다.
+2. 읽을 토픽을 고르면 샘플 메시지를 받아 필드를 추천합니다.
+3. 토픽 하나에 한 서비스의 로그만 있으면 토픽별 서비스 이름과 시간대를 정할 수 있습니다.
+4. 연결하면 받은 메시지, 저장한 메시지, 버린 메시지 수를 보여 줍니다.
+
+| 항목 | 지원 | 아직 안 됨 |
 |---|---|---|
-| Match by path prefix | 경로 앞부분으로 결정 (`/order/...` → order) | 게이트웨이 로그 하나에 여러 서비스가 섞임 |
-| Match by service name in logs | 로그의 서비스 필드 값으로 결정 | 로그에 서비스 이름이 있음 |
-| 특정 서비스 | 이 연결의 로그 전체를 한 서비스로 | 서비스마다 인덱스나 경로가 나뉘어 있음 |
-| Assign later | 서비스 미배정 (Unassigned) | 아직 명세나 서비스를 등록하지 않음 |
+| 보안 | 평문, TLS(사내 CA), mTLS, SASL PLAIN, SCRAM-SHA-256, SCRAM-SHA-512, SASL + TLS | Kerberos(GSSAPI), OAUTHBEARER(AWS MSK IAM 등) |
+| 메시지 | JSON, nginx, Apache 접근 로그 한 줄, Filebeat, Fluent Bit, Logstash가 감싼 메시지(`message`, `log`) | Avro, Protobuf(Schema Registry) |
 
-서비스와 경로 접두사는 [OpenAPI 명세](specs.md) 화면에서 등록합니다. 어느 서비스에도 맞지 않는 호출은 Unassigned로 남고, 나중에 배정할 수 있습니다.
+- 브로커 이름이 DNS에 없고 서버의 `/etc/hosts`에만 있으면 컨테이너가 찾지 못합니다. `.env`의 `SADE_EXTRA_HOSTS=kafka1.corp.example=10.0.0.5`처럼 넣고 다시 시작합니다.
+- SASL 비밀번호는 연결 확인과 연결에만 쓰고, 값은 `kafka-secrets` 볼륨에만 둡니다.
+- 기간을 정해도 Kafka는 남아 있는 메시지를 처음부터 읽고 기간 밖은 저장 전에 버립니다. 큰 토픽은 첫 연결 때 읽는 양이 많으니 시간대를 회사와 맞춥니다.
 
-## Flow 로그 유형
+## 로그 시각과 시간대
 
-추가 설정의 **Flow log type**은 서비스 간 흐름을 그릴 때 이 로그를 어떻게 쓸지 정합니다.
+시간대가 적힌 시각(`Z`, `+09:00`)은 그대로 읽고, 시간대가 없는 시각은 소스에 정한 시간대(기본 Asia/Seoul)로 읽습니다. UTC로 찍는 서버를 그대로 두면 9시간 밀립니다.
 
-| 유형 | 뜻 | 호출 수 |
-|---|---|---|
-| Legacy HTTP log (기본) | 일반 HTTP 로그. 요청 ID로 같은 요청을 합침 | 셈 |
-| Access log | 서비스가 **받은** 요청. trace와 `traceparent`를 읽음 | 셈 |
-| Application log | 서비스가 **보낸** 요청 (호출자, 목적지) | 세지 않음. 호출자 정보만 더함 |
+## 서비스 이름이 없는 로그
 
-Splunk·Cloudera 연결 하나에 한 가지 유형을 고릅니다. 서비스 간 흐름이 중요하면 Access 로그와 Application 로그를 sourcetype이나 경로로 나눠 연결을 각각 만드세요. 필드별로 흐름이 어디까지 그려지는지는 [로그 필드 레퍼런스](schema.md#levels)에 있습니다.
-
-## DB 로그
-
-연결의 **Log Format**에서 HTTP 로그 대신 **PostgreSQL / pgAudit JSON**이나 **Application SQL JSON**을 고르면 DB 로그를 수집합니다. trace 없이도 어떤 API가 어떤 DB와 테이블에 접근했는지 잇습니다. 어떤 DB 서버의 로그인지 **Database Host·Port·Name**으로 지정합니다. 잇는 방법은 [런타임 흐름 복원](../technology/runtime-flow.md#database)을 보세요.
-
-## 보안과 저장
-
-- 인증 토큰은 설정과 분리해 SADE 서버 DB의 별도 영역에 저장합니다. 화면, 내보내기, 작업 기록에 나오지 않습니다.
-- 접속 주소나 인증 방식이 바뀌면 저장된 토큰을 다시 쓰지 않습니다.
-- TLS 인증서를 항상 검증합니다. 사내 인증서는 CA 파일로 지정하고, 검증을 끄는 옵션은 없습니다.
-- 수집 결과에는 본문·헤더의 **원문 값을 저장하지 않습니다.** 값은 `<string>` 같은 타입으로 바뀌고, 요청 ID와 trace ID는 해시로 바뀝니다. 클라이언트 IP는 그대로 남습니다.
-
-[<span class="q">궁금하신가요?</span><span class="t">값을 지우고도 민감정보와 명세 차이를 판단하는 방법</span><span class="arrow">→</span>](../technology/value-free-storage.md){ .sade-curious }
+`service.name`도 `host.name`도 없는 줄은 어느 API에도 들어가지 않습니다. Log Sources의 요약에서 이런 줄을 보고, 서버나 IP로 서비스 이름을 붙이는 규칙을 저장한 뒤 다시 분석합니다.

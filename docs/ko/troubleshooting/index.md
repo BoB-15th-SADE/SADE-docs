@@ -1,36 +1,40 @@
-# 연결·분석 문제 해결
+# 문제 해결
 
-마지막 작업의 상태와 오류를 먼저 확인합니다. 연결 시험(Test), 수집(Collect now), 검사(Run scan)는 서로 다른 단계입니다.
+## 설치
 
-| 증상 | 확인할 내용 | 다음 조치 |
-|---|---|---|
-| 작업이 계속 Queued | worker 실행·동일 DB 사용·lane | Compose worker 로그 확인 |
-| 룰 저장 후 Classifying 지속 | worker-light | light worker 실행 및 작업 오류 확인 |
-| Test 성공, 수집 실패 | 실제 읽기 권한·본문 형식·수집 크기 | 기간 축소, DataNode 허용 목록, JSON 확인 |
-| 수집이 Partial | 일부 시간 창·파일 실패 | 다시 Collect now. 마친 구간은 다시 읽지 않음 |
-| 명세를 올렸는데 Shadow가 그대로 | 검사를 다시 하지 않음 | Run scan |
-| Flows에 서비스 간 선이 없음 | request ID·trace 필드 | [로그로 할 수 있는 일](../connect/logs.md#log-check) 확인 |
-| HTTP 401 / 403 | 토큰 만료·검색/읽기 권한 | 해당 권한의 토큰으로 연결 갱신 |
-| TLS 신뢰 오류 | 사내 CA·인증서 경로 | 프로젝트 certs에 CA 제공 후 경로 지정 |
-| API가 안 나옴 | method/path/status와 시각 매핑 | Test 미리보기와 [Field mapping](../connect/logs.md#field-mapping) 확인 |
-| API가 Unassigned로 보임 | Service 배정·로그 서비스 값 | ID·별칭·Path prefix 확인 |
-| 본문·헤더가 없음 | 원천 로그의 실제 수집 여부 | 원천 로깅과 매핑 확인. 없는 값은 생성하지 않음 |
-| 필드만 매칭되고 값 체크 없음 | 선언/마스킹/미지원 프로파일 | Sensitive data의 검사 사유 확인 |
-| 룰 변경 후 일부 결과만 갱신 | 룰 적용 범위, 저장된 자료 부족 | All APIs 범위 확인, 실제 값이 필요한 룰이면 다시 수집 |
-| Settings changed / Superseded | 다른 저장으로 입력 버전 변경 | 새로고침 후 최신 설정에 수정 재적용 |
-| 코드가 있는데 연결선 없음 | 동적 주소·서비스 매핑·미지원 클라이언트 | API 상세의 Code 탭과 Links may be missing 확인 |
+| 증상 | 원인과 해결 |
+|---|---|
+| `port is already allocated` | 443이나 6514를 다른 프로그램이 씁니다. `.env`의 `SADE_HTTPS_PORT`, `SADE_SYSLOG_PORT`를 바꿉니다 |
+| backend가 계속 다시 시작함 | `SADE_SECRET_KEY`가 비었거나 형식이 틀렸습니다. 처음 실행 전이면 키를 새로 만듭니다 |
+| 화면은 뜨는데 오류가 남 | `docker compose ps`에서 `migrate`가 실패했는지, `docker compose logs migrate backend`를 봅니다 |
+| 다른 PC에서 대시보드가 안 열림 | `SADE_HTTPS_BIND`가 `127.0.0.1`입니다. 열 주소로 바꾸고 방화벽으로 접속 주소를 제한합니다 |
+| 비밀번호를 바꿨더니 DB 접속 실패 | 비밀번호는 데이터 볼륨과 짝입니다. 원래 값으로 되돌립니다 |
+| 브라우저 인증서 경고 | 자체 서명 인증서입니다. 회사 인증서를 `nginx-certs` 볼륨에 `tls.crt`, `tls.key`로 넣습니다 |
 
-## worker 확인
+## 코드와 명세
 
-SADE 저장소에서 실행합니다.
+| 증상 | 원인과 해결 |
+|---|---|
+| 공개 저장소 스캔이 중간에 실패함 | 토큰 없이 GitHub.com을 쓰면 IP마다 시간당 60회로 제한됩니다. 읽기 전용 토큰을 넣습니다 |
+| API가 하나도 안 나옴 | 지원 언어는 Java Spring Boot입니다. 스캔 기준 폴더(scan root)가 맞는지 봅니다 |
+| 같은 서비스가 두 개로 보임 | 코드, 명세, 로그의 서비스 이름이 다릅니다. 명세는 코드와 같은 이름으로 올리고, 나머지는 [Settings](../policy/access-scope.md#settings)에서 합칩니다 |
+| 명세 업로드가 거절됨 | OpenAPI 3.0, 3.1 JSON, 2 MiB 이하, 외부 `$ref` 없이 한 파일이어야 합니다 |
+| From URL이 막힘 | `SADE_SPEC_FETCH_ALLOWED_URLS`에 그 주소가 정확히 있어야 하고, backend 컨테이너에서 사설 주소로 풀려야 합니다 |
 
-```bash
-docker compose ps
-docker compose logs --tail 100 worker worker-light
-```
+## 로그
 
-서버 health가 정상이어도 worker가 실행 중이라는 보장은 없습니다. 예약 실행도 worker가 필요합니다.
+| 증상 | 원인과 해결 |
+|---|---|
+| 로그를 넣었는데 Inventory가 그대로 | 저장만 되고 분석 전입니다. Log Sources에서 다시 분석(Analyze again)이나 Apply를 누릅니다 |
+| API에 안 들어간 줄이 많음 | `service.name`과 `host.name`이 둘 다 없습니다. 파일별 고정 서비스 이름, 토픽별 서비스 이름, 서버나 IP 이름 규칙을 넣습니다 |
+| 시각이 9시간 밀림 | 시간대 없는 UTC 시각입니다. 소스의 시간대를 UTC로 바꿉니다 |
+| Kafka "브로커 이름을 찾지 못했습니다" | 이름이 서버의 `/etc/hosts`에만 있습니다. `.env`의 `SADE_EXTRA_HOSTS`에 넣고 다시 시작합니다 |
+| syslog TLS 연결 실패 | `SADE_SYSLOG_HOST`가 `localhost`입니다. 실제 이름이나 IP로 바꾸고 `docker compose up -d`, `docker compose restart vector` 뒤 새 인증서를 다시 배포합니다 |
+| 로그 소스가 "확인 필요" | Vector가 멈췄거나, Kafka가 응답하지 않거나, syslog가 1시간 넘게 조용합니다. 화면에 보이는 이유를 확인합니다 |
 
-## 결과를 공유할 때
+## 우선순위
 
-작업 ID·버전·시간 범위·오류 코드와 합성 입력 예시를 함께 기록합니다. 토큰·원문 로그 대신 민감 값을 제거한 구조를 공유하세요. 연결별 오류는 [Splunk](../connect/splunk.md), [WebHDFS](../connect/cloudera.md)를 참고합니다.
+| 증상 | 원인과 해결 |
+|---|---|
+| 미평가 API가 많음 | 판단할 근거가 모자랍니다. API 상세의 Management 탭에서 빠진 자료를 보고 채웁니다 ([관리 우선순위](../features/priority.md#evidence)) |
+| 오래된 분석에 우선순위가 없음 | 우선순위 기능 전에 만든 결과입니다. 다시 분석하면 채워집니다 |

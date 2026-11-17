@@ -1,44 +1,74 @@
-# 구성과 실행 방식
+# 구성과 데이터 처리
 
-SADE는 화면/API 서버, SQLite, 백그라운드 worker로 구성됩니다. 코드는 SADE 저장소의 `apps/dashboard/backend`(서버·worker)와 `apps/dashboard/web`(화면), `packages/sade-codescan`(코드 분석)에 있습니다. 수집·분석은 worker가 수행하므로 브라우저 요청이 오래 걸리는 작업을 직접 실행하지 않습니다.
+## 컨테이너
 
-## 구성 요소
+`docker compose up` 한 번에 아래 컨테이너가 뜹니다. 호스트에 포트를 여는 것은 frontend(443)와 vector(syslog 6514, 켰을 때 평문 1514)뿐이고, 나머지는 내부 네트워크에서만 닿습니다.
 
-| 구성 | 역할 |
+| 서비스 | 하는 일 |
 |---|---|
-| API 서버 | 화면 제공, 입력 검증, 설정 저장, 작업 큐 등록, 결과 조회 |
-| SQLite | 설정, 작업, 수집 배치(값 없음), 분석 결과, 룰 버전, 체크포인트 |
-| heavy worker | 로그 수집, 검사(Run scan), 코드 스캔 |
-| light worker | 저장된 자료의 `privacy-refresh` |
-| CodeScan | 코드 API·필드·게이트웨이 설정·HTTP 호출 분석 |
+| **frontend** | Nginx. 443으로 대시보드를 내주고 `/api/`를 backend로 넘깁니다 |
+| **backend** | FastAPI. 화면 API, 연결 설정, CSV 업로드와 민감 탐지, 결과 조회. 분석은 하지 않습니다 |
+| **code-worker** | GitHub 코드를 읽어 API, 서비스 호출, 생성 OpenAPI를 만들고 민감 유형을 판정합니다 |
+| **analysis-worker** | ClickHouse 로그를 API별로 집계하고, 매퍼가 코드, 명세, 로그를 합쳐 Inventory, Flows, 관리 우선순위를 만듭니다 |
+| **postgres** | 입력(staging), 결과(result), 운영 설정(ops)을 저장합니다 |
+| **clickhouse** | 값을 가린 로그를 저장하고 집계합니다 |
+| **vector** | CSV, syslog, Kafka 로그를 받아 필드를 맞추고 값을 가린 뒤 ClickHouse에 씁니다 |
+| migrate, syslog-certs | 시작할 때 한 번 돌고 끝납니다. DB 마이그레이션 적용, syslog 인증서 만들기 |
 
-기본 Compose는 `api`, `worker`, `worker-light`를 실행합니다. 둘 이상의 worker는 같은 DB를 사용합니다. `--lane`을 생략한 worker 하나도 모든 작업을 순서대로 처리할 수 있습니다.
-
-## Docker 없이 실행
-
-SADE 저장소에서 각각 별도 터미널로 실행합니다.
-
-```bash
-cd apps/dashboard/backend
-python api_server.py --host 127.0.0.1 --port 8765
+```text
+GitHub ──────────▶ code-worker ───────────────┐
+OpenAPI 명세 ────▶ backend ───────────────────┤
+CSV ─────────────▶ backend ─▶ vector ─┐       ▼
+syslog, Kafka ─────────────▶ vector ─┤   PostgreSQL ◀──▶ analysis-worker
+                                      ▼       │           (집계, 매퍼, 우선순위)
+                                 ClickHouse ──┼──────────▶ analysis-worker
+                                              ▼
+                                 backend ─▶ frontend (대시보드)
 ```
 
-```bash
-cd apps/dashboard/backend
-python -m sade_cli worker --lane heavy
-```
+- 각 부분은 PostgreSQL 표로만 주고받습니다. 코드 스캔, 명세 등록, 로그 분석, 설정 저장이 끝나면 매핑 작업이 자동으로 다시 돌고, 결과가 다 만들어진 뒤에 한 번에 바뀝니다.
+- 화면은 마지막으로 끝난 분석 결과만 읽습니다.
+
+## 데이터를 어떻게 다루나
+
+| 구분 | 내용 |
+|---|---|
+| 남기는 것 | 시각, 서비스, 서버, 메서드, 경로 틀, 응답 코드, trace ID, 출발지 IP, 필드 이름과 타입, 민감 유형 이름 |
+| 남기지 않는 것 | 요청, 응답 본문의 값, 민감정보 값, 토큰과 비밀번호 |
+| 본문 | 저장 전에 값을 타입으로 바꿉니다. 예: `{"phone":"010-1234-5678"}` → `{"phone":"<string>"}` |
+| 코드 | 스캔할 커밋의 파일을 GitHub API로 읽어 분석하고, 결과(API, 위치, 호출)만 저장합니다 |
+| 연결 정보 | GitHub 토큰은 `SADE_SECRET_KEY`로 암호화해 DB에, Kafka 인증 정보는 `kafka-secrets` 볼륨에 둡니다. 화면과 API 응답에 다시 내보내지 않습니다 |
+| 외부 전송 | 분석 자료를 SADE 밖으로 보내지 않습니다. 밖으로 나가는 연결은 사용자가 직접 연결한 GitHub, Kafka, 허용한 명세 주소뿐입니다 |
+
+## 보관 기간
+
+| 자료 | 기본 | 설정 |
+|---|---|---|
+| 값을 가린 로그 줄 | 30일 | `SADE_LOG_RETENTION_DAYS` |
+| API별 날짜별 호출 수 | 400일 | `SADE_LOG_DAILY_RETENTION_DAYS` |
+| API 최초 발견, 마지막 호출 시각 | 로그 줄이 지워진 뒤에도 남음 | |
+
+## 바꿀 수 있는 설정 {#settings}
+
+`.env`에서 바꿉니다. 바꾼 뒤 `docker compose up -d`로 다시 시작합니다.
+
+| 이름 | 기본 | 뜻 |
+|---|---|---|
+| `SADE_HTTPS_BIND`, `SADE_HTTPS_PORT` | `127.0.0.1`, `443` | 대시보드를 열 주소와 포트. 다른 PC에서 열려면 `0.0.0.0` 등 |
+| `SADE_SYSLOG_HOST` | `localhost` | 다른 서버가 syslog를 보낼 이 서버의 이름이나 IP. 인증서 이름이 됩니다 |
+| `SADE_SYSLOG_PLAIN_BIND`, `SADE_SYSLOG_PLAIN_PORT` | `127.0.0.1`, `1514` | 평문 syslog를 받을 주소와 포트 |
+| `SADE_LOG_RETENTION_DAYS` | 30 | 가린 로그 보관 일수 |
+| `SADE_LOG_DAILY_RETENTION_DAYS` | 400 | 날짜별 호출 수 보관 일수 |
+| `SADE_EXTRA_HOSTS` | 없음 | DNS에 없는 이름. `이름=IP`를 쉼표로 (예: Kafka 브로커) |
+| `SADE_SPEC_FETCH_ALLOWED_URLS` | 없음 | 명세를 가져올 수 있는 내부 주소 목록 |
+| `SADE_LOG_ID_MIN_VALUES` | 20 | 같은 위치에 값 종류가 이보다 많으면 ID(`{id}`)로 봄 |
+| `SADE_PATH_CASE_INSENSITIVE_SERVICES` | 없음 | 경로 대소문자를 구분하지 않을 서비스 |
+
+## 업데이트
 
 ```bash
-cd apps/dashboard/backend
-python -m sade_cli worker --lane light
+git pull
+docker compose up -d --build
 ```
 
-대시보드 런타임은 Python 표준 라이브러리와 SQL 구문 분석용 `sqlglot` 하나를 씁니다(`apps/dashboard/requirements.txt`). Docker 이미지에는 포함되어 있습니다. 코드 분석에는 별도 CodeScan 의존성과 git이 필요하며 Docker 이미지는 이를 포함합니다. 로컬 CodeScan은 도구의 설치 안내와 `--scanner-python`, `--scanner-dir` 설정을 확인하세요.
-
-## 결과 조회 방식
-
-`/api/model`은 화면 요약을 제공하고, API 상세와 호출 목록은 전용 경로에서 필요한 분량만 읽습니다. 요청 흐름과 Flows 탐색은 `/api/trace-details`, `/api/flow-explorer`가 저장된 결과에서 필요한 만큼만 읽습니다. 화면을 새로고침하거나 검색해도 원격 로그를 조회하지 않습니다. `/api/export`는 전체 모델을 제공합니다.
-
-기본 배포는 소스를 이미지에 포함하고 데이터·imports·certs만 마운트합니다. 개발용 소스 마운트는 `compose.dev.yaml`을 추가할 때만 사용합니다.
-
-내장 서버 인증·조직별 RBAC는 현재 제공되지 않습니다. 기본 로컬 바인딩을 넘어 운영하려면 배포 환경의 접근 제어와 저장 보호를 별도로 구성해야 합니다.
+PostgreSQL 마이그레이션은 `migrate`가 시작할 때 적용합니다. 로그 쪽 표와 열은 backend가 시작할 때 없으면 만듭니다. ClickHouse 초기화 파일은 데이터 볼륨이 빈 첫 실행에만 돕니다.

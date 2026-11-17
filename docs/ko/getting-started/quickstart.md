@@ -1,130 +1,99 @@
 # 설치와 첫 연결
 
-Docker로 SADE 참조 구현을 띄우고 로그 하나를 연결해 첫 결과를 봅니다. 명세와 코드는 나중에 붙여도 됩니다.
+SADE는 Docker Compose로 컨테이너 여러 개를 한 번에 띄웁니다. 이 페이지는 설치, 접속 확인, 첫 자료 연결까지 다룹니다.
 
-## 준비물
+## 준비 사항
 
-- [ ] Docker Engine과 Compose, 또는 Docker Desktop (이미지는 `linux/amd64`)
-- [ ] GHCR에서 이미지를 받을 GitHub 토큰 (`read:packages` 권한)
-- [ ] 연결할 로그: Splunk 주소·토큰·인덱스, 또는 Cloudera WebHDFS 주소
-
-## 1. 설치
-
-<div class="sade-steps" markdown>
-
-1. **GHCR에 로그인합니다.** 비공개 이미지라 처음 한 번만 필요합니다.
-
-    ```bash
-    docker login ghcr.io -u <GitHub 아이디>
-    ```
-
-2. **설치 폴더를 만듭니다.**
-
-    ```bash
-    mkdir sade && cd sade
-    mkdir -p data imports certs
-    ```
-
-3. **`docker-compose.yml`을 저장합니다.** SADE 저장소의 `deploy/docker-compose.yml`과 같은 파일입니다.
-
-    ??? example "docker-compose.yml"
-
-        ```yaml
-        name: sade
-
-        x-sade: &sade
-          image: ${SADE_IMAGE:-ghcr.io/bob-15th-sade/sade:refactor-project-structure}
-          working_dir: /workspace/apps/dashboard/backend
-          environment:
-            PYTHONUNBUFFERED: "1"
-            SADE_PROJECT_ROOT: /workspace
-          volumes:
-            - "${SADE_DATA_DIR:-./data}:/workspace/apps/dashboard/data"
-            - ./imports:/workspace/imports:ro
-            - ./certs:/workspace/certs:ro
-          restart: unless-stopped
-
-        services:
-          api:
-            <<: *sade
-            command: ["python", "api_server.py", "--host", "0.0.0.0", "--port", "8765"]
-            ports:
-              - "127.0.0.1:8765:8765"
-          worker:
-            <<: *sade
-            command: ["python", "-m", "sade_cli", "worker", "--lane", "heavy"]
-          worker-light:
-            <<: *sade
-            command: ["python", "-m", "sade_cli", "worker", "--lane", "light"]
-        ```
-
-4. **실행합니다.**
-
-    ```bash
-    docker compose up -d
-    ```
-
-5. 브라우저에서 <http://localhost:8765>를 엽니다. 포트는 이 컴퓨터(`127.0.0.1`)에만 열립니다.
-
-</div>
-
-| 폴더 | 쓰임 |
+| 항목 | 내용 |
 |---|---|
-| `data/` | SADE DB(`sade.db`). 연결 설정, 수집 결과, 분석 결과 |
-| `certs/` | 사내 CA 인증서 (읽기 전용으로 연결) |
+| 프로그램 | Docker Engine과 Docker Compose v2, 또는 Docker Desktop(Linux 컨테이너 모드) |
+| 이미지 | `linux/amd64` |
+| 포트 | 대시보드 HTTPS 443(바꿀 수 있음). syslog를 받을 때 6514(TLS) |
+| 인터넷 | 처음 실행할 때 이미지를 받을 때만 필요합니다. 실행 중에는 외부로 나가지 않습니다(GitHub 스캔, Kafka처럼 직접 연결한 곳 제외) |
 
-## 2. 로그 연결
+!!! warning "로그인 기능이 없습니다"
+    현재 버전에는 로그인과 사용자별 권한이 없습니다. 기본 설정은 설치한 서버 자신(`127.0.0.1`)에서만 대시보드를 열 수 있습니다. 다른 PC에서 열 때는 방화벽으로 접속할 수 있는 주소를 제한하세요.
 
-준비한 로그에 맞는 탭을 고르세요.
+## 1. 저장소 받기
 
-=== "Splunk"
+```bash
+git clone https://github.com/BoB-15th-SADE/SADE.git
+cd SADE
+```
 
-    1. **Connect › Log Sources › Splunk › Connect**
-    2. Search API URL, Index, Authentication token을 넣습니다.
-    3. **Test connection** → **Save connection** → **Collect now**
+## 2. 설정 파일 만들기
 
-    자세히: [Splunk](../connect/splunk.md)
+```bash
+cp .env.example .env
+```
 
-=== "Cloudera"
+`.env`에서 아래 값을 채웁니다. `.env`는 git에 올라가지 않습니다.
 
-    1. **Connect › Log Sources › Cloudera › Connect**
-    2. WebHDFS URL, 인증, DataNode 주소를 넣고 **Browse folders**로 폴더를 고릅니다.
-    3. **Test connection** → **Save connection** → **Collect now**
-
-    자세히: [Cloudera](../connect/cloudera.md)
-
-로그가 SADE에서 읽히는 형식인지 미리 보고 싶으면 [로그 확인기](../connect/logs.md#log-check)에 한 줄을 붙여 넣어 보세요.
-
-## 3. 결과 보기
-
-수집이 끝나면 다음 화면이 채워집니다.
-
-| 화면 | 보이는 것 |
+| 이름 | 넣는 값 |
 |---|---|
-| **APIs › Inventory** | 서비스별 API, 호출 수, 인증 방식 |
-| **APIs › Sensitive Data** | 민감정보 유형별 API |
-| **APIs › Call History** | 최근 호출과 요청·응답 구조 |
-| **Flows** | 호출자, 게이트웨이, 서버, DB를 잇는 지도 |
+| `POSTGRES_PASSWORD`, `CLICKHOUSE_PASSWORD` | 긴 무작위 문자열. 컨테이너끼리 쓰는 값이며 화면 로그인 비밀번호가 아닙니다 |
+| `SADE_SECRET_KEY` | 연결 토큰을 암호화하는 키. 아래 명령으로 만듭니다 |
+| `SADE_HTTPS_BIND`, `SADE_HTTPS_PORT` | 대시보드를 열 주소와 포트. 기본 `127.0.0.1`, `443` |
+| `SADE_SYSLOG_HOST` | 다른 서버가 syslog를 보낼 이 서버의 이름이나 IP. syslog TLS 인증서가 이 값으로 만들어집니다 |
 
-## 4. 더 붙이기
+```bash
+openssl rand -base64 32 | tr '+/' '-_'
+# 또는 Python cryptography가 있으면
+python -c 'from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())'
+```
 
-| 붙이면 | 더해지는 것 | 가이드 |
-|---|---|---|
-| OpenAPI 명세 | Shadow API, 호출별 명세 점검 | [OpenAPI 명세](../connect/specs.md) |
-| GitHub 저장소 | 코드 기반 명세, 서비스 간 호출, DB 접근 | [GitHub 코드 스캔](../connect/code.md) |
-| 서비스 간 호출 로그(Access·Application), DB 로그 | 요청 하나의 전체 경로, DB 접근 | [로그 필드 레퍼런스](../connect/schema.md) |
+!!! warning "처음 실행한 뒤에는 바꾸지 않습니다"
+    `SADE_SECRET_KEY`와 두 비밀번호는 데이터 볼륨과 짝입니다. 실행 중에 바꾸면 저장한 토큰을 읽지 못하거나 DB에 접속하지 못합니다.
 
-명세를 올린 뒤에는 **Run scan**으로 명세 점검을 실행합니다. 로그를 다시 가져오지 않습니다.
+그 밖의 값(로그 보관 기간, 명세 가져오기 허용 주소, 평문 syslog 등)은 [구성과 데이터 처리](../operations/architecture.md#settings)에 정리했습니다.
 
-## 관리 명령
+## 3. 실행
+
+이미지를 이 PC에서 직접 빌드합니다.
+
+```bash
+docker compose up -d --build
+```
+
+팀 CI가 GHCR에 올린 이미지를 받아 실행할 수도 있습니다. 이때는 저장소도 같은 브랜치로 받아 둡니다(Vector 설정과 마이그레이션은 저장소에서 읽습니다).
+
+```bash
+docker compose -f compose.yaml -f compose.images.yaml pull
+docker compose -f compose.yaml -f compose.images.yaml up -d
+```
+
+다른 브랜치나 커밋의 이미지는 `SADE_IMAGE_TAG`로 고릅니다. 브랜치 이름의 `/`는 `-`로 바꾸고, 커밋은 `sha-<짧은 해시>`로 씁니다.
+
+## 4. 확인
 
 | 할 일 | 명령 |
 |---|---|
-| 상태 확인 | `docker compose ps` |
-| 로그 보기 | `docker compose logs --tail 100 api worker worker-light` |
-| 업데이트 | `docker compose pull && docker compose up -d` |
-| 종료 (데이터 유지) | `docker compose down` |
-| 버전 고정 | `SADE_IMAGE=ghcr.io/bob-15th-sade/sade:sha-<커밋> docker compose up -d` |
+| 컨테이너 상태 | `docker compose ps` |
+| backend 응답 | `curl -k https://localhost/api/health` |
+| 분석 상태 | `curl -k https://localhost/api/v1/status` |
+| 로그 보기 | `docker compose logs --tail 100 backend analysis-worker vector` |
 
-!!! warning "인터넷에 바로 공개하지 마세요"
-    대시보드에는 자체 로그인이 없습니다. 원격에서 쓸 때는 SSH 터널(`ssh -L 8765:127.0.0.1:8765 USER@HOST`)이나 회사의 인증 프록시 뒤에 두세요.
+브라우저에서 <https://localhost/>를 엽니다. 인증서는 처음 실행할 때 자체 서명으로 만들어지므로 경고가 뜹니다. 회사 인증서는 `nginx-certs` 볼륨에 `tls.crt`, `tls.key`로 넣습니다.
+
+모든 서비스가 `running` 또는 `healthy`이고 `migrate`가 정상 종료 상태면 됩니다. `migrate`는 시작할 때 PostgreSQL 마이그레이션을 적용하고 끝납니다.
+
+## 5. 첫 자료 연결
+
+연결 순서는 **코드 → 명세 → 로그**를 권합니다. 명세와 로그의 서비스 이름을 코드 스캔 결과에 맞추기 쉽기 때문입니다. 셋 중 하나만 있어도 결과가 나옵니다.
+
+1. [소스 코드](../connect/code.md): Connect > Source Code에서 GitHub 저장소를 스캔합니다.
+2. [OpenAPI 명세](../connect/specs.md): Connect > Specifications에서 서비스 이름과 함께 올립니다.
+3. [로그](../connect/logs.md): Connect > Log Sources에서 CSV를 먼저 올려 필드가 맞는지 확인하고, 그다음 syslog나 Kafka를 연결합니다.
+
+결과는 [Overview](../features/overview.md)와 [Inventory](../features/inventory.md)에서 확인합니다.
+
+## 멈추기와 지우기
+
+```bash
+docker compose stop      # 잠시 멈춤 (데이터 유지)
+docker compose start     # 다시 실행
+docker compose down      # 컨테이너 삭제 (데이터 유지)
+docker compose down -v   # 데이터까지 삭제 (되돌릴 수 없음)
+```
+
+설치에서 막히면 [문제 해결](../troubleshooting/index.md)을 보세요.

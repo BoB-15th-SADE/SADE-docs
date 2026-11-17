@@ -1,35 +1,5 @@
-# Documentation changes
+# Changelog
 
-## 2026-10-27
-
-- Moved the baseline to SADE `refactor/project-structure`, `2373ca9`.
-- Rewrote the docs around **problem → method → reference implementation → extension**. Renamed "Core technology" to "Methods" and added [Extending for your environment](../technology/extending.md).
-- Added a **Scope and extension** section to every method page.
-- Settled inputs as logs, specs and code, and dropped the log file connection page.
-- Covered linking APIs to databases and tables through database logs (PostgreSQL, pgAudit, application SQL), the sensitive Data Flow overlay and the Trace Details screen.
-- Covered the change that records without a shared ID are no longer linked by time and path alone.
-- Added database log fields and inferred-link fields to the log field reference.
-
-## 2026-10-26 (2)
-
-- Added the log field reference and the per-field Flows simulator.
-- Smoothed translated-sounding Korean phrasing.
-
-## 2026-10-26
-
-- Moved the baseline to SADE `refactor/project-structure`, commit `4029826`.
-- Rewrote the **integration guide**: Integration overview, Splunk, Cloudera, log files and OpenTelemetry, specs, GitHub code scan. Added an in-browser checker that tells you whether one of your log lines has the fields SADE needs.
-- Added a **Core technology** section: log normalization, large-scale SIEM collection, API discovery, sensitive data detection, code2spec, code2flow, runtime flow, spec check, value-free storage.
-- Added "Curious?" links from each usage page to the related technology page.
-- Matched job descriptions to current behavior: Collect now fetches logs; Run scan only rechecks stored results.
-- Covered the Flows environment map (Clients → Gateways → Hosts → Destinations), request flow, `/api/collect`, `/api/request-flow` and `/api/flow-explorer`.
-- Covered storing client IPs and X-Forwarded-For as is, and traceparent parsing.
-- Removed outdated statements such as the raw Splunk cache and the 200-call limit.
-
-## 2026-10-25
-
-- Organized the Korean and English guides against SADE `feat/integration`, `dcab3bb`.
-- Added data types, rules, exclusions, version restore and automatic reclassification.
-- Added HTTP API, CLI, troubleshooting and scope pages.
-
-This page records documentation changes. It does not mean a product release or deployment. For the review basis, see [Documentation baseline](baseline.md).
+!!! info "English translation in progress"
+    The documentation was rewritten for SADE `f512bc0` (2026-11-16), which adds management priority (P1-P4).
+    The English version of this page is being prepared. Please read the [Korean page](https://bob-15th-sade.github.io/SADE-docs/reference/changelog/) for now.
