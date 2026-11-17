@@ -2,6 +2,92 @@
 
 메뉴와 화면 제목은 영어, 설명은 한국어로 표시합니다. 화면의 English, 한국어 버튼으로 언어를 바꿉니다.
 
+주요 화면을 좌우로 넘겨 봅니다.
+
+<div class="sade-slides" markdown>
+
+<div class="sade-slide" markdown data-title="Overview">
+
+[![Overview](../../assets/screens/overview.png){ loading=lazy }](../../assets/screens/overview.png)
+
+<small>등급별 수, 상위 5개 API, 자산 수, 접근 범위, 민감 유형 (가상 데이터)</small>
+
+</div>
+
+<div class="sade-slide" markdown data-title="Inventory">
+
+[![Inventory](../../assets/screens/inventory.png){ loading=lazy }](../../assets/screens/inventory.png)
+
+<small>전체 API 목록. 기본은 P1부터 정렬 (가상 데이터)</small>
+
+</div>
+
+<div class="sade-slide" markdown data-title="API 상세">
+
+[![API 상세](../../assets/screens/api-overview.png){ loading=lazy }](../../assets/screens/api-overview.png)
+
+<small>API 하나의 근거를 탭으로 나눠 봄 (가상 데이터)</small>
+
+</div>
+
+<div class="sade-slide" markdown data-title="Flows">
+
+[![Flows](../../assets/screens/flows.png){ loading=lazy }](../../assets/screens/flows.png)
+
+<small>클라이언트, 서비스, DB, 외부 목적지 연결 (가상 데이터)</small>
+
+</div>
+
+<div class="sade-slide" markdown data-title="Log Sources">
+
+[![Log Sources](../../assets/screens/logs.png){ loading=lazy }](../../assets/screens/logs.png)
+
+<small>로그 연결과 우선순위 판단에 빠진 자료 (가상 데이터)</small>
+
+</div>
+
+<div class="sade-slide" markdown data-title="Specifications">
+
+[![Specifications](../../assets/screens/specs.png){ loading=lazy }](../../assets/screens/specs.png)
+
+<small>등록한 명세와 코드에서 만든 명세 (가상 데이터)</small>
+
+</div>
+
+<div class="sade-slide" markdown data-title="Source Code">
+
+[![Source Code](../../assets/screens/code.png){ loading=lazy }](../../assets/screens/code.png)
+
+<small>GitHub 저장소 스캔과 코드 인벤토리 (가상 데이터)</small>
+
+</div>
+
+<div class="sade-slide" markdown data-title="Data Types">
+
+[![Data Types](../../assets/screens/datatypes.png){ loading=lazy }](../../assets/screens/datatypes.png)
+
+<small>민감정보 유형 19개와 탐지 규칙 (가상 데이터)</small>
+
+</div>
+
+<div class="sade-slide" markdown data-title="Access Scope">
+
+[![Access Scope](../../assets/screens/scope.png){ loading=lazy }](../../assets/screens/scope.png)
+
+<small>내부, 파트너 대역 (가상 데이터)</small>
+
+</div>
+
+<div class="sade-slide" markdown data-title="Assessments">
+
+[![Assessments](../../assets/screens/assessments.png){ loading=lazy }](../../assets/screens/assessments.png)
+
+<small>프레임워크 점검 (준비 중) (가상 데이터)</small>
+
+</div>
+
+</div>
+
 | 메뉴 | 화면 | 기능 |
 |---|---|---|
 | Overview | [Overview](../features/overview.md) | 우선순위 분포, 우선순위 상위 API 5개, 자산 수, 관측한 접근 범위, 민감 유형 |

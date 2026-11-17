@@ -2,8 +2,35 @@
 
 Inventory에서 API를 누르고 Full Screen(전체 화면)을 누르면 API 상세가 열립니다. 위쪽에 서비스, 메서드, 경로, 관리 우선순위, 출처(`Code`, `Spec`, `Log`)가 나옵니다.
 
-[![API 상세 Overview 탭](../../assets/screens/api-overview.png){ loading=lazy }](../../assets/screens/api-overview.png)
-<small>예시 화면 (가상 데이터)</small>
+탭별 화면을 좌우로 넘겨 봅니다.
+
+<div class="sade-slides" markdown>
+
+<div class="sade-slide" markdown data-title="Overview">
+
+[![Overview](../../assets/screens/api-overview.png){ loading=lazy }](../../assets/screens/api-overview.png)
+
+<small>우선순위 요약, 검토 신호, 근거 (가상 데이터)</small>
+
+</div>
+
+<div class="sade-slide" markdown data-title="Management">
+
+[![Management](../../assets/screens/api-manage.png){ loading=lazy }](../../assets/screens/api-manage.png)
+
+<small>신호별 판단, 더 높아질 수 있는 등급, 빠진 자료 (가상 데이터)</small>
+
+</div>
+
+<div class="sade-slide" markdown data-title="Owners">
+
+[![Owners](../../assets/screens/api-owners.png){ loading=lazy }](../../assets/screens/api-owners.png)
+
+<small>CODEOWNERS 담당 후보와 코드 변경 이력 (가상 데이터)</small>
+
+</div>
+
+</div>
 
 | 탭 | 한국어 화면 | 내용 |
 |---|---|---|
@@ -67,18 +94,12 @@ DB에 접근하는 코드는 찾았지만 어느 DB인지 정하지 못하면 "D
 
 ## Owners (담당자)
 
-[![API 상세 Owners 탭](../../assets/screens/api-owners.png){ loading=lazy }](../../assets/screens/api-owners.png)
-<small>Owners(담당자) 탭 예시 화면 (가상 데이터)</small>
-
 - CODEOWNERS candidate: 핸들러 파일에 맞는 CODEOWNERS 규칙의 담당 후보와 근거 줄
 - Code Change History: 핸들러 코드가 처음 들어온 커밋과 최근 바뀐 커밋
 - 커밋 작성자는 담당자와 다를 수 있습니다.
 - 담당자 지정 버튼(Assign Owner)은 아직 동작하지 않습니다.
 
 ## Management (관리)
-
-[![API 상세 Management 탭](../../assets/screens/api-manage.png){ loading=lazy }](../../assets/screens/api-manage.png)
-<small>Management(관리) 탭 예시 화면 (가상 데이터)</small>
 
 | 영역 | 내용 |
 |---|---|

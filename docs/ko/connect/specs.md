@@ -2,8 +2,27 @@
 
 Connect > Specifications에서 기업이 관리하는 OpenAPI 명세를 등록합니다. 등록한 명세는 Inventory의 `Spec` 출처가 되고, 명세에 없는 API(Undocumented, Shadow)를 가리는 기준이 됩니다.
 
-[![Specifications 화면](../../assets/screens/specs.png){ loading=lazy }](../../assets/screens/specs.png)
-<small>예시 화면 (가상 데이터)</small>
+화면을 좌우로 넘겨 봅니다.
+
+<div class="sade-slides" markdown>
+
+<div class="sade-slide" markdown data-title="명세 목록">
+
+[![명세 목록](../../assets/screens/specs.png){ loading=lazy }](../../assets/screens/specs.png)
+
+<small>등록한 명세와 코드에서 만든 명세, 위쪽에 빠진 자료 표 (가상 데이터)</small>
+
+</div>
+
+<div class="sade-slide" markdown data-title="명세 추가">
+
+[![명세 추가](../../assets/screens/specs-add.png){ loading=lazy }](../../assets/screens/specs-add.png)
+
+<small>파일 업로드와 URL에서 가져오기 중 하나를 고름 (가상 데이터)</small>
+
+</div>
+
+</div>
 
 위쪽 "우선순위 판단에 빠진 자료" 표는 명세가 없어 관리 우선순위를 판단하지 못한 항목과 영향받는 API 수를 보여 줍니다.
 
@@ -43,9 +62,6 @@ YAML이나 Swagger 2.0 파일은 공개된 변환 도구(예: `swagger2openapi`,
 5. 목록의 Status에서 변환이 끝났는지 봅니다. 끝나면 매핑이 자동으로 다시 돕니다.
 
 </div>
-
-[![명세 추가 창](../../assets/screens/specs-add.png){ loading=lazy }](../../assets/screens/specs-add.png)
-<small>명세 추가 창 (가상 데이터). 파일 업로드와 URL에서 가져오기 중 하나를 고릅니다</small>
 
 ## 2. 내부 주소에서 가져오기
 
