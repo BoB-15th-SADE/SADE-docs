@@ -1,6 +1,8 @@
 # syslog 수신
 
-기업 서버나 게이트웨이가 rsyslog로 SADE에 로그를 보냅니다. SADE는 TCP 6514에서 TLS syslog를 받습니다. 연결 뒤에는 보내는 대로 계속 저장합니다.
+기업 서버나 게이트웨이가 rsyslog로 SADE에 로그를 보냅니다.
+
+SADE는 TCP 6514에서 TLS syslog를 받습니다. 연결 뒤에는 보내는 대로 계속 저장합니다.
 
 [![syslog 연결 화면](../../assets/screens/syslog.png){ loading=lazy }](../../assets/screens/syslog.png)
 <small>예시 화면 (가상 데이터)</small>
@@ -15,7 +17,9 @@
 | 형식 | RFC 5424, RFC 3164. 메시지 본문은 JSON 한 줄, 또는 nginx, Apache 접근 로그(combined, common, 뒤에 필드를 덧붙인 형식 포함) |
 
 !!! warning "보내는 서버 IP만 허용하기"
-    syslog는 보내는 쪽을 인증하지 않습니다. 6514에 닿는 누구나 로그를 넣어 Inventory와 Flows를 바꿀 수 있습니다. 방화벽에서 보내는 서버 IP만 허용하세요. Docker가 연 포트는 호스트의 ufw 규칙을 거치지 않으므로 `DOCKER-USER` 체인이나 앞단 방화벽에서 막습니다.
+    syslog는 보내는 쪽을 인증하지 않습니다.
+
+    6514에 닿는 누구나 로그를 넣어 Inventory와 Flows를 바꿀 수 있습니다. 방화벽에서 보내는 서버 IP만 허용하세요. Docker가 연 포트는 호스트의 ufw 규칙을 거치지 않으므로 `DOCKER-USER` 체인이나 앞단 방화벽에서 막습니다.
 
     ```bash
     sudo iptables -I DOCKER-USER -i eth0 -p tcp --dport 6514 ! -s 10.0.1.0/24 -j DROP
@@ -79,7 +83,9 @@
 
 ## 4. 저장 결과 확인
 
-매핑을 적용한 뒤 저장된 줄 수가 나옵니다. 저장된 줄 하나를 열어 값이 맞는 필드에 들어갔는지 봅니다. 틀렸으면 Back to mapping(매핑으로 돌아가기)을 누릅니다.
+매핑을 적용한 뒤 저장된 줄 수가 나옵니다.
+
+저장된 줄 하나를 열어 값이 맞는 필드에 들어갔는지 봅니다. 틀렸으면 Back to mapping(매핑으로 돌아가기)을 누릅니다.
 
 ## 5. 반영
 

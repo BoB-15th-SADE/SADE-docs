@@ -1,8 +1,14 @@
 # Inventory
 
-APIs > Inventory는 코드, 명세, 로그를 합친 전체 API 목록입니다. SADE는 서비스, 메서드, 경로 틀이 같은 API를 한 줄로 묶습니다. 예를 들어 `/users/123`과 `/users/{id}`는 한 줄입니다. 묶는 방식은 [API 식별](../how-it-works/api-identity.md)에 있습니다.
+APIs > Inventory는 코드, 명세, 로그를 합친 전체 API 목록입니다.
 
-목록은 기본으로 P1, P2, P3, P4, 미평가 순서입니다. 등급 기준은 [관리 우선순위](priority.md)에 있습니다. 열 제목을 누르면 다른 기준으로 정렬합니다.
+SADE는 서비스, 메서드, 경로 틀이 같은 API를 한 줄로 묶습니다. 예를 들어 `/users/123`과 `/users/{id}`는 한 줄입니다.
+
+묶는 방식은 [API 식별](../how-it-works/api-identity.md)에 있습니다.
+
+목록은 기본으로 P1, P2, P3, P4, 미평가 순서입니다.
+
+등급 기준은 [관리 우선순위](priority.md)에 있습니다. 열 제목을 누르면 다른 기준으로 정렬합니다.
 
 [![Inventory 화면](../../assets/screens/inventory.png){ loading=lazy }](../../assets/screens/inventory.png)
 <small>예시 화면 (가상 데이터)</small>
@@ -22,7 +28,7 @@ APIs > Inventory는 코드, 명세, 로그를 합친 전체 API 목록입니다.
 
 표 위의 줄에 이번 분석의 등급별 API 수가 나옵니다.
 
-Access Scope 값
+### Access Scope 값
 
 | 값 | 뜻 |
 |---|---|
@@ -32,7 +38,7 @@ Access Scope 값
 
 판정 방식은 [노출 판정](../how-it-works/exposure.md)에 있습니다.
 
-명세 상태
+### 명세 상태
 
 | 명세 상태 | 한국어 화면 | 뜻 |
 |---|---|---|
@@ -45,7 +51,9 @@ Access Scope 값
 
 ## 필터
 
-Add filter(필터 추가)로 조건을 더합니다. 조건은 주소에 남아서 새로 고침이나 뒤로 가기 뒤에도 같은 목록이 나옵니다. 주소를 복사해 다른 사람에게 보내면 같은 목록을 엽니다.
+Add filter(필터 추가)로 조건을 더합니다.
+
+조건은 주소에 남아서 새로 고침이나 뒤로 가기 뒤에도 같은 목록이 나옵니다. 주소를 복사해 다른 사람에게 보내면 같은 목록을 엽니다.
 
 | 필터 | 고르는 값 |
 |---|---|

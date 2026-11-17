@@ -1,6 +1,8 @@
 # Overview
 
-Overview는 마지막으로 끝난 분석 결과를 요약합니다. 화면 위의 분석 완료 시각은 선택한 분석이 끝난 시각입니다. 실시간 수집 시각과 다릅니다.
+Overview는 마지막으로 끝난 분석 결과를 요약합니다.
+
+화면 위의 분석 완료 시각은 선택한 분석이 끝난 시각입니다. 실시간 수집 시각과 다릅니다.
 
 
 [![Overview 화면](../../assets/screens/overview.png){ loading=lazy }](../../assets/screens/overview.png)
@@ -17,6 +19,8 @@ Overview는 마지막으로 끝난 분석 결과를 요약합니다. 화면 위�
 | Assessments Score | 프레임워크 점검 점수. 점검이 준비 중이어서 미리보기만 나옵니다 ([프레임워크 점검](assessments.md)) |
 
 !!! note "관측한 접근 범위와 외부 접근"
-    Observed Access Scope는 로그에 남은 호출 주소로만 셉니다. External Access APIs는 저장된 외부 도달 판정(설정, 게이트웨이 경로 포함)으로 셉니다. 관리 우선순위의 외부 접근 신호(E)는 외부 도달 판정을 씁니다.
+    Observed Access Scope는 로그에 남은 호출 주소로만 셉니다.
+
+    External Access APIs는 저장된 외부 도달 판정(설정, 게이트웨이 경로 포함)으로 셉니다. 관리 우선순위의 외부 접근 신호(E)는 외부 도달 판정을 씁니다.
 
 검토를 시작할 때는 P1, P2 API의 [API 상세](api-details.md) Management 탭에서 판정 근거를 확인합니다.

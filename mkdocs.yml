@@ -18,7 +18,7 @@ theme:
     accent: teal
   features:
     - navigation.sections
-    - navigation.expand
+    - toc.follow
     - navigation.top
     - navigation.footer
     - search.highlight
@@ -47,37 +47,39 @@ plugins:
           name: English
           build: true
           nav_translations:
-            시작하기: GET STARTED
+            시작하기: Get started
             SADE 소개: Introduction
             설치와 첫 연결: Install and connect
-            샘플 로그로 첫 결과 보기: First results with a sample log
+            샘플로 첫 결과 보기: First results with a sample
             점검 흐름: Review workflow
             화면 둘러보기: Dashboard tour
-            연동 가이드: INTEGRATIONS
-            소스 코드 (GitHub): Source code (GitHub)
+            연동: Integrations
+            소스 코드: Source code
             OpenAPI 명세: OpenAPI specifications
-            로그 연결 방식: Log connection methods
+            로그: Logs
+            연결 방식 고르기: Choose a method
             CSV 업로드: CSV upload
             syslog 수신: syslog receiver
             Kafka 구독: Kafka subscription
             로그 필드: Log fields
-            사용 방법: USING SADE
-            관리 우선순위 (P1~P4): Management priority (P1-P4)
+            사용 방법: Using SADE
             API 상세: API details
-            프레임워크 점검 (준비 중): Framework assessments (in preparation)
-            Data Types (민감정보 유형): Data Types
+            관리 우선순위: Management priority
+            프레임워크 점검: Framework assessments
+            규칙과 설정: Rules and settings
             Access Scope와 Settings: Access Scope and Settings
-            동작 원리: HOW IT WORKS
+            더 알아보기: Learn more
+            동작 원리: How it works
             처리 순서: Processing order
             API 식별: API identification
             로그 처리와 값 가리기: Log processing and masking
             코드 스캔: Code scan
             민감정보 탐지: Sensitive data detection
             노출 판정: Exposure
-            운영: OPERATIONS
+            운영: Operations
             구성과 데이터 처리: Architecture and data handling
             문제 해결: Troubleshooting
-            참고: REFERENCE
+            참고: Reference
             용어: Glossary
             지원 범위와 제한: Supported scope and limits
             변경 내역: Changelog
@@ -107,38 +109,41 @@ nav:
   - 시작하기:
       - SADE 소개: index.md
       - 설치와 첫 연결: getting-started/quickstart.md
-      - 샘플 로그로 첫 결과 보기: getting-started/first-run.md
+      - 샘플로 첫 결과 보기: getting-started/first-run.md
       - 점검 흐름: getting-started/workflow.md
       - 화면 둘러보기: getting-started/navigation.md
-  - 연동 가이드:
-      - 소스 코드 (GitHub): connect/code.md
+  - 연동:
+      - 소스 코드: connect/code.md
       - OpenAPI 명세: connect/specs.md
-      - 로그 연결 방식: connect/logs.md
-      - CSV 업로드: connect/logs-csv.md
-      - syslog 수신: connect/logs-syslog.md
-      - Kafka 구독: connect/logs-kafka.md
-      - 로그 필드: connect/schema.md
+      - 로그:
+          - 연결 방식 고르기: connect/logs.md
+          - CSV 업로드: connect/logs-csv.md
+          - syslog 수신: connect/logs-syslog.md
+          - Kafka 구독: connect/logs-kafka.md
+          - 로그 필드: connect/schema.md
   - 사용 방법:
       - Overview: features/overview.md
       - Inventory: features/inventory.md
-      - 관리 우선순위 (P1~P4): features/priority.md
       - API 상세: features/api-details.md
+      - 관리 우선순위: features/priority.md
       - Flows: features/flows.md
-      - 프레임워크 점검 (준비 중): features/assessments.md
-      - Data Types (민감정보 유형): policy/data-types.md
-      - Access Scope와 Settings: policy/access-scope.md
-  - 동작 원리:
-      - 처리 순서: how-it-works/index.md
-      - API 식별: how-it-works/api-identity.md
-      - 로그 처리와 값 가리기: how-it-works/log-processing.md
-      - 코드 스캔: how-it-works/code-scan.md
-      - 민감정보 탐지: how-it-works/sensitive-data.md
-      - 노출 판정: how-it-works/exposure.md
-  - 운영:
-      - 구성과 데이터 처리: operations/architecture.md
-      - 문제 해결: troubleshooting/index.md
-  - 참고:
-      - 용어: reference/glossary.md
-      - 지원 범위와 제한: reference/limitations.md
-      - 변경 내역: reference/changelog.md
-      - 문서 기준: reference/baseline.md
+      - 프레임워크 점검: features/assessments.md
+      - 규칙과 설정:
+          - Data Types: policy/data-types.md
+          - Access Scope와 Settings: policy/access-scope.md
+  - 더 알아보기:
+      - 동작 원리:
+          - 처리 순서: how-it-works/index.md
+          - API 식별: how-it-works/api-identity.md
+          - 로그 처리와 값 가리기: how-it-works/log-processing.md
+          - 코드 스캔: how-it-works/code-scan.md
+          - 민감정보 탐지: how-it-works/sensitive-data.md
+          - 노출 판정: how-it-works/exposure.md
+      - 운영:
+          - 구성과 데이터 처리: operations/architecture.md
+          - 문제 해결: troubleshooting/index.md
+      - 참고:
+          - 용어: reference/glossary.md
+          - 지원 범위와 제한: reference/limitations.md
+          - 변경 내역: reference/changelog.md
+          - 문서 기준: reference/baseline.md

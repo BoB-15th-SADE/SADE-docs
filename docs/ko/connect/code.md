@@ -1,6 +1,8 @@
 # 소스 코드 (GitHub)
 
-Connect > Source Code에서 GitHub 저장소를 연결해 스캔합니다. 코드 스캔은 Java Spring Boot 서비스를 읽습니다. 코드는 읽기만 하고 저장소에 쓰지 않습니다.
+Connect > Source Code에서 GitHub 저장소를 연결해 스캔합니다.
+
+코드 스캔은 Java Spring Boot 서비스를 읽습니다. 코드는 읽기만 하고 저장소에 쓰지 않습니다.
 
 [![Source Code 화면](../../assets/screens/code.png){ loading=lazy }](../../assets/screens/code.png)
 <small>예시 화면 (가상 데이터)</small>
@@ -36,7 +38,9 @@ Connect > Source Code에서 GitHub 저장소를 연결해 스캔합니다. 코�
 - SADE 서버에서 GitHub 주소로 HTTPS(443)가 나가야 합니다.
 
 !!! note "토큰 없는 GitHub.com"
-    GitHub는 토큰 없는 요청을 IP마다 시간당 60회로 제한합니다. 파일이 많은 저장소는 스캔 중에 한도에 걸릴 수 있습니다. 비공개 저장소가 없어도 토큰을 쓰기를 권합니다.
+    GitHub는 토큰 없는 요청을 IP마다 시간당 60회로 제한합니다.
+
+    파일이 많은 저장소는 스캔 중에 한도에 걸릴 수 있습니다. 비공개 저장소가 없어도 토큰을 쓰기를 권합니다.
 
 ## 1. GitHub 연결
 
@@ -74,7 +78,7 @@ Connect > Source Code에서 GitHub 저장소를 연결해 스캔합니다. 코�
 
 토큰 없이 GitHub.com에 연결했다면 목록 대신 Public repository URL에 `https://github.com/OWNER/REPO` 또는 `OWNER/REPO`를 넣고 Load repository(저장소 불러오기)를 누릅니다.
 
-스캔 방식
+### 스캔 방식
 
 - 요청할 때의 브랜치 최신 커밋 하나를 고정해 읽습니다. 스캔 중에 커밋이 올라와도 섞이지 않습니다.
 - `git clone`을 하지 않습니다. GitHub API로 필요한 파일만 읽습니다.
@@ -110,7 +114,7 @@ Scans in progress에 저장소마다 단계가 나옵니다.
 
 Code inventories에서 저장소를 열면(View details) 서비스와 API 목록, 스캔 이슈가 나옵니다. View sensitive APIs는 민감 유형이 있는 API만 Inventory에서 엽니다.
 
-스캔 결과 상태
+### 스캔 결과 상태
 
 | 상태 | 뜻 |
 |---|---|

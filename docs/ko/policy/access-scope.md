@@ -2,7 +2,11 @@
 
 ## Access Scope (접근 범위)
 
-Rules > Access Scope에서 호출 주소를 내부, 파트너, 공개로 나누는 기준을 정합니다. SADE는 이 기준으로 로그의 출발지 IP를 나눠 API마다 접근 범위를 판정합니다. 판정 결과는 [관리 우선순위](../features/priority.md)의 외부 접근 신호(E)에 들어갑니다. 판정 방식은 [노출 판정](../how-it-works/exposure.md)에 있습니다.
+Rules > Access Scope에서 호출 주소를 내부, 파트너, 공개로 나누는 기준을 정합니다.
+
+SADE는 이 기준으로 로그의 출발지 IP를 나눠 API마다 접근 범위를 판정합니다. 판정 결과는 [관리 우선순위](../features/priority.md)의 외부 접근 신호(E)에 들어갑니다.
+
+판정 방식은 [노출 판정](../how-it-works/exposure.md)에 있습니다.
 
 [![Access Scope 화면](../../assets/screens/scope.png){ loading=lazy }](../../assets/screens/scope.png)
 <small>예시 화면 (가상 데이터)</small>
@@ -65,7 +69,9 @@ Rules > Access Scope에서 호출 주소를 내부, 파트너, 공개로 나누�
 
 ## Settings: 서비스 이름 합치기 {#settings}
 
-같은 서비스가 코드, 명세, 로그에서 다른 이름으로 찍히면 노드 두 개로 나뉩니다. 예를 들어 코드는 `order-service`, 로그는 `orders`인 경우입니다. 메뉴 아래쪽 Settings에서 다른 이름(Other name)을 기준 서비스(Merge into)에 합칩니다.
+같은 서비스가 코드, 명세, 로그에서 다른 이름으로 찍히면 노드 두 개로 나뉩니다.
+
+예를 들어 코드는 `order-service`, 로그는 `orders`인 경우입니다. 메뉴 아래쪽 Settings에서 다른 이름(Other name)을 기준 서비스(Merge into)에 합칩니다.
 
 [![Settings 화면](../../assets/screens/settings.png){ loading=lazy }](../../assets/screens/settings.png)
 <small>예시 화면 (가상 데이터)</small>
