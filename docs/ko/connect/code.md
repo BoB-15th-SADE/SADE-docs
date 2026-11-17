@@ -4,8 +4,43 @@ Connect > Source Code에서 GitHub 저장소를 연결해 스캔합니다.
 
 코드 스캔은 Java Spring Boot 서비스를 읽습니다. 코드는 읽기만 하고 저장소에 쓰지 않습니다.
 
-[![Source Code 화면](../../assets/screens/code.png){ loading=lazy }](../../assets/screens/code.png)
-<small>예시 화면 (가상 데이터)</small>
+단계별 화면입니다. 좌우로 넘기거나 단계 이름을 눌러 봅니다.
+
+<div class="sade-slides" markdown>
+
+<div class="sade-slide" markdown data-title="Source Code">
+
+[![Source Code](../../assets/screens/code.png){ loading=lazy }](../../assets/screens/code.png)
+
+<small>우선순위 판단에 빠진 자료와 연결한 저장소</small>
+
+</div>
+
+<div class="sade-slide" markdown data-title="GitHub 연결">
+
+[![GitHub 연결](../../assets/screens/code-connect.png){ loading=lazy }](../../assets/screens/code-connect.png)
+
+<small>환경, 주소, 토큰을 넣고 확인 후 연결</small>
+
+</div>
+
+<div class="sade-slide" markdown data-title="저장소 선택">
+
+[![저장소 선택](../../assets/screens/code-repos.png){ loading=lazy }](../../assets/screens/code-repos.png)
+
+<small>저장소와 브랜치를 고르고 선택 항목 스캔</small>
+
+</div>
+
+<div class="sade-slide" markdown data-title="결과 확인">
+
+[![결과 확인](../../assets/screens/code-inventories.png){ loading=lazy }](../../assets/screens/code-inventories.png)
+
+<small>저장소별 서비스, API 수와 스캔 이슈</small>
+
+</div>
+
+</div>
 
 위쪽 "우선순위 판단에 빠진 자료" 표는 코드가 없어 관리 우선순위를 판단하지 못한 항목과 영향받는 API 수를 보여 줍니다.
 
@@ -58,9 +93,6 @@ Connect > Source Code에서 GitHub 저장소를 연결해 스캔합니다.
 
 </div>
 
-[![GitHub 연결 추가 화면](../../assets/screens/code-connect.png){ loading=lazy }](../../assets/screens/code-connect.png)
-<small>GitHub 연결 추가 (가상 데이터)</small>
-
 - 토큰은 `SADE_SECRET_KEY`로 암호화해 저장합니다. 화면, API 응답, 로그에 내보내지 않습니다.
 - "This token cannot read any repository"가 나오면 GitHub에서 토큰에 저장소 권한을 준 뒤 Refresh list를 누릅니다.
 - `SADE_SECRET_KEY`가 비어 있으면 연결 저장에서 오류가 납니다. [설치](../getting-started/quickstart.md)의 2단계를 확인합니다.
@@ -78,9 +110,6 @@ Connect > Source Code에서 GitHub 저장소를 연결해 스캔합니다.
 4. Scan selected(선택 항목 스캔)를 누릅니다.
 
 </div>
-
-[![저장소 선택 화면](../../assets/screens/code-repos.png){ loading=lazy }](../../assets/screens/code-repos.png)
-<small>저장소 두 개를 고른 화면 (가상 데이터). 진행 상황 열에 스캔 단계가 나옵니다</small>
 
 토큰 없이 GitHub.com에 연결했다면 목록 대신 Public repository URL에 `https://github.com/OWNER/REPO` 또는 `OWNER/REPO`를 넣고 Load repository(저장소 불러오기)를 누릅니다.
 
@@ -108,9 +137,6 @@ Scans in progress에 저장소마다 단계가 나옵니다.
 3. 코드에서 만든 명세는 Specifications에 `Code`로 따로 쌓입니다. 직접 등록한 명세를 덮어쓰지 않습니다.
 
 ## 4. 결과 확인 {#results}
-
-[![Code inventories 탭](../../assets/screens/code-inventories.png){ loading=lazy }](../../assets/screens/code-inventories.png)
-<small>예시 화면 (가상 데이터)</small>
 
 | 탭 | 내용 | 확인할 것 |
 |---|---|---|

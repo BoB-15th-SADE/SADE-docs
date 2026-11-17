@@ -238,3 +238,24 @@ html { scroll-padding-top: 5rem; }
 .md-nav--primary > .md-nav__list > .md-nav__item { margin-top: .25rem; }
 .md-nav--primary > .md-nav__list > .md-nav__item--nested > .md-nav__link { color: #17231e; font-size: .76rem; font-weight: 650; }
 .md-nav--primary > .md-nav__list > .md-nav__item--nested > .md-nav > .md-nav__list { border-left: 0; margin: .1rem 0 .6rem .3rem; padding-left: .3rem; }
+
+/* Step screenshot slider */
+.md-typeset .sade-slides { border: 1px solid #e3ebe7; border-radius: .6rem; margin: 1.4rem 0 2rem; overflow: hidden; }
+.md-typeset .sade-slides__chips { background: #fafcfb; border-bottom: 1px solid #edf1ef; display: flex; flex-wrap: wrap; gap: .35rem; padding: .6rem .7rem; }
+.md-typeset .sade-slides__chips button { align-items: center; background: #fff; border: 1px solid #e3ebe7; border-radius: 999px; color: #4d5b55; cursor: pointer; display: inline-flex; font: inherit; font-size: .66rem; gap: .35rem; padding: .22rem .65rem .22rem .3rem; }
+.md-typeset .sade-slides__chips button .n { align-items: center; background: #eef3f1; border-radius: 50%; color: #4d5b55; display: inline-flex; font-size: .58rem; font-weight: 700; height: 1.05rem; justify-content: center; width: 1.05rem; }
+.md-typeset .sade-slides__chips button:hover { border-color: #a8c8b7; color: #167964; }
+.md-typeset .sade-slides__chips button.on { background: #eaf4ef; border-color: #9cc8b3; color: #13684f; font-weight: 600; }
+.md-typeset .sade-slides__chips button.on .n { background: #167964; color: #fff; }
+.md-typeset .sade-slides__track { display: flex; overflow-x: auto; scroll-behavior: smooth; scroll-snap-type: x mandatory; scrollbar-width: none; }
+.md-typeset .sade-slides__track::-webkit-scrollbar { display: none; }
+.md-typeset .sade-slides__track:focus-visible { outline: 2px solid #167964; outline-offset: -2px; }
+.md-typeset .sade-slide { flex: 0 0 100%; min-width: 0; padding: .8rem .9rem .2rem; scroll-snap-align: start; }
+.md-typeset .sade-slide p { margin: 0 0 .5rem; }
+.md-typeset .sade-slide img { border: 1px solid #edf1ef; border-radius: .35rem; display: block; width: 100%; }
+.md-typeset .sade-slide small { color: #64716c; }
+.md-typeset .sade-slides__nav { align-items: center; border-top: 1px solid #edf1ef; display: flex; gap: .8rem; justify-content: center; padding: .4rem; }
+.md-typeset .sade-slides__nav button { background: #fff; border: 1px solid #e3ebe7; border-radius: 50%; color: #33463e; cursor: pointer; font-size: 1rem; height: 1.7rem; line-height: 1; width: 1.7rem; }
+.md-typeset .sade-slides__nav button:hover:not(:disabled) { border-color: #a8c8b7; color: #167964; }
+.md-typeset .sade-slides__nav button:disabled { cursor: default; opacity: .35; }
+.md-typeset .sade-slides__nav .count { color: #64716c; font-size: .66rem; min-width: 2.6rem; text-align: center; }
