@@ -17,7 +17,6 @@ theme:
     primary: white
     accent: teal
   features:
-    - navigation.sections
     - toc.follow
     - navigation.top
     - navigation.footer

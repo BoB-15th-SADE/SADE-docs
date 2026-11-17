@@ -35,16 +35,18 @@ SADE는 수집한 근거로 API마다 관리 우선순위를 P1~P4로 매깁니�
 
 ## 계산 예시
 
-| API | 신호 | 등급 | 이유 |
-|---|---|---|---|
-| `PUT /api/members/me` | S 예, E 예, O 모름 | P2 잠정 | S와 E가 함께 있어 P2. 외부 HTTP 구간 관측(O)을 모르니 P1이 될 수 있음 |
-| `DELETE /api/orders/{id}` | 공개, 인증 없이 허용, 변경 메서드 → M 예 | P2 | 누구나 지울 수 있는 공개 API |
-| `GET /internal/members/sync` | S 예, E 아니요, D 아니요, H 아니요 | P3 | 민감정보는 있지만 외부 접근 근거가 없음 |
-| `GET /api/payments/admin/export` | D 예(Shadow), S 모름, E 모름 | P3 잠정 | 로그에서만 보인 API. 민감정보나 외부 접근이 확인되면 올라감 |
-| `GET /health` | S, E, H, D 모두 아니요 | P4 | 관련 평가를 모두 마쳤고 신호가 없음 |
-| `GET /api/items` | 모든 신호 모름 | 미평가 | 근거가 모자라 등급을 정하지 못함 |
+??? example "예시 6개 보기"
 
-표에 적지 않은 신호는 아니요로 봅니다. 예시 값은 가상입니다.
+    | API | 신호 | 등급 | 이유 |
+    |---|---|---|---|
+    | `PUT /api/members/me` | S 예, E 예, O 모름 | P2 잠정 | S와 E가 함께 있어 P2. 외부 HTTP 구간 관측(O)을 모르니 P1이 될 수 있음 |
+    | `DELETE /api/orders/{id}` | 공개, 인증 없이 허용, 변경 메서드 → M 예 | P2 | 누구나 지울 수 있는 공개 API |
+    | `GET /internal/members/sync` | S 예, E 아니요, D 아니요, H 아니요 | P3 | 민감정보는 있지만 외부 접근 근거가 없음 |
+    | `GET /api/payments/admin/export` | D 예(Shadow), S 모름, E 모름 | P3 잠정 | 로그에서만 보인 API. 민감정보나 외부 접근이 확인되면 올라감 |
+    | `GET /health` | S, E, H, D 모두 아니요 | P4 | 관련 평가를 모두 마쳤고 신호가 없음 |
+    | `GET /api/items` | 모든 신호 모름 | 미평가 | 근거가 모자라 등급을 정하지 못함 |
+
+    표에 적지 않은 신호는 아니요로 봅니다. 예시 값은 가상입니다.
 
 ## 등급을 정하는 순서
 

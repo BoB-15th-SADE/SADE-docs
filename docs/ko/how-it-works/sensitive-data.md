@@ -58,21 +58,21 @@ SADE는 한 벌의 규칙(기본 유형 19개)으로 코드, 명세, 로그에�
 
 값 규칙은 6개 유형(EMAIL, PHONE, RRN, FOREIGN_ID, CARD_NO, ACCESS_TOKEN)에만 있습니다. 나머지 유형은 필드 이름으로만 찾습니다.
 
-## 코드에서만 쓰는 문맥 판정
+??? info "코드에서만 쓰는 문맥 판정"
 
-이름만으로 정하기 어려운 필드는 주변을 한 번 더 봅니다.
+    이름만으로 정하기 어려운 필드는 주변을 한 번 더 봅니다.
 
-| 경우 | 판정 |
-|---|---|
-| `name` 하나만 있는 필드 | 사람을 뜻하는 객체(회원, 고객 등) 안에 있을 때만 NAME. 상품, 파일, 서버 객체 안의 `name`은 제외 |
-| `address` | 우편 주소 문맥(street, city, zip)이 있을 때. 사람이 아닌 객체 안이면 제외 |
-| `number` | 금융 문맥 객체 안에 있을 때 ACCOUNT_NO |
-| `<수식어>_phone`, `<수식어>_password` | 수식어가 붙어도 같은 유형 |
-| 형식 선언 | `format: email`, `format: password` 같은 선언을 근거로 씀 |
-| Authorization 헤더 | bearer 인증을 선언한 API에서만 ACCESS_TOKEN |
-| Cookie, Set-Cookie 헤더 | 헤더 전체를 SESSION_COOKIE로 보지 않음 |
+    | 경우 | 판정 |
+    |---|---|
+    | `name` 하나만 있는 필드 | 사람을 뜻하는 객체(회원, 고객 등) 안에 있을 때만 NAME. 상품, 파일, 서버 객체 안의 `name`은 제외 |
+    | `address` | 우편 주소 문맥(street, city, zip)이 있을 때. 사람이 아닌 객체 안이면 제외 |
+    | `number` | 금융 문맥 객체 안에 있을 때 ACCOUNT_NO |
+    | `<수식어>_phone`, `<수식어>_password` | 수식어가 붙어도 같은 유형 |
+    | 형식 선언 | `format: email`, `format: password` 같은 선언을 근거로 씀 |
+    | Authorization 헤더 | bearer 인증을 선언한 API에서만 ACCESS_TOKEN |
+    | Cookie, Set-Cookie 헤더 | 헤더 전체를 SESSION_COOKIE로 보지 않음 |
 
-더 가까운 문맥이 먼저입니다. 예를 들어 회원 객체 안의 상품 객체에 있는 `name`은 상품 이름으로 봅니다.
+    더 가까운 문맥이 먼저입니다. 예를 들어 회원 객체 안의 상품 객체에 있는 `name`은 상품 이름으로 봅니다.
 
 ## 결과를 쓰는 곳
 
