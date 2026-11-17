@@ -24,6 +24,7 @@ theme:
     - search.suggest
     - content.code.copy
     - content.tabs.link
+    - content.tooltips
 
 extra_css:
   - assets/stylesheets/extra.css
@@ -32,6 +33,7 @@ extra_javascript:
   - assets/javascripts/log-check.js
   - assets/javascripts/flow-sim.js
   - assets/javascripts/slides.js
+  - assets/javascripts/terms.js
 
 plugins:
   - search:

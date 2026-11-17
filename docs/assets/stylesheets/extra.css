@@ -309,3 +309,8 @@ html { scroll-padding-top: 5rem; }
   .md-typeset .sade-paths { grid-template-columns: 1fr; }
   .md-typeset .sade-paths > div { border-right: 0; border-bottom: 1px solid #e3e8e6; padding-left: 0; padding-right: 0; }
 }
+
+/* Terms explained in place (terms.js) */
+.md-typeset abbr.sade-term { border-bottom: 1px dotted #8a9892; cursor: help; text-decoration: none; }
+.md-typeset .sade-paths ul { margin-left: 0 !important; }
+.md-typeset .sade-paths ul li { margin-left: 0 !important; }
