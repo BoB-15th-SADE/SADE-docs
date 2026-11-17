@@ -1,0 +1,16 @@
+time,svc,method,path,status,src_ip,host,req_body
+2026-11-16T09:00:01+09:00,order-service,GET,/api/orders/1001,200,203.0.113.10,order-1,
+2026-11-16T09:00:03+09:00,order-service,GET,/api/orders/1002,200,203.0.113.11,order-1,
+2026-11-16T09:00:05+09:00,order-service,GET,/api/orders/1003,404,203.0.113.12,order-2,
+2026-11-16T09:00:08+09:00,order-service,POST,/api/orders,201,203.0.113.10,order-1,"{""item_id"":31,""qty"":2}"
+2026-11-16T09:00:12+09:00,order-service,POST,/api/orders,201,203.0.113.13,order-2,"{""item_id"":7,""qty"":1}"
+2026-11-16T09:00:15+09:00,order-service,DELETE,/api/orders/1001,204,10.0.2.15,order-1,
+2026-11-16T09:01:02+09:00,member-service,GET,/api/members/me,200,203.0.113.10,member-1,
+2026-11-16T09:01:04+09:00,member-service,GET,/api/members/me,200,203.0.113.14,member-1,
+2026-11-16T09:01:09+09:00,member-service,PUT,/api/members/me,200,203.0.113.10,member-1,"{""email"":""user01@example.com"",""phone"":""010-0000-0000""}"
+2026-11-16T09:01:20+09:00,member-service,POST,/api/members/login,200,203.0.113.15,member-1,"{""login_id"":""user02"",""password"":""example-only""}"
+2026-11-16T09:02:00+09:00,member-service,GET,/internal/members/sync,200,10.0.3.21,member-2,
+2026-11-16T09:02:30+09:00,member-service,GET,/internal/members/sync,200,10.0.3.21,member-2,
+2026-11-16T09:03:10+09:00,payment-service,POST,/api/payments,200,10.0.2.15,pay-1,"{""order_id"":1001,""card_no"":""4111111111111111""}"
+2026-11-16T09:03:40+09:00,payment-service,GET,/api/payments/7f3c2a91-0d4e-4b8a-9c11-2f6e8d5a7b10,200,10.0.2.15,pay-1,
+2026-11-16T09:04:00+09:00,payment-service,GET,/api/payments/admin/export,200,203.0.113.99,pay-1,

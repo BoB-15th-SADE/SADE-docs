@@ -1,5 +1,18 @@
 # 문서 변경 내역
 
+## 2026-11-17 (2)
+
+- 테마별로 단계를 나눠 내용을 늘렸습니다.
+- 시작하기에 "샘플 로그로 첫 결과 보기"(가상 샘플 CSV 포함)와 "점검 흐름"(자료 연결부터 담당자 전달까지 7단계)을 넣었습니다.
+- 로그 연동을 연결 방식, CSV 업로드, syslog 수신, Kafka 구독 네 페이지로 나눴습니다. 화면 단계(업로드 또는 Connect → 샘플 받기 → 필드 매핑 → 저장 결과 확인 → 반영)대로 적었습니다.
+- 분석 다시 돌리기(Analyze again), 서비스 이름 규칙, 저장한 로그 지우기를 넣었습니다.
+- 소스 코드, OpenAPI 명세 연동을 단계별로 다시 썼습니다. 화면에 없는 scan root 안내를 뺐습니다.
+- "동작 원리" 섹션을 새로 만들었습니다. 처리 순서, API 식별, 로그 처리와 값 가리기, 코드 스캔, 민감정보 탐지, 노출 판정.
+- Inventory, API 상세, Flows, 관리 우선순위, Access Scope에 사용 예와 계산 예시를 넣었습니다.
+- Inventory의 Access Scope 값을 화면에 맞췄습니다(Public, Internal, —). Partner는 Observed Access Scope와 API 상세에서 봅니다.
+- API 상세 Sensitive Data 탭 설명을 현재 화면(위치, 필드, 유형, 출처)에 맞췄습니다.
+- CSV 시간대가 `SADE_LOG_TIMEZONE`을 따르는 점을 넣었습니다.
+
 ## 2026-11-17
 
 - 화면 사진 17장을 넣었습니다. Overview, Inventory, API 상세(개요, 관리, 담당자), Flows, Log Sources(CSV, syslog, Kafka), Specifications, Source Code, Data Types, Access Scope, Settings, Assessments. 개발용 가짜 API로 띄운 화면이며 값은 모두 가상입니다.

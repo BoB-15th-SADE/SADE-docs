@@ -61,6 +61,7 @@ syslog, Kafka ─────────────▶ vector ─┤   Postgre
 | `SADE_SYSLOG_PLAIN_BIND`, `SADE_SYSLOG_PLAIN_PORT` | `127.0.0.1`, `1514` | 평문 syslog 주소와 포트 |
 | `SADE_LOG_RETENTION_DAYS` | 30 | 가린 로그 보관 일수 |
 | `SADE_LOG_DAILY_RETENTION_DAYS` | 400 | 날짜별 호출 수 보관 일수 |
+| `SADE_LOG_TIMEZONE` | `Asia/Seoul` | 시간대가 없는 로그 시각을 읽을 시간대. 소스에 따로 정하면 그 값이 먼저입니다 |
 | `SADE_EXTRA_HOSTS` | 없음 | DNS에 없는 이름을 `이름=IP`로, 쉼표로 이어 적습니다 (예: Kafka 브로커) |
 | `SADE_SPEC_FETCH_ALLOWED_URLS` | 없음 | 명세를 가져올 내부 주소 목록 |
 | `SADE_LOG_ID_MIN_VALUES` | 20 | 경로의 같은 자리에 값 종류가 이보다 많으면 ID(`{id}`)로 봅니다 |
