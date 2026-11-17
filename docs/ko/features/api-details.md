@@ -89,7 +89,7 @@ DB에 접근하는 코드는 찾았지만 어느 DB인지 정하지 못하면 "D
 | Add data in | 빠진 자료와 그 자료를 넣을 화면 |
 | Call history (not in grade) | 호출 수와 최초, 마지막 호출. 등급 계산에는 쓰지 않음 |
 
-검토 순서
+### 검토 순서
 
 <div class="sade-steps" markdown>
 

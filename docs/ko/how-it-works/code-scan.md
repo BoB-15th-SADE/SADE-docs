@@ -26,7 +26,9 @@ code-worker가 GitHub 저장소의 커밋 하나를 읽어 API, 서비스 사이
 
 ## 2. 서비스 이름
 
-`spring.application.name`과, compose에서 그 모듈로 넘기는 `SPRING_APPLICATION_NAME`에서 후보를 모읍니다. 값이 하나로 정해지면 그 값을 씁니다. 프로필에 따라 이름이 갈리면 정하지 않고 이슈로 남깁니다.
+`spring.application.name`과, compose에서 그 모듈로 넘기는 `SPRING_APPLICATION_NAME`에서 후보를 모읍니다.
+
+값이 하나로 정해지면 그 값을 씁니다. 프로필에 따라 이름이 갈리면 정하지 않고 이슈로 남깁니다.
 
 ## 3. API와 필드
 
@@ -64,7 +66,7 @@ Controller 핸들러에서 시작해 Service 메서드를 따라가며 HTTP 호�
 | OpenFeign | `@FeignClient`의 이름, 주소와 메서드 매핑 |
 | JDK HttpClient | `send`, `sendAsync`에 넘긴 `HttpRequest`의 메서드와 주소 |
 
-호출 대상의 확정 수준
+### 호출 대상의 확정 수준
 
 | 표시 | 뜻 |
 |---|---|

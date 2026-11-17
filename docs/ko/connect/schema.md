@@ -1,6 +1,8 @@
 # 로그 필드
 
-SADE는 로그를 [ECS(Elastic Common Schema)](https://www.elastic.co/guide/en/ecs/current/index.html) 필드 이름으로 바꿔 저장합니다. 기업 필드 이름이 달라도 대응 관계만 정하면 됩니다. 필수 필드 4개로 API 목록을 만들고, 필드가 늘면 Flows와 관리 우선순위 근거가 늘어납니다.
+SADE는 로그를 [ECS(Elastic Common Schema)](https://www.elastic.co/guide/en/ecs/current/index.html) 필드 이름으로 바꿔 저장합니다.
+
+기업 필드 이름이 달라도 대응 관계만 정하면 됩니다. 필수 필드 4개로 API 목록을 만들고, 필드가 늘면 Flows와 관리 우선순위 근거가 늘어납니다.
 
 | 구분 | 필드 | 뜻 | 없을 때 |
 |---|---|---|---|

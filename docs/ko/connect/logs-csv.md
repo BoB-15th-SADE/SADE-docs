@@ -1,6 +1,8 @@
 # CSV 업로드
 
-SIEM, 게이트웨이, 서비스에서 기간을 정해 내보낸 CSV를 올립니다. 연동 승인 전에 기업 로그 형식을 확인할 때 씁니다. 처음이면 [샘플 로그로 첫 결과 보기](../getting-started/first-run.md)로 화면 흐름을 먼저 익힙니다.
+SIEM, 게이트웨이, 서비스에서 기간을 정해 내보낸 CSV를 올립니다.
+
+연동 승인 전에 기업 로그 형식을 확인할 때 씁니다. 처음이면 [샘플 로그로 첫 결과 보기](../getting-started/first-run.md)로 화면 흐름을 먼저 익힙니다.
 
 [![CSV 업로드 화면](../../assets/screens/csv.png){ loading=lazy }](../../assets/screens/csv.png)
 <small>예시 화면 (가상 데이터)</small>
@@ -85,7 +87,9 @@ Check stored rows(저장 결과 확인)를 누르면 저장된 줄 하나가 SAD
 
 ## 4. 반영
 
-Apply to inventory and flows(Inventory와 Flows에 반영)를 누르면 로그 분석이 시작됩니다. 끝나면 Inventory와 Flows가 바뀝니다. Open Inventory, Open Flows로 결과 화면을 엽니다.
+Apply to inventory and flows(Inventory와 Flows에 반영)를 누르면 로그 분석이 시작됩니다.
+
+끝나면 Inventory와 Flows가 바뀝니다. Open Inventory, Open Flows로 결과 화면을 엽니다.
 
 ## 다시 올릴 때
 

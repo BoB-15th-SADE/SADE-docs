@@ -83,7 +83,7 @@ Log Sources의 Logs without a service name 영역에서 이런 줄 수를 확인
 | 매핑에서 정하기 | CSV는 파일마다 고정 값이나 경로 첫 구간, Kafka는 토픽별 서비스 이름, syslog는 보내는 쪽 appname |
 | 서비스 이름 규칙(Service naming rules) | 서버 이름(Server name), 출발지 IP 대역(Source IP range), 요청 경로 앞부분(Request path prefix)으로 서비스 이름을 정함 |
 
-서비스 이름 규칙
+### 서비스 이름 규칙
 
 <div class="sade-steps" markdown>
 
