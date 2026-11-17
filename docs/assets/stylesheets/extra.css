@@ -93,6 +93,7 @@ html { scroll-padding-top: 5rem; }
 .md-typeset .sade-pipe > div { background: #fff; border: 1px solid #dfe8e3; border-radius: .45rem; flex: 1 1 8rem; font-size: .72rem; line-height: 1.55; min-width: 8rem; padding: .7rem .8rem; position: relative; }
 .md-typeset .sade-pipe > div strong { color: #17231e; display: block; font-size: .76rem; margin-bottom: .2rem; }
 .md-typeset .sade-pipe > div p { margin: 0; }
+.md-typeset .sade-pipe > div span.sade-pipe-title { color: #17231e; display: block; font-size: .76rem; font-weight: 600; margin-bottom: .2rem; }
 .md-typeset .sade-pipe > div:not(:last-child)::after { color: #9fb4aa; content: "→"; font-weight: 700; position: absolute; right: -.48rem; top: 50%; transform: translateY(-50%); z-index: 1; }
 .md-typeset .sade-pipe > div.is-key { background: #f3f9f6; border-color: #a9cdbb; }
 @media (max-width: 44.984375em) { .md-typeset .sade-pipe > div:not(:last-child)::after { content: "↓"; left: 50%; right: auto; top: auto; bottom: -.95rem; transform: translateX(-50%); } }

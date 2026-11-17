@@ -14,9 +14,15 @@ SADE는 기업 내부망에 Docker 컨테이너로 설치합니다.
 
 [<span class="sade-card-title">연동 가이드</span><span>소스 코드, OpenAPI 명세, 로그(CSV, syslog, Kafka) 연결</span>](connect/logs.md)
 
+[<span class="sade-card-title">화면 둘러보기</span><span>메뉴와 화면별 기능</span>](getting-started/navigation.md)
+
 [<span class="sade-card-title">관리 우선순위</span><span>P1~P4를 정하는 신호와 규칙</span>](features/priority.md)
 
-[<span class="sade-card-title">화면 둘러보기</span><span>메뉴와 화면별 기능</span>](getting-started/navigation.md)
+[<span class="sade-card-title">샘플로 첫 결과 보기</span><span>샘플 CSV 하나로 Inventory와 우선순위를 확인합니다</span>](getting-started/first-run.md)
+
+[<span class="sade-card-title">점검 흐름</span><span>자료 연결부터 담당자 전달까지 7단계</span>](getting-started/workflow.md)
+
+[<span class="sade-card-title">동작 원리</span><span>API 식별, 로그 처리, 코드 스캔, 민감정보 탐지, 노출 판정</span>](how-it-works/index.md)
 
 </div>
 

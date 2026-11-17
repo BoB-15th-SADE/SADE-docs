@@ -1,109 +1,116 @@
-# 로그 (CSV, syslog, Kafka)
+# 로그 연결 방식
 
 Connect > Log Sources에서 로그를 연결합니다. 로그로 실제 호출된 API, 호출 수, 호출한 주소, 서비스 사이 흐름을 확인합니다.
-
 
 [![Log Sources 화면](../../assets/screens/logs.png){ loading=lazy }](../../assets/screens/logs.png)
 <small>예시 화면 (가상 데이터)</small>
 
-위쪽 "우선순위 판단에 빠진 자료" 표는 관리 우선순위를 판단하지 못한 항목과 그 자료가 있는 로그 필드, 영향받는 API 수를 보여 줍니다.
+- 위쪽 "우선순위 판단에 빠진 자료" 표는 관리 우선순위를 판단하지 못한 항목, 그 자료가 있는 로그 필드, 영향받는 API 수를 보여 줍니다.
+- 아래쪽 Your sources 표는 연결한 소스의 상태와 마지막 수집 시각을 보여 줍니다.
 
 ## 방식 고르기
 
-| 방식 | 맞는 환경 | 방향 | 기업에서 준비할 것 |
-|---|---|---|---|
-| CSV 업로드 | 연동 승인 전 시험 | 사람이 파일을 올림 | SIEM, 게이트웨이, 서비스에서 기간을 정해 내보낸 CSV |
-| syslog 수신 | 서버나 게이트웨이가 rsyslog로 보낼 수 있을 때 | 기업 서버 → SADE (TCP 6514, TLS) | rsyslog 설정, 방화벽 허용 |
-| Kafka 구독 | 로그가 Kafka 토픽에 모일 때 | SADE → Kafka 브로커 (읽기만) | 브로커 주소, 읽기 권한, 인증 정보 |
+| 방식 | 맞는 환경 | 방향 | 기업에서 준비할 것 | 안내 |
+|---|---|---|---|---|
+| CSV 업로드 | 연동 승인 전 시험, 기간을 정한 점검 | 사람이 파일을 올림 | SIEM, 게이트웨이, 서비스에서 내보낸 CSV | [CSV 업로드](logs-csv.md) |
+| syslog 수신 | 서버나 게이트웨이가 rsyslog로 보낼 수 있을 때 | 기업 서버 → SADE (TCP 6514, TLS) | rsyslog 설정, 방화벽 허용 | [syslog 수신](logs-syslog.md) |
+| Kafka 구독 | 로그가 Kafka 토픽에 모일 때 | SADE → Kafka 브로커 (읽기만) | 브로커 주소, 읽기 권한, 인증 정보 | [Kafka 구독](logs-kafka.md) |
 
 !!! tip "CSV로 먼저 확인하기"
     하루치 로그를 CSV로 올려 필드 매핑을 확인한 뒤 syslog나 Kafka를 연결하기를 권합니다. 같은 로그 줄은 어느 경로로 들어와도 한 번만 저장합니다.
 
-세 방식 모두 처리 순서가 같습니다.
+## 공통 단계
 
-1. 받은 로그를 [로그 필드](schema.md) 이름으로 바꿉니다.
-2. Vector가 본문 값을 타입으로 가립니다.
-3. ClickHouse에 저장합니다.
-4. 로그를 분석하면 Inventory와 Flows를 다시 만듭니다.
+세 방식 모두 화면 위에 같은 단계가 나옵니다. CSV는 연결 대신 업로드로 시작합니다.
 
-## CSV 업로드
+| 단계 | CSV | syslog, Kafka | 하는 일 |
+|---|---|---|---|
+| 1 | 업로드 | Connect | 파일을 고르거나, 연결 정보를 넣습니다 |
+| 2 | | 샘플 받기 | 들어오는 메시지 최대 50개를 보여 줍니다. 아직 저장하지 않습니다 |
+| 3 | 필드 매핑 | 필드 매핑 | 기업 필드를 SADE 필드에 맞춥니다 |
+| 4 | 저장 결과 확인 | 저장 결과 확인 | ClickHouse에 저장된 줄을 열어 값이 맞는지 봅니다 |
+| 5 | 반영 | 반영 | 로그 분석을 돌려 Inventory와 Flows를 다시 만듭니다 |
 
-[![CSV 업로드 화면](../../assets/screens/csv.png){ loading=lazy }](../../assets/screens/csv.png)
-<small>예시 화면 (가상 데이터)</small>
+## 들어온 로그가 저장되기까지
 
-| 조건 | 내용 |
-|---|---|
-| 파일 | 한 번에 5개, 파일당 200 MB |
-| 형식 | 첫 줄이 열 이름. UTF-8 또는 CP949. 구분자는 쉼표, 탭, `;`, `|` |
+<div class="sade-steps" markdown>
 
-1. 파일을 고르면 열 이름을 보고 SADE 필드를 추천합니다. 기업의 열 이름이 달라도 대응 관계만 고릅니다(예: `svc` → `service.name`).
-2. 서비스 이름 열이 없으면 파일마다 고정 서비스 이름을 넣습니다.
-3. 보내면 파일마다 행을 나눠 보여 줍니다.
-    - 저장함
-    - 이미 저장돼 있음
-    - 보관 기간보다 오래돼 버림
-    - 매핑한 칸이 비어 버림
-4. Apply to inventory and flows를 누르면 로그 분석이 시작됩니다. 분석이 끝나면 Inventory와 Flows가 바뀝니다.
+1. 필드 바꾸기
 
-!!! note "시각 열을 매핑하세요"
-    `@timestamp`를 매핑하지 않으면 저장 시각을 로그 시각으로 씁니다. 이때 같은 파일을 다시 올리면 같은 줄을 다시 저장합니다.
+    매핑한 대로 기업 필드 이름을 [로그 필드](schema.md) 이름(ECS)으로 바꿉니다. 매핑하지 않은 필드는 버립니다.
 
-## syslog 수신
+2. 정리
 
-[![syslog 연결 화면](../../assets/screens/syslog.png){ loading=lazy }](../../assets/screens/syslog.png)
-<small>예시 화면 (가상 데이터)</small>
+    시각을 UTC로 맞추고, 메서드를 대문자로, 경로에서 쿼리를 뗍니다. 보관 기간보다 오래된 줄은 버립니다.
 
-SADE가 TCP 6514에서 TLS syslog를 받습니다. 보내는 서버에는 화면에서 받은 인증서와 rsyslog 설정 예시를 넣습니다.
+3. 민감 유형 찾기와 값 가리기
 
-| 항목 | 내용 |
-|---|---|
-| 형식 | RFC 5424, RFC 3164. 메시지 본문은 JSON 또는 nginx, Apache 접근 로그 한 줄 |
-| 인증서 | `.env`의 `SADE_SYSLOG_HOST`(이 서버의 이름이나 IP)로 자체 서명 인증서를 만듭니다. 기업 인증서는 `syslog-certs` 볼륨에 `server.crt`, `server.key`로 넣습니다 |
-| 기본 매핑 | syslog의 hostname은 `host.name`, appname은 `service.name`이 됩니다 |
-| 상태 | 1시간 넘게 저장한 로그가 없으면 "확인 필요"로 표시합니다 |
+    본문에서 민감 유형을 찾아 이름만 남기고, 값은 `<string>`, `<integer>` 같은 타입으로 바꿉니다. 자세한 방식은 [로그 처리와 값 가리기](../how-it-works/log-processing.md)에 있습니다.
 
-!!! warning "보내는 서버 IP만 허용하기"
-    syslog는 보내는 쪽을 인증하지 않습니다. 6514에 닿는 누구나 로그를 넣어 Inventory와 Flows를 바꿀 수 있습니다. 방화벽에서 보내는 서버 IP만 허용하세요. Docker가 연 포트는 호스트의 ufw 규칙을 거치지 않으므로 `DOCKER-USER` 체인이나 앞단 방화벽에서 막습니다.
+4. 저장
 
-    ```bash
-    sudo iptables -I DOCKER-USER -i eth0 -p tcp --dport 6514 ! -s 10.0.1.0/24 -j DROP
-    ```
+    ClickHouse에 저장합니다. 원래 줄 내용이 같은 줄은 한 번만 남깁니다.
 
-### 평문 syslog (내부망 전용)
+5. 분석
 
-TLS를 보내지 못하는 장비는 평문 TCP, UDP로 받습니다. 기본은 꺼져 있습니다.
+    반영을 누르면 API별로 집계하고 코드, 명세와 합쳐 Inventory와 Flows를 만듭니다.
 
-- 화면에서 보내는 서버의 IP나 대역(예: `10.0.0.0/8`)을 넣고 켜면 Vector가 1514를 듣습니다.
-- 화면의 허용 목록은 TCP에만 적용됩니다. UDP는 방화벽에서 막습니다.
-- 포트는 기본으로 이 서버(`127.0.0.1`)에만 열립니다. 다른 서버에서 받으려면 `.env`에 `SADE_SYSLOG_PLAIN_BIND`, `SADE_SYSLOG_PLAIN_PORT`를 넣고 다시 시작합니다.
-- 내용이 암호화되지 않습니다. 내부망에서만 쓰고, 위의 IP 제한을 TCP와 UDP에 모두 겁니다.
-
-## Kafka 구독
-
-[![Kafka 연결 화면](../../assets/screens/kafka.png){ loading=lazy }](../../assets/screens/kafka.png)
-<small>예시 화면 (가상 데이터)</small>
-
-SADE는 Kafka 토픽을 읽기만 합니다.
-
-1. 브로커 주소와 보안 방식을 넣고 연결을 확인합니다.
-2. 읽을 토픽을 고르면 샘플 메시지로 필드를 추천합니다.
-3. 토픽 하나에 한 서비스의 로그만 있으면 토픽별 서비스 이름과 시간대를 정합니다.
-4. 연결하면 받은 메시지, 저장한 메시지, 버린 메시지 수가 나옵니다.
-
-| 항목 | 지원 | 미지원 |
-|---|---|---|
-| 보안 | 평문, TLS(사내 CA), mTLS, SASL PLAIN, SCRAM-SHA-256, SCRAM-SHA-512, SASL과 TLS 함께 | Kerberos(GSSAPI), OAUTHBEARER(AWS MSK IAM 등) |
-| 메시지 | JSON, nginx와 Apache 접근 로그 한 줄, Filebeat, Fluent Bit, Logstash가 감싼 메시지(`message`, `log`) | Avro, Protobuf(Schema Registry) |
-
-- 브로커 이름이 DNS에 없고 서버의 `/etc/hosts`에만 있으면 컨테이너가 찾지 못합니다. `.env`에 `SADE_EXTRA_HOSTS=kafka1.corp.example=10.0.0.5`처럼 넣고 다시 시작합니다.
-- SASL 비밀번호는 연결 확인과 연결에만 쓰고 `kafka-secrets` 볼륨에 둡니다.
-- 기간을 정해도 Kafka는 남은 메시지를 처음부터 읽고, 기간 밖 메시지는 저장 전에 버립니다. 큰 토픽은 첫 연결 때 읽는 양이 많으니 기업과 시간을 맞춥니다.
+</div>
 
 ## 로그 시각과 시간대
 
 - 시간대가 적힌 시각(`Z`, `+09:00`)은 그대로 읽습니다.
-- 시간대가 없는 시각은 소스에 정한 시간대(기본 Asia/Seoul)로 읽습니다. UTC로 찍는 서버를 그대로 두면 9시간 밀립니다.
+- 시간대가 없는 시각은 소스에 정한 시간대로 읽습니다. 소스에 정하지 않으면 `.env`의 `SADE_LOG_TIMEZONE`(기본 Asia/Seoul)을 씁니다.
+- UTC로 찍는 서버를 그대로 두면 9시간 밀립니다.
+- CSV는 `SADE_LOG_TIMEZONE`만 씁니다. syslog는 소스별로, Kafka는 소스별과 토픽별로 시간대를 정합니다.
+
+## 분석 다시 돌리기
+
+로그를 저장하는 것과 분석하는 것은 따로 돕니다. syslog, Kafka로 계속 들어온 로그는 저장만 되고, 분석은 자동으로 돌지 않습니다.
+
+- Log Sources의 Log analysis 영역에 마지막 분석 시각과, 그 뒤에 저장되거나 지워진 줄 수가 나옵니다.
+- "마지막 분석 뒤에 로그가 바뀌었습니다" 안내가 나오면 Analyze again을 누릅니다. 분석이 끝나야 Inventory와 Flows에 반영됩니다.
+- 코드 스캔, 명세 등록, 설정 저장 뒤의 매핑은 자동으로 돕니다. 이때 로그는 마지막 로그 분석 결과를 씁니다.
 
 ## 서비스 이름이 없는 로그
 
-`service.name`과 `host.name`이 모두 없는 줄은 API에 들어가지 않습니다. Log Sources의 요약에서 이런 줄을 확인하고, 서버나 IP로 서비스 이름을 붙이는 규칙을 저장한 뒤 다시 분석합니다.
+`service.name`과 `host.name`이 모두 없는 줄은 API에 들어가지 않습니다. `service.name`이 없고 `host.name`만 있는 줄은 서버 이름을 서비스 이름처럼 써서 분석합니다.
+
+Log Sources의 Logs without a service name 영역에서 이런 줄 수를 확인하고, 아래 방법으로 서비스 이름을 붙입니다.
+
+| 방법 | 내용 |
+|---|---|
+| 매핑에서 정하기 | CSV는 파일마다 고정 값이나 경로 첫 구간, Kafka는 토픽별 서비스 이름, syslog는 보내는 쪽 appname |
+| 서비스 이름 규칙(Service naming rules) | 서버 이름(Server name), 출발지 IP 대역(Source IP range), 요청 경로 앞부분(Request path prefix)으로 서비스 이름을 정함 |
+
+서비스 이름 규칙
+
+<div class="sade-steps" markdown>
+
+1. Service naming rules에서 Add rule을 누릅니다.
+
+2. 규칙 종류를 고르고 맞출 값과 서비스 이름을 넣습니다. 예: Request path prefix `/order` → `order-service`
+
+3. 저장한 뒤 Analyze again을 누릅니다. 저장한 로그에도 새 이름이 적용됩니다.
+
+</div>
+
+- 규칙은 `service.name`이 빈 줄에만 적용합니다.
+- 위에서부터 처음 맞는 규칙 하나를 씁니다. 순서는 위아래 화살표로 바꿉니다.
+
+## 저장한 로그 지우기
+
+- CSV: Recent uploads에서 업로드 하나를 취소(Cancel this upload)하면 그 업로드가 저장한 줄을 지웁니다.
+- syslog, Kafka: Delete stored rows로 그 소스가 저장한 줄을 모두 지웁니다. 다른 소스의 줄은 남습니다. 연결은 유지되어 이후 메시지는 계속 저장됩니다.
+- 지운 줄은 되돌릴 수 없습니다. 지운 뒤 Analyze again을 눌러야 Inventory와 Flows에서 빠집니다.
+
+## 어떤 로그를 받으면 좋은지
+
+| 로그 | 채워지는 결과 |
+|---|---|
+| 게이트웨이나 로드밸런서 접근 로그 | 외부에서 들어온 API, 출발지 IP, 접근 범위 |
+| 서비스 접근 로그 | 서비스별 API와 호출 수 |
+| 서비스가 다른 서비스를 부른 기록(outbound) | 서비스 사이 선, 외부 목적지 |
+| 요청, 응답 본문(가능한 경우) | 로그 근거의 민감 유형 |
+
+게이트웨이 로그만 있어도 Inventory는 만들어집니다. 게이트웨이 뒤 서비스의 로그에는 출발지가 게이트웨이 주소로 찍히므로, 원래 주소(`X-Forwarded-For`)를 `network.forwarded_ip`로 매핑합니다.

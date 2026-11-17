@@ -5,7 +5,7 @@
 | 메뉴 | 화면 | 기능 |
 |---|---|---|
 | Overview | [Overview](../features/overview.md) | 우선순위 분포, 우선순위 상위 API 5개, 자산 수, 관측한 접근 범위, 민감 유형 |
-| Connect | [Log Sources](../connect/logs.md) | CSV 업로드, syslog 수신, Kafka 구독 |
+| Connect | [Log Sources](../connect/logs.md) | [CSV 업로드](../connect/logs-csv.md), [syslog 수신](../connect/logs-syslog.md), [Kafka 구독](../connect/logs-kafka.md), 분석 다시 돌리기, 서비스 이름 규칙 |
 | | [Specifications](../connect/specs.md) | OpenAPI 명세 등록, 코드에서 만든 명세 |
 | | [Source Code](../connect/code.md) | GitHub 저장소 스캔, 코드 인벤토리, 라우트 맵 |
 | APIs | [Inventory](../features/inventory.md) | 전체 API 목록과 필터 |

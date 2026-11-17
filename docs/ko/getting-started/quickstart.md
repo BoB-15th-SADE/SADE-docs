@@ -79,13 +79,15 @@ docker compose -f compose.yaml -f compose.images.yaml up -d
 
 ## 5. 첫 자료 연결
 
+기업 자료를 받기 전이면 [샘플 로그로 첫 결과 보기](first-run.md)로 화면 흐름을 먼저 확인합니다.
+
 코드, 명세, 로그 순서로 연결하기를 권합니다. 명세와 로그의 서비스 이름을 코드 스캔 결과에 맞추기 쉽습니다.
 
 1. [소스 코드](../connect/code.md): Connect > Source Code에서 GitHub 저장소를 스캔합니다.
 2. [OpenAPI 명세](../connect/specs.md): Connect > Specifications에서 서비스 이름과 함께 등록합니다.
-3. [로그](../connect/logs.md): Connect > Log Sources에서 CSV를 먼저 올려 필드 매핑을 확인한 뒤 syslog나 Kafka를 연결합니다.
+3. [로그](../connect/logs.md): Connect > Log Sources에서 [CSV](../connect/logs-csv.md)를 먼저 올려 필드 매핑을 확인한 뒤 [syslog](../connect/logs-syslog.md)나 [Kafka](../connect/logs-kafka.md)를 연결합니다.
 
-결과는 [Overview](../features/overview.md)와 [Inventory](../features/inventory.md)에 나옵니다.
+결과는 [Overview](../features/overview.md)와 [Inventory](../features/inventory.md)에 나옵니다. 결과를 보는 순서는 [점검 흐름](workflow.md)에 있습니다.
 
 ## 멈추기와 지우기
 
