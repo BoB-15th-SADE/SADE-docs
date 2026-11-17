@@ -27,6 +27,7 @@ theme:
     - content.tooltips
 
 extra_css:
+  - assets/fonts/pretendard/pretendard.css
   - assets/stylesheets/extra.css
 extra_javascript:
   - assets/javascripts/page-actions.js
