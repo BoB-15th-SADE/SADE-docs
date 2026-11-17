@@ -4,45 +4,101 @@
 
 SADE는 토픽을 읽기만 하고 쓰지 않습니다. 연결 뒤에는 새 메시지를 계속 저장합니다.
 
-<div class="sade-slides" markdown>
+<div class="sade-slides sade-walk" markdown>
 
-<div class="sade-slide" markdown data-title="Log Sources">
+<div class="sade-slide" markdown data-title="Kafka 연결 열기" data-spot="58.72,90.83,5.43,3.56" data-url="/#/logs">
 
-[![Log Sources](../../assets/screens/kafka.png){ loading=lazy }](../../assets/screens/kafka.png)
+<p class="sade-say">Connect > Log Sources에서 Kafka 카드의 Connect를 누릅니다.</p>
 
-<small>Kafka 카드가 있는 연결 화면</small>
-
-</div>
-
-<div class="sade-slide" markdown data-title="Connect">
-
-[![Connect](../../assets/screens/kafka-connect.png){ loading=lazy }](../../assets/screens/kafka-connect.png)
-
-<small>브로커 연결 확인 뒤 토픽 선택</small>
+[![Kafka 연결 열기](../../assets/screens/w-kafka-1.png){ loading=lazy }](../../assets/screens/w-kafka-1.png)
 
 </div>
 
-<div class="sade-slide" markdown data-title="샘플 받기">
+<div class="sade-slide" markdown data-title="브로커 주소" data-spot="19.03,25.77,76.18,3.56" data-url="/#/kafka">
 
-[![샘플 받기](../../assets/screens/kafka-samples.png){ loading=lazy }](../../assets/screens/kafka-samples.png)
+<p class="sade-say">부트스트랩 서버에 브로커 주소를 쉼표로 이어 넣습니다. 보안 방식과 인증 정보도 넣습니다.</p>
 
-<small>토픽, 파티션, offset별 받은 메시지</small>
-
-</div>
-
-<div class="sade-slide" markdown data-title="필드 매핑">
-
-[![필드 매핑](../../assets/screens/kafka-map.png){ loading=lazy }](../../assets/screens/kafka-map.png)
-
-<small>메시지 키를 SADE 필드에 맞춤</small>
+[![브로커 주소](../../assets/screens/w-kafka-2.png){ loading=lazy }](../../assets/screens/w-kafka-2.png)
 
 </div>
 
-<div class="sade-slide" markdown data-title="반영">
+<div class="sade-slide" markdown data-title="연결 확인" data-spot="19.03,60.54,5.14,3.56" data-url="/#/kafka">
 
-[![반영](../../assets/screens/kafka-apply.png){ loading=lazy }](../../assets/screens/kafka-apply.png)
+<p class="sade-say">연결 확인을 누릅니다.</p>
 
-<small>찾은 API와 서비스 수</small>
+[![연결 확인](../../assets/screens/w-kafka-3.png){ loading=lazy }](../../assets/screens/w-kafka-3.png)
+
+</div>
+
+<div class="sade-slide" markdown data-title="토픽 고르기" data-spot="19.1,81.78,76.04,4.01" data-url="/#/kafka">
+
+<p class="sade-say">브로커가 연결되면 토픽 목록이 나옵니다. 읽을 토픽을 체크합니다.</p>
+
+[![토픽 고르기](../../assets/screens/w-kafka-4.png){ loading=lazy }](../../assets/screens/w-kafka-4.png)
+
+</div>
+
+<div class="sade-slide" markdown data-title="샘플 받기" data-spot="86.6,90.88,8.61,3.56" data-url="/#/kafka">
+
+<p class="sade-say">연결하고 샘플 받기를 누릅니다.</p>
+
+[![샘플 받기](../../assets/screens/w-kafka-5.png){ loading=lazy }](../../assets/screens/w-kafka-5.png)
+
+</div>
+
+<div class="sade-slide" markdown data-title="샘플 확인" data-spot="85.12,74.87,10.09,3.56" data-url="/#/kafka">
+
+<p class="sade-say">받은 메시지를 확인하고 필드 매핑을 누릅니다.</p>
+
+[![샘플 확인](../../assets/screens/w-kafka-6.png){ loading=lazy }](../../assets/screens/w-kafka-6.png)
+
+</div>
+
+<div class="sade-slide" markdown data-title="매핑 확인" data-spot="41.22,46.32,25.71,3.56" data-url="/#/kafka">
+
+<p class="sade-say">메시지 키가 SADE 필드에 맞게 추천됐는지 확인합니다. 틀린 칸은 다른 키로 바꿉니다.</p>
+
+[![매핑 확인](../../assets/screens/w-kafka-7.png){ loading=lazy }](../../assets/screens/w-kafka-7.png)
+
+</div>
+
+<div class="sade-slide" markdown data-title="저장 시작" data-spot="86.6,90.84,8.61,3.56" data-url="/#/kafka">
+
+<p class="sade-say">맨 아래 반영하고 저장 시작을 누릅니다.</p>
+
+[![저장 시작](../../assets/screens/w-kafka-8.png){ loading=lazy }](../../assets/screens/w-kafka-8.png)
+
+</div>
+
+<div class="sade-slide" markdown data-title="저장 결과 확인" data-spot="87.18,44.83,7.13,3.56" data-url="/#/kafka">
+
+<p class="sade-say">저장된 줄 수가 나오면 저장 결과 확인을 누릅니다.</p>
+
+[![저장 결과 확인](../../assets/screens/w-kafka-9.png){ loading=lazy }](../../assets/screens/w-kafka-9.png)
+
+</div>
+
+<div class="sade-slide" markdown data-title="저장된 줄 확인" data-spot="74.65,87.5,5.14,3.56" data-url="/#/kafka">
+
+<p class="sade-say">값이 맞는 필드에 들어갔는지 보고 확인 완료를 누릅니다.</p>
+
+[![저장된 줄 확인](../../assets/screens/w-kafka-10.png){ loading=lazy }](../../assets/screens/w-kafka-10.png)
+
+</div>
+
+<div class="sade-slide" markdown data-title="반영" data-spot="83.33,51.16,11.88,3.56" data-url="/#/kafka">
+
+<p class="sade-say">Inventory와 Flows에 반영을 누릅니다.</p>
+
+[![반영](../../assets/screens/w-kafka-11.png){ loading=lazy }](../../assets/screens/w-kafka-11.png)
+
+</div>
+
+<div class="sade-slide" markdown data-title="결과 보기" data-spot="87.67,84.82,7.54,3.56" data-url="/#/kafka">
+
+<p class="sade-say">찾은 API를 확인하고 Inventory 열기로 목록을 엽니다.</p>
+
+[![결과 보기](../../assets/screens/w-kafka-12.png){ loading=lazy }](../../assets/screens/w-kafka-12.png)
 
 </div>
 

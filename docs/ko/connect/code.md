@@ -4,37 +4,53 @@ Connect > Source Code에서 GitHub 저장소를 연결해 스캔합니다.
 
 코드 스캔은 Java Spring Boot 서비스를 읽습니다. 코드는 읽기만 하고 저장소에 쓰지 않습니다.
 
-<div class="sade-slides" markdown>
+<div class="sade-slides sade-walk" markdown>
 
-<div class="sade-slide" markdown data-title="Source Code">
+<div class="sade-slide" markdown data-title="연결 추가" data-spot="89.8,47.63,5.4,3.56" data-url="/#/code">
 
-[![Source Code](../../assets/screens/code.png){ loading=lazy }](../../assets/screens/code.png)
+<p class="sade-say">Connect > Source Code의 저장소 탭에서 연결 추가를 누릅니다.</p>
 
-<small>우선순위 판단에 빠진 자료와 연결한 저장소</small>
-
-</div>
-
-<div class="sade-slide" markdown data-title="GitHub 연결">
-
-[![GitHub 연결](../../assets/screens/code-connect.png){ loading=lazy }](../../assets/screens/code-connect.png)
-
-<small>환경, 주소, 토큰을 넣고 확인 후 연결</small>
+[![연결 추가](../../assets/screens/w-code-1.png){ loading=lazy }](../../assets/screens/w-code-1.png)
 
 </div>
 
-<div class="sade-slide" markdown data-title="저장소 선택">
+<div class="sade-slide" markdown data-title="주소와 토큰" data-spot="19.03,69.29,37.53,3.56" data-url="/#/code">
 
-[![저장소 선택](../../assets/screens/code-repos.png){ loading=lazy }](../../assets/screens/code-repos.png)
+<p class="sade-say">GitHub 환경을 고르고 조직 주소와 액세스 토큰을 넣습니다.</p>
 
-<small>저장소와 브랜치를 고르고 선택 항목 스캔</small>
+[![주소와 토큰](../../assets/screens/w-code-2.png){ loading=lazy }](../../assets/screens/w-code-2.png)
 
 </div>
 
-<div class="sade-slide" markdown data-title="결과 확인">
+<div class="sade-slide" markdown data-title="연결" data-spot="89.03,81.16,6.18,3.56" data-url="/#/code">
 
-[![결과 확인](../../assets/screens/code-inventories.png){ loading=lazy }](../../assets/screens/code-inventories.png)
+<p class="sade-say">확인 후 연결을 누릅니다. SADE가 GitHub에 토큰을 확인한 뒤 저장합니다.</p>
 
-<small>저장소별 서비스, API 수와 스캔 이슈</small>
+[![연결](../../assets/screens/w-code-3.png){ loading=lazy }](../../assets/screens/w-code-3.png)
+
+</div>
+
+<div class="sade-slide" markdown data-title="저장소 고르기" data-spot="17.64,78.71,78.96,5.89" data-url="/#/code">
+
+<p class="sade-say">스캔할 저장소를 체크하고 브랜치를 고릅니다.</p>
+
+[![저장소 고르기](../../assets/screens/w-code-4.png){ loading=lazy }](../../assets/screens/w-code-4.png)
+
+</div>
+
+<div class="sade-slide" markdown data-title="스캔" data-spot="88.22,68.93,6.99,3.56" data-url="/#/code">
+
+<p class="sade-say">선택 항목 스캔을 누릅니다.</p>
+
+[![스캔](../../assets/screens/w-code-5.png){ loading=lazy }](../../assets/screens/w-code-5.png)
+
+</div>
+
+<div class="sade-slide" markdown data-title="결과 확인" data-spot="23.22,41.4,6.22,4.89" data-url="/#/code">
+
+<p class="sade-say">코드 인벤토리 탭에서 서비스 수, API 수, 스캔 결과를 확인합니다.</p>
+
+[![결과 확인](../../assets/screens/w-code-6.png){ loading=lazy }](../../assets/screens/w-code-6.png)
 
 </div>
 
