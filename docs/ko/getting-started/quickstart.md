@@ -91,13 +91,13 @@ docker compose -f compose.yaml -f compose.images.yaml up -d
 
 결과는 [Overview](../features/overview.md)와 [Inventory](../features/inventory.md)에 나옵니다. 결과를 보는 순서는 [점검 흐름](workflow.md)에 있습니다.
 
-## 멈추기와 지우기
+??? info "멈추기와 지우기"
 
-```bash
-docker compose stop      # 멈춤 (데이터 유지)
-docker compose start     # 다시 실행
-docker compose down      # 컨테이너 삭제 (데이터 유지)
-docker compose down -v   # 데이터까지 삭제 (되돌릴 수 없음)
-```
+    ```bash
+    docker compose stop      # 멈춤 (데이터 유지)
+    docker compose start     # 다시 실행
+    docker compose down      # 컨테이너 삭제 (데이터 유지)
+    docker compose down -v   # 데이터까지 삭제 (되돌릴 수 없음)
+    ```
 
-설치 문제는 [문제 해결](../troubleshooting/index.md)에 있습니다.
+    설치 문제는 [문제 해결](../troubleshooting/index.md)에 있습니다.

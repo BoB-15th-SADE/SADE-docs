@@ -105,23 +105,23 @@ Vector 컨테이너가 멈추면 "수집기(Vector) 중지, 수집 안 됨"이 �
 
 연결 설정을 바꾸면 매핑을 다시 적용할 때까지 저장을 멈춥니다.
 
-## 기업 인증서 쓰기
+??? info "기업 인증서 쓰기"
 
-자체 서명 인증서 대신 기업 인증서를 쓰려면 `syslog-certs` 볼륨에 `server.crt`, `server.key`를 넣고 SADE를 다시 시작합니다. 보내는 서버의 `DefaultNetstreamDriverCAFile`은 기업 CA 인증서로 바꿉니다.
+    자체 서명 인증서 대신 기업 인증서를 쓰려면 `syslog-certs` 볼륨에 `server.crt`, `server.key`를 넣고 SADE를 다시 시작합니다. 보내는 서버의 `DefaultNetstreamDriverCAFile`은 기업 CA 인증서로 바꿉니다.
 
-## 평문 syslog (내부망 전용)
+??? warning "평문 syslog (내부망 전용)"
 
-TLS를 보내지 못하는 장비는 평문 TCP, UDP로 받습니다. 기본은 꺼져 있습니다.
+    TLS를 보내지 못하는 장비는 평문 TCP, UDP로 받습니다. 기본은 꺼져 있습니다.
 
-<div class="sade-steps" markdown>
+    <div class="sade-steps" markdown>
 
-1. Connect 단계 아래쪽 Plaintext syslog(평문 syslog)에서 보내는 서버의 IP나 대역(예: `10.0.0.0/8`)을 넣고 켭니다. Vector가 1514를 듣습니다.
+    1. Connect 단계 아래쪽 Plaintext syslog(평문 syslog)에서 보내는 서버의 IP나 대역(예: `10.0.0.0/8`)을 넣고 켭니다. Vector가 1514를 듣습니다.
 
-2. 다른 서버에서 받으려면 `.env`에 `SADE_SYSLOG_PLAIN_BIND`, `SADE_SYSLOG_PLAIN_PORT`를 넣고 다시 시작합니다. 기본은 이 서버(`127.0.0.1`)에만 열립니다.
+    2. 다른 서버에서 받으려면 `.env`에 `SADE_SYSLOG_PLAIN_BIND`, `SADE_SYSLOG_PLAIN_PORT`를 넣고 다시 시작합니다. 기본은 이 서버(`127.0.0.1`)에만 열립니다.
 
-3. 보내는 서버의 rsyslog는 TLS 설정 없이 `action(type="omfwd" target="..." port="1514" protocol="tcp")`로 보냅니다.
+    3. 보내는 서버의 rsyslog는 TLS 설정 없이 `action(type="omfwd" target="..." port="1514" protocol="tcp")`로 보냅니다.
 
-</div>
+    </div>
 
-- 화면의 허용 목록은 TCP에만 적용됩니다. UDP는 방화벽에서 막습니다.
-- 내용이 암호화되지 않습니다. 내부망에서만 쓰고, IP 제한을 TCP와 UDP에 모두 겁니다.
+    - 화면의 허용 목록은 TCP에만 적용됩니다. UDP는 방화벽에서 막습니다.
+    - 내용이 암호화되지 않습니다. 내부망에서만 쓰고, IP 제한을 TCP와 UDP에 모두 겁니다.

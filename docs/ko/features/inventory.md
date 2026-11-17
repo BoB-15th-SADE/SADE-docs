@@ -71,49 +71,49 @@ Add filter(필터 추가)로 조건을 더합니다.
 
 ## 이렇게 씁니다
 
-### 먼저 볼 API 고르기
+??? tip "먼저 볼 API 고르기"
 
-<div class="sade-steps" markdown>
+    <div class="sade-steps" markdown>
 
-1. Management Priority 필터에서 P1, P2를 고릅니다.
+    1. Management Priority 필터에서 P1, P2를 고릅니다.
 
-2. Access Scope 필터에서 Public을 더합니다.
+    2. Access Scope 필터에서 Public을 더합니다.
 
-3. 목록에서 API를 눌러 오른쪽 패널의 판정 이유를 봅니다.
+    3. 목록에서 API를 눌러 오른쪽 패널의 판정 이유를 봅니다.
 
-4. Full Screen(전체 화면)으로 [API 상세](api-details.md)의 Management 탭을 엽니다.
+    4. Full Screen(전체 화면)으로 [API 상세](api-details.md)의 Management 탭을 엽니다.
 
-</div>
+    </div>
 
-### 관리 대장에 없는 API 찾기
+??? tip "관리 대장에 없는 API 찾기"
 
-<div class="sade-steps" markdown>
+    <div class="sade-steps" markdown>
 
-1. Spec Status 필터에서 Shadow를 고릅니다. 로그에서만 불린 API입니다.
+    1. Spec Status 필터에서 Shadow를 고릅니다. 로그에서만 불린 API입니다.
 
-2. Calls 열로 정렬해 많이 불린 것부터 봅니다.
+    2. Calls 열로 정렬해 많이 불린 것부터 봅니다.
 
-3. 게이트웨이 경로 차이로 생긴 Shadow인지 확인합니다. API 상세의 외부 경로와 [Source Code의 Route maps](../connect/code.md#results)를 봅니다.
+    3. 게이트웨이 경로 차이로 생긴 Shadow인지 확인합니다. API 상세의 외부 경로와 [Source Code의 Route maps](../connect/code.md#results)를 봅니다.
 
-4. Undocumented(Spec 누락)도 같은 방식으로 봅니다. 코드에 있는데 명세에 빠진 API입니다.
+    4. Undocumented(Spec 누락)도 같은 방식으로 봅니다. 코드에 있는데 명세에 빠진 API입니다.
 
-</div>
+    </div>
 
-### 민감정보를 다루는 API 모아 보기
+??? tip "민감정보를 다루는 API 모아 보기"
 
-<div class="sade-steps" markdown>
+    <div class="sade-steps" markdown>
 
-1. Sensitive Type 필터에서 유형(예: RRN, CARD_NO)을 고릅니다. Any type은 유형이 하나라도 있는 API입니다.
+    1. Sensitive Type 필터에서 유형(예: RRN, CARD_NO)을 고릅니다. Any type은 유형이 하나라도 있는 API입니다.
 
-2. Access Scope로 Public만 남깁니다.
+    2. Access Scope로 Public만 남깁니다.
 
-3. API 상세의 Sensitive Data 탭에서 어느 필드, 어느 출처에서 찾았는지 봅니다.
+    3. API 상세의 Sensitive Data 탭에서 어느 필드, 어느 출처에서 찾았는지 봅니다.
 
-</div>
+    </div>
 
-### 쓰지 않는 API 찾기
+??? tip "쓰지 않는 API 찾기"
 
-Calls 필터에서 호출 없음을 고르면 코드나 명세에는 있는데 분석 기간에 불리지 않은 API가 나옵니다. 그 서비스의 로그를 아예 받지 않았을 수도 있으니, API 상세에서 이유(로그 없음, 호출 없음)를 확인합니다.
+    Calls 필터에서 호출 없음을 고르면 코드나 명세에는 있는데 분석 기간에 불리지 않은 API가 나옵니다. 그 서비스의 로그를 아예 받지 않았을 수도 있으니, API 상세에서 이유(로그 없음, 호출 없음)를 확인합니다.
 
 ## Excel 내보내기
 
