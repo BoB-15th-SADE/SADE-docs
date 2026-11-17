@@ -4,8 +4,51 @@
 
 SADE는 토픽을 읽기만 하고 쓰지 않습니다. 연결 뒤에는 새 메시지를 계속 저장합니다.
 
-[![Kafka 연결 화면](../../assets/screens/kafka.png){ loading=lazy }](../../assets/screens/kafka.png)
-<small>예시 화면 (가상 데이터)</small>
+단계별 화면입니다. 좌우로 넘기거나 단계 이름을 눌러 봅니다.
+
+<div class="sade-slides" markdown>
+
+<div class="sade-slide" markdown data-title="Log Sources">
+
+[![Log Sources](../../assets/screens/kafka.png){ loading=lazy }](../../assets/screens/kafka.png)
+
+<small>Kafka 카드가 있는 연결 화면</small>
+
+</div>
+
+<div class="sade-slide" markdown data-title="Connect">
+
+[![Connect](../../assets/screens/kafka-connect.png){ loading=lazy }](../../assets/screens/kafka-connect.png)
+
+<small>브로커 연결 확인 뒤 토픽 선택</small>
+
+</div>
+
+<div class="sade-slide" markdown data-title="샘플 받기">
+
+[![샘플 받기](../../assets/screens/kafka-samples.png){ loading=lazy }](../../assets/screens/kafka-samples.png)
+
+<small>토픽, 파티션, offset별 받은 메시지</small>
+
+</div>
+
+<div class="sade-slide" markdown data-title="필드 매핑">
+
+[![필드 매핑](../../assets/screens/kafka-map.png){ loading=lazy }](../../assets/screens/kafka-map.png)
+
+<small>메시지 키를 SADE 필드에 맞춤</small>
+
+</div>
+
+<div class="sade-slide" markdown data-title="반영">
+
+[![반영](../../assets/screens/kafka-apply.png){ loading=lazy }](../../assets/screens/kafka-apply.png)
+
+<small>찾은 API와 서비스 수</small>
+
+</div>
+
+</div>
 
 ## 준비
 
@@ -56,18 +99,12 @@ SADE는 컨슈머 그룹(기본 `sade`) 외에 `<그룹>-preview-…`(샘플용)
 
 </div>
 
-[![Kafka Connect 화면](../../assets/screens/kafka-connect.png){ loading=lazy }](../../assets/screens/kafka-connect.png)
-<small>연결 확인 뒤 토픽을 고른 화면 (가상 데이터)</small>
-
 !!! warning "SASL만 쓰는 연결"
     TLS 없이 SASL을 쓰면 비밀번호가 암호화되지 않고 갑니다. 기업이 믿는 내부망에서만 씁니다.
 
 인증 정보는 SADE 서버로만 보내고, backend와 Vector만 읽는 `kafka-secrets` 볼륨에 둡니다. 저장한 뒤에는 화면에 다시 보여 주지 않습니다.
 
 ## 2. 샘플 받기
-
-[![Kafka 샘플 받기 화면](../../assets/screens/kafka-samples.png){ loading=lazy }](../../assets/screens/kafka-samples.png)
-<small>샘플 받기 (가상 데이터). 토픽, 파티션, offset이 메시지마다 나옵니다</small>
 
 - 별도 미리보기 그룹으로 읽어서, 본 그룹의 읽은 위치(offset)는 바뀌지 않습니다.
 - 10초마다 최대 50개씩 넘겨 받고, 최근 50개를 보여 줍니다. 이 단계에서는 저장하지 않습니다.
@@ -80,9 +117,6 @@ SADE는 컨슈머 그룹(기본 `sade`) 외에 `<그룹>-preview-…`(샘플용)
 ## 3. 필드 매핑
 
 Map fields(필드 매핑)를 누르면 받은 메시지의 키 목록(Keys in the received messages)에서 SADE 필드에 맞는 키를 고릅니다. 화면 구성은 [syslog](logs-syslog.md)와 같습니다.
-
-[![Kafka 필드 매핑 화면](../../assets/screens/kafka-map.png){ loading=lazy }](../../assets/screens/kafka-map.png)
-<small>필드 매핑 (가상 데이터)</small>
 
 - Filebeat, Fluent Bit, Logstash가 감싼 메시지는 안쪽 `message`, `log`를 자동으로 읽습니다(Read automatically from).
 - 키 이름이 기업마다 다르면 고르기만 합니다. 예: `req.uri` → `url.path`, `src_ip` → `client.ip`
@@ -103,9 +137,6 @@ Map fields(필드 매핑)를 누르면 받은 메시지의 키 목록(Keys in th
 ## 5. 반영
 
 Apply to inventory and flows(Inventory와 Flows에 반영)를 누르면 로그 분석이 시작됩니다. 끝나면 찾은 API 목록이 나옵니다.
-
-[![Kafka 반영 결과 화면](../../assets/screens/kafka-apply.png){ loading=lazy }](../../assets/screens/kafka-apply.png)
-<small>반영 결과 (가상 데이터)</small>
 
 연결은 그 뒤에도 유지되고 새 메시지는 계속 저장됩니다. 새로 저장된 로그는 Log Sources에서 Analyze again을 눌러야 분석됩니다.
 

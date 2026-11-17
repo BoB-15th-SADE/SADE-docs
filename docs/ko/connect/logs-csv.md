@@ -4,8 +4,59 @@ SIEM, 게이트웨이, 서비스에서 기간을 정해 내보낸 CSV를 올립�
 
 연동 승인 전에 기업 로그 형식을 확인할 때 씁니다. 처음이면 [샘플 로그로 첫 결과 보기](../getting-started/first-run.md)로 화면 흐름을 먼저 익힙니다.
 
-[![CSV 업로드 화면](../../assets/screens/csv.png){ loading=lazy }](../../assets/screens/csv.png)
-<small>예시 화면 (가상 데이터)</small>
+단계별 화면입니다. 좌우로 넘기거나 단계 이름을 눌러 봅니다.
+
+<div class="sade-slides" markdown>
+
+<div class="sade-slide" markdown data-title="업로드">
+
+[![업로드](../../assets/screens/csv.png){ loading=lazy }](../../assets/screens/csv.png)
+
+<small>CSV 파일을 고르는 첫 화면</small>
+
+</div>
+
+<div class="sade-slide" markdown data-title="필드 매핑">
+
+[![필드 매핑](../../assets/screens/csv-map.png){ loading=lazy }](../../assets/screens/csv-map.png)
+
+<small>열 이름으로 추천한 매핑. 파란색 줄은 아직 열을 고르지 못한 필드</small>
+
+</div>
+
+<div class="sade-slide" markdown data-title="못 채운 필드">
+
+[![못 채운 필드](../../assets/screens/csv-missing.png){ loading=lazy }](../../assets/screens/csv-missing.png)
+
+<small>저장 전에 빠지는 결과를 알려 주는 창</small>
+
+</div>
+
+<div class="sade-slide" markdown data-title="저장된 줄 확인">
+
+[![저장된 줄 확인](../../assets/screens/csv-stored.png){ loading=lazy }](../../assets/screens/csv-stored.png)
+
+<small>저장된 줄 하나를 SADE 필드 이름으로 확인. 본문은 타입으로 가려짐</small>
+
+</div>
+
+<div class="sade-slide" markdown data-title="저장 결과">
+
+[![저장 결과](../../assets/screens/csv-result.png){ loading=lazy }](../../assets/screens/csv-result.png)
+
+<small>파일별 저장, 이미 저장됨 수</small>
+
+</div>
+
+<div class="sade-slide" markdown data-title="반영">
+
+[![반영](../../assets/screens/csv-apply.png){ loading=lazy }](../../assets/screens/csv-apply.png)
+
+<small>찾은 API와 서비스 수. 값만 다른 경로는 한 줄로 묶임</small>
+
+</div>
+
+</div>
 
 ## 파일 조건
 
@@ -42,9 +93,6 @@ SIEM에서 내보낼 때는 아래 열을 포함합니다. 열 이름은 기업�
 
 열 이름을 보고 SADE가 필드를 추천합니다. 왼쪽이 SADE 필드, 가운데가 고를 CSV 열, 오른쪽이 그 열의 샘플 값과 값이 들어 있는 줄 수입니다.
 
-[![CSV 필드 매핑 화면](../../assets/screens/csv-map.png){ loading=lazy }](../../assets/screens/csv-map.png)
-<small>필드 매핑 (가상 데이터). 샘플 CSV를 올리면 네 필드가 자동으로 맞춰집니다</small>
-
 <div class="sade-steps" markdown>
 
 1. 맨 위 "API 목록에 필요" 네 칸(`@timestamp`, `service.name`, `http.request.method`, `url.path`)이 맞는지 먼저 봅니다.
@@ -70,9 +118,6 @@ SIEM에서 내보낼 때는 아래 열을 포함합니다. 열 이름은 기업�
 
 못 채운 필드가 있으면 저장 전에 영향을 알려 줍니다.
 
-[![못 채운 필드 안내](../../assets/screens/csv-missing.png){ loading=lazy }](../../assets/screens/csv-missing.png)
-<small>못 채운 필드 안내 (가상 데이터)</small>
-
 - 필드마다 비어 있으면 무엇이 빠지는지 나옵니다. 예: `destination.address`가 없으면 다른 서비스, DB, 외부 호스트로 가는 호출이 빠짐
 - 맞는 열이 있으면 못 채운 필드 채우기(Fill missing fields)로 돌아갑니다.
 - 로그에 그 정보가 없으면 그대로 진행을 누릅니다. Inventory는 만들어지고 Flows만 덜 나옵니다.
@@ -86,18 +131,12 @@ SIEM에서 내보낼 때는 아래 열을 포함합니다. 열 이름은 기업�
 
 저장이 끝나면 저장된 줄 하나가 SADE 필드 이름으로 바로 열립니다.
 
-[![저장 결과 확인 창](../../assets/screens/csv-stored.png){ loading=lazy }](../../assets/screens/csv-stored.png)
-<small>저장된 줄 확인 (가상 데이터). 본문은 값이 타입으로 바뀌어 저장됩니다</small>
-
 - 각 필드에 맞는 값이 들어갔는지 봅니다. 예: `url.path`에 경로, `client.ip`에 IP
 - 파란색 줄("저장된 값 없음")은 열을 골랐는데 값이 비어 있는 필드입니다. 열을 잘못 골랐는지 봅니다.
 - 본문은 값이 타입으로 바뀌어 있습니다. 예: `{"email":"<string>","phone":"<string>"}`
 - 틀렸으면 매핑 수정(Fix mapping), 맞으면 확인 완료(Looks right)를 누릅니다.
 
 창을 닫으면 파일별 저장 결과가 나옵니다.
-
-[![파일별 저장 결과](../../assets/screens/csv-result.png){ loading=lazy }](../../assets/screens/csv-result.png)
-<small>파일별 저장 결과 (가상 데이터)</small>
 
 | 구분 | 뜻 | 할 일 |
 |---|---|---|
@@ -111,9 +150,6 @@ SIEM에서 내보낼 때는 아래 열을 포함합니다. 열 이름은 기업�
 Apply to inventory and flows(Inventory와 Flows에 반영)를 누르면 로그 분석이 시작됩니다.
 
 끝나면 찾은 API, 서비스, 데이터베이스, 외부 호스트 수와 호출이 많은 API 목록이 나옵니다.
-
-[![반영 결과 화면](../../assets/screens/csv-apply.png){ loading=lazy }](../../assets/screens/csv-apply.png)
-<small>반영 결과 (가상 데이터). 값만 다른 경로는 /api/orders/{id}처럼 한 줄로 묶입니다</small>
 
 Inventory 열기(Open Inventory), Flows 열기(Open Flows)로 결과 화면을 엽니다.
 

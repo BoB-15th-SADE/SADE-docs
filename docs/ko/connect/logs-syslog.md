@@ -4,8 +4,51 @@
 
 SADE는 TCP 6514에서 TLS syslog를 받습니다. 연결 뒤에는 보내는 대로 계속 저장합니다.
 
-[![syslog 연결 화면](../../assets/screens/syslog.png){ loading=lazy }](../../assets/screens/syslog.png)
-<small>예시 화면 (가상 데이터)</small>
+단계별 화면입니다. 좌우로 넘기거나 단계 이름을 눌러 봅니다.
+
+<div class="sade-slides" markdown>
+
+<div class="sade-slide" markdown data-title="Log Sources">
+
+[![Log Sources](../../assets/screens/syslog.png){ loading=lazy }](../../assets/screens/syslog.png)
+
+<small>syslog 카드가 있는 연결 화면</small>
+
+</div>
+
+<div class="sade-slide" markdown data-title="Connect">
+
+[![Connect](../../assets/screens/syslog-connect.png){ loading=lazy }](../../assets/screens/syslog-connect.png)
+
+<small>받는 주소, 인증서, rsyslog 설정 예시</small>
+
+</div>
+
+<div class="sade-slide" markdown data-title="샘플 받기">
+
+[![샘플 받기](../../assets/screens/syslog-samples.png){ loading=lazy }](../../assets/screens/syslog-samples.png)
+
+<small>받은 메시지와 형식. 못 읽은 메시지는 "해석 안 됨"</small>
+
+</div>
+
+<div class="sade-slide" markdown data-title="필드 매핑">
+
+[![필드 매핑](../../assets/screens/syslog-map.png){ loading=lazy }](../../assets/screens/syslog-map.png)
+
+<small>메시지 키를 SADE 필드에 맞춤. hostname은 syslog 헤더에서 읽음</small>
+
+</div>
+
+<div class="sade-slide" markdown data-title="저장 결과 확인">
+
+[![저장 결과 확인](../../assets/screens/syslog-stored.png){ loading=lazy }](../../assets/screens/syslog-stored.png)
+
+<small>매핑 적용 뒤 저장된 줄 수</small>
+
+</div>
+
+</div>
 
 ## 준비
 
@@ -57,15 +100,9 @@ SADE는 TCP 6514에서 TLS syslog를 받습니다. 연결 뒤에는 보내는 �
 
 </div>
 
-[![syslog Connect 화면](../../assets/screens/syslog-connect.png){ loading=lazy }](../../assets/screens/syslog-connect.png)
-<small>Connect 단계 (가상 데이터). 받는 주소, 인증서, rsyslog 예시가 한 화면에 나옵니다</small>
-
 `StreamDriverAuthMode="x509/name"`은 인증서 이름이 `StreamDriverPermittedPeers`와 같아야 연결합니다. 보내는 서버가 IP로 부르면 `SADE_SYSLOG_HOST`도 그 IP여야 합니다.
 
 ## 2. 샘플 받기
-
-[![syslog 샘플 받기 화면](../../assets/screens/syslog-samples.png){ loading=lazy }](../../assets/screens/syslog-samples.png)
-<small>샘플 받기 (가상 데이터). 못 읽은 메시지는 "해석 안 됨"으로 표시됩니다</small>
 
 - 받은 메시지를 10초마다 최대 50개씩 넘겨 받고, 최근 50개를 보여 줍니다. 이 단계에서는 저장하지 않습니다.
 - 표에 받은 시각, 형식(JSON, nginx, Apache), 호스트와 앱 이름, 메시지 앞부분이 나옵니다.
@@ -82,9 +119,6 @@ SADE는 TCP 6514에서 TLS syslog를 받습니다. 연결 뒤에는 보내는 �
 
 Map fields(필드 매핑) 버튼에 읽은 메시지 수가 함께 나옵니다. 누르면 받은 메시지의 키 목록에서 SADE 필드에 맞는 키를 고릅니다.
 
-[![syslog 필드 매핑 화면](../../assets/screens/syslog-map.png){ loading=lazy }](../../assets/screens/syslog-map.png)
-<small>필드 매핑 (가상 데이터). 오른쪽에 샘플 값과 읽은 메시지 중 값이 있는 수가 나옵니다</small>
-
 - 기본 매핑: syslog의 hostname은 `host.name`, appname은 `service.name`이 됩니다. 화면에는 "syslog 헤더에서"로 나옵니다.
 - nginx, Apache 접근 로그는 요청 줄에서 메서드와 경로, 출발지 IP, 응답 코드를 자동으로 읽습니다(Read automatically).
 - JSON 메시지는 키마다 SADE 필드를 고릅니다. 예: `uri` → `url.path`, `src_ip` → `client.ip`
@@ -94,9 +128,6 @@ Map fields(필드 매핑) 버튼에 읽은 메시지 수가 함께 나옵니다.
 ## 4. 저장 결과 확인
 
 Vector가 새 매핑을 읽고 줄을 저장하면 진행 표시가 끝까지 찹니다. 매핑을 적용한 뒤 저장된 줄 수가 나옵니다.
-
-[![syslog 저장 결과 확인 화면](../../assets/screens/syslog-stored.png){ loading=lazy }](../../assets/screens/syslog-stored.png)
-<small>저장 결과 확인 (가상 데이터)</small>
 
 <div class="sade-steps" markdown>
 

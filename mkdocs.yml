@@ -31,6 +31,7 @@ extra_javascript:
   - assets/javascripts/page-actions.js
   - assets/javascripts/log-check.js
   - assets/javascripts/flow-sim.js
+  - assets/javascripts/slides.js
 
 plugins:
   - search:
