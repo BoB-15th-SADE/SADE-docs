@@ -38,17 +38,22 @@ SIEM에서 내보낼 때는 아래 열을 포함합니다. 열 이름은 기업�
 
 열 이름이 같은 파일들은 하나의 매핑을 같이 씁니다. 노드별로 나눠 내보낸 같은 형식의 파일은 한 번만 매핑하면 됩니다.
 
-## 2. 필드 매핑
+## 2. 필드 매핑 {#mapping}
 
-열 이름을 보고 SADE가 필드를 추천합니다. 왼쪽이 SADE 필드, 오른쪽이 고를 CSV 열입니다.
+열 이름을 보고 SADE가 필드를 추천합니다. 왼쪽이 SADE 필드, 가운데가 고를 CSV 열, 오른쪽이 그 열의 샘플 값과 값이 들어 있는 줄 수입니다.
+
+[![CSV 필드 매핑 화면](../../assets/screens/csv-map.png){ loading=lazy }](../../assets/screens/csv-map.png)
+<small>필드 매핑 (가상 데이터). 샘플 CSV를 올리면 네 필드가 자동으로 맞춰집니다</small>
 
 <div class="sade-steps" markdown>
 
-1. 파란색 칸(채울 필드)부터 고릅니다. `service.name`, `http.request.method`, `url.path`를 먼저 채웁니다.
+1. 맨 위 "API 목록에 필요" 네 칸(`@timestamp`, `service.name`, `http.request.method`, `url.path`)이 맞는지 먼저 봅니다.
 
 2. 추천이 틀린 칸은 다른 열로 바꿉니다. 예: `svc` → `service.name`, `src` → `client.ip`
 
-3. 열 하나로 채울 수 없는 필드는 아래 방법을 고릅니다.
+3. 파란색으로 표시된 줄("입력 필요")은 아직 열을 고르지 못한 필드입니다. 맞는 열이 있으면 고르고, 없으면 그대로 둡니다.
+
+4. 열 하나로 채울 수 없는 필드는 아래 방법을 고릅니다.
 
     | 방법 | 쓰는 필드 | 예 |
     |---|---|---|
@@ -57,11 +62,20 @@ SIEM에서 내보낼 때는 아래 열을 포함합니다. 열 이름은 기업�
     | 날짜 열 + 시각 열(Date + time columns) | `@timestamp` | `date`와 `time` 열이 따로 있을 때 |
     | 요청 줄에서(From a request line) | 메서드, 경로 | `GET /api/items?page=2 HTTP/1.1` 한 열에서 메서드와 경로를 나눔 |
 
-4. 같은 열 이름이 다른 파일에도 있으면 같은 선택을 적용할지 묻습니다. 같은 뜻이면 Apply to these files too를 고릅니다.
+5. 같은 열 이름이 다른 파일에도 있으면 같은 선택을 적용할지 묻습니다. 같은 뜻이면 Apply to these files too를 고릅니다.
 
-5. Send to Vector(로그 저장)를 누릅니다.
+6. 맨 아래 Send to Vector(로그 저장)를 누릅니다.
 
 </div>
+
+못 채운 필드가 있으면 저장 전에 영향을 알려 줍니다.
+
+[![못 채운 필드 안내](../../assets/screens/csv-missing.png){ loading=lazy }](../../assets/screens/csv-missing.png)
+<small>못 채운 필드 안내 (가상 데이터)</small>
+
+- 필드마다 비어 있으면 무엇이 빠지는지 나옵니다. 예: `destination.address`가 없으면 다른 서비스, DB, 외부 호스트로 가는 호출이 빠짐
+- 맞는 열이 있으면 못 채운 필드 채우기(Fill missing fields)로 돌아갑니다.
+- 로그에 그 정보가 없으면 그대로 진행을 누릅니다. Inventory는 만들어지고 Flows만 덜 나옵니다.
 
 !!! note "시각 열을 매핑하세요"
     `@timestamp`를 매핑하지 않으면 저장 시각을 로그 시각으로 씁니다. 이때 같은 파일을 다시 올리면 같은 줄을 다시 저장합니다.
@@ -70,26 +84,38 @@ SIEM에서 내보낼 때는 아래 열을 포함합니다. 열 이름은 기업�
 
 ## 3. 저장 결과 확인
 
-보낸 뒤 파일마다 행을 나눠 보여 줍니다.
+저장이 끝나면 저장된 줄 하나가 SADE 필드 이름으로 바로 열립니다.
+
+[![저장 결과 확인 창](../../assets/screens/csv-stored.png){ loading=lazy }](../../assets/screens/csv-stored.png)
+<small>저장된 줄 확인 (가상 데이터). 본문은 값이 타입으로 바뀌어 저장됩니다</small>
+
+- 각 필드에 맞는 값이 들어갔는지 봅니다. 예: `url.path`에 경로, `client.ip`에 IP
+- 파란색 줄("저장된 값 없음")은 열을 골랐는데 값이 비어 있는 필드입니다. 열을 잘못 골랐는지 봅니다.
+- 본문은 값이 타입으로 바뀌어 있습니다. 예: `{"email":"<string>","phone":"<string>"}`
+- 틀렸으면 매핑 수정(Fix mapping), 맞으면 확인 완료(Looks right)를 누릅니다.
+
+창을 닫으면 파일별 저장 결과가 나옵니다.
+
+[![파일별 저장 결과](../../assets/screens/csv-result.png){ loading=lazy }](../../assets/screens/csv-result.png)
+<small>파일별 저장 결과 (가상 데이터)</small>
 
 | 구분 | 뜻 | 할 일 |
 |---|---|---|
-| 저장함(Stored) | ClickHouse에 저장한 줄 | |
-| 이미 저장돼 있음(Already stored) | 같은 내용의 줄이 이미 있음 | 다시 올린 파일이면 정상입니다 |
+| 저장됨(Stored) | ClickHouse에 저장한 줄 | |
+| 이미 저장됨(Already stored) | 같은 내용의 줄이 이미 있음 | 다시 올린 파일이면 정상입니다 |
 | 보관 기간보다 오래됨(Older than retention) | 보관 기간(기본 30일)보다 오래돼 버린 줄 | 시각 열과 시간대를 확인합니다 |
 | 빈 줄(Empty rows) | 매핑한 칸이 모두 비어 버린 줄 | 매핑한 열이 맞는지 확인합니다 |
 
-Check stored rows(저장 결과 확인)를 누르면 저장된 줄 하나가 SADE 필드 이름으로 나옵니다.
-
-- 각 필드에 맞는 값이 들어갔는지 봅니다. 예: `url.path`에 `/api/orders/1001`, `client.ip`에 IP
-- 본문은 값이 타입으로 바뀌어 있습니다. 예: `{"email":"<string>"}`
-- 틀렸으면 Fix mapping(매핑 수정), 맞으면 Looks right(확인 완료)를 누릅니다.
-
-## 4. 반영
+## 4. 반영 {#apply}
 
 Apply to inventory and flows(Inventory와 Flows에 반영)를 누르면 로그 분석이 시작됩니다.
 
-끝나면 Inventory와 Flows가 바뀝니다. Open Inventory, Open Flows로 결과 화면을 엽니다.
+끝나면 찾은 API, 서비스, 데이터베이스, 외부 호스트 수와 호출이 많은 API 목록이 나옵니다.
+
+[![반영 결과 화면](../../assets/screens/csv-apply.png){ loading=lazy }](../../assets/screens/csv-apply.png)
+<small>반영 결과 (가상 데이터). 값만 다른 경로는 /api/orders/{id}처럼 한 줄로 묶입니다</small>
+
+Inventory 열기(Open Inventory), Flows 열기(Open Flows)로 결과 화면을 엽니다.
 
 ## 다시 올릴 때
 

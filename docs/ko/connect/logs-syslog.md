@@ -57,9 +57,15 @@ SADE는 TCP 6514에서 TLS syslog를 받습니다. 연결 뒤에는 보내는 �
 
 </div>
 
+[![syslog Connect 화면](../../assets/screens/syslog-connect.png){ loading=lazy }](../../assets/screens/syslog-connect.png)
+<small>Connect 단계 (가상 데이터). 받는 주소, 인증서, rsyslog 예시가 한 화면에 나옵니다</small>
+
 `StreamDriverAuthMode="x509/name"`은 인증서 이름이 `StreamDriverPermittedPeers`와 같아야 연결합니다. 보내는 서버가 IP로 부르면 `SADE_SYSLOG_HOST`도 그 IP여야 합니다.
 
 ## 2. 샘플 받기
+
+[![syslog 샘플 받기 화면](../../assets/screens/syslog-samples.png){ loading=lazy }](../../assets/screens/syslog-samples.png)
+<small>샘플 받기 (가상 데이터). 못 읽은 메시지는 "해석 안 됨"으로 표시됩니다</small>
 
 - 받은 메시지를 10초마다 최대 50개씩 넘겨 받고, 최근 50개를 보여 줍니다. 이 단계에서는 저장하지 않습니다.
 - 표에 받은 시각, 형식(JSON, nginx, Apache), 호스트와 앱 이름, 메시지 앞부분이 나옵니다.
@@ -74,22 +80,39 @@ SADE는 TCP 6514에서 TLS syslog를 받습니다. 연결 뒤에는 보내는 �
 
 ## 3. 필드 매핑
 
-받은 메시지의 키 목록에서 SADE 필드에 맞는 키를 고릅니다.
+Map fields(필드 매핑) 버튼에 읽은 메시지 수가 함께 나옵니다. 누르면 받은 메시지의 키 목록에서 SADE 필드에 맞는 키를 고릅니다.
 
-- 기본 매핑: syslog의 hostname은 `host.name`, appname은 `service.name`이 됩니다.
+[![syslog 필드 매핑 화면](../../assets/screens/syslog-map.png){ loading=lazy }](../../assets/screens/syslog-map.png)
+<small>필드 매핑 (가상 데이터). 오른쪽에 샘플 값과 읽은 메시지 중 값이 있는 수가 나옵니다</small>
+
+- 기본 매핑: syslog의 hostname은 `host.name`, appname은 `service.name`이 됩니다. 화면에는 "syslog 헤더에서"로 나옵니다.
 - nginx, Apache 접근 로그는 요청 줄에서 메서드와 경로, 출발지 IP, 응답 코드를 자동으로 읽습니다(Read automatically).
-- JSON 메시지는 키마다 SADE 필드를 고릅니다. 예: `uri` → `url.path`, `remote_addr` → `client.ip`
-- 다 고르면 Check stored rows(저장 결과 확인)를 누릅니다. 이때부터 저장을 시작합니다.
+- JSON 메시지는 키마다 SADE 필드를 고릅니다. 예: `uri` → `url.path`, `src_ip` → `client.ip`
+- 샘플 수가 적으면 More samples(샘플 더 받기)로 더 받습니다.
+- 다 고르면 Apply and start storing(반영하고 저장 시작)을 누릅니다. 이때부터 저장을 시작합니다. 못 채운 필드가 있으면 [CSV](logs-csv.md#mapping)와 같은 안내가 나옵니다.
 
 ## 4. 저장 결과 확인
 
-매핑을 적용한 뒤 저장된 줄 수가 나옵니다.
+Vector가 새 매핑을 읽고 줄을 저장하면 진행 표시가 끝까지 찹니다. 매핑을 적용한 뒤 저장된 줄 수가 나옵니다.
 
-저장된 줄 하나를 열어 값이 맞는 필드에 들어갔는지 봅니다. 틀렸으면 Back to mapping(매핑으로 돌아가기)을 누릅니다.
+[![syslog 저장 결과 확인 화면](../../assets/screens/syslog-stored.png){ loading=lazy }](../../assets/screens/syslog-stored.png)
+<small>저장 결과 확인 (가상 데이터)</small>
+
+<div class="sade-steps" markdown>
+
+1. 저장 결과 확인(Check stored rows)을 눌러 저장된 줄 하나를 엽니다.
+
+2. 값이 맞는 필드에 들어갔는지 봅니다. 틀렸으면 매핑 수정이나 매핑으로 돌아가기(Back to mapping)를 누릅니다.
+
+3. 맞으면 확인 완료를 누릅니다. 그때 반영 버튼이 켜집니다.
+
+</div>
 
 ## 5. 반영
 
-Apply to inventory and flows(Inventory와 Flows에 반영)를 누르면 로그 분석이 시작됩니다. 연결은 그 뒤에도 유지되고, 들어오는 로그는 계속 저장됩니다.
+Apply to inventory and flows(Inventory와 Flows에 반영)를 누르면 로그 분석이 시작됩니다. 결과 화면은 [CSV](logs-csv.md#apply)와 같습니다.
+
+연결은 그 뒤에도 유지되고, 들어오는 로그는 계속 저장됩니다. 새로 저장된 로그는 Log Sources에서 Analyze again을 눌러야 분석됩니다.
 
 ## 운영 중 상태
 

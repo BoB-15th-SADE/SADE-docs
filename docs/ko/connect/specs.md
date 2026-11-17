@@ -44,6 +44,9 @@ YAML이나 Swagger 2.0 파일은 공개된 변환 도구(예: `swagger2openapi`,
 
 </div>
 
+[![명세 추가 창](../../assets/screens/specs-add.png){ loading=lazy }](../../assets/screens/specs-add.png)
+<small>명세 추가 창 (가상 데이터). 파일 업로드와 URL에서 가져오기 중 하나를 고릅니다</small>
+
 ## 2. 내부 주소에서 가져오기
 
 서비스가 `/v3/api-docs` 같은 주소로 명세를 내준다면 파일 대신 주소로 가져옵니다.

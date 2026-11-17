@@ -54,9 +54,12 @@ Connect > Source Code에서 GitHub 저장소를 연결해 스캔합니다.
 
 4. Access token을 넣습니다. GitHub.com에서 공개 저장소만 볼 때는 비워 둡니다.
 
-5. Check and connect를 누릅니다. SADE가 GitHub에 토큰을 확인한 뒤 저장합니다.
+5. Check and connect(확인 후 연결)를 누릅니다. SADE가 GitHub에 토큰을 확인한 뒤 저장합니다.
 
 </div>
+
+[![GitHub 연결 추가 화면](../../assets/screens/code-connect.png){ loading=lazy }](../../assets/screens/code-connect.png)
+<small>GitHub 연결 추가 (가상 데이터)</small>
 
 - 토큰은 `SADE_SECRET_KEY`로 암호화해 저장합니다. 화면, API 응답, 로그에 내보내지 않습니다.
 - "This token cannot read any repository"가 나오면 GitHub에서 토큰에 저장소 권한을 준 뒤 Refresh list를 누릅니다.
@@ -72,9 +75,12 @@ Connect > Source Code에서 GitHub 저장소를 연결해 스캔합니다.
 
 3. 저장소마다 Branch를 고릅니다. 비우면 기본 브랜치입니다.
 
-4. Scan selected를 누릅니다.
+4. Scan selected(선택 항목 스캔)를 누릅니다.
 
 </div>
+
+[![저장소 선택 화면](../../assets/screens/code-repos.png){ loading=lazy }](../../assets/screens/code-repos.png)
+<small>저장소 두 개를 고른 화면 (가상 데이터). 진행 상황 열에 스캔 단계가 나옵니다</small>
 
 토큰 없이 GitHub.com에 연결했다면 목록 대신 Public repository URL에 `https://github.com/OWNER/REPO` 또는 `OWNER/REPO`를 넣고 Load repository(저장소 불러오기)를 누릅니다.
 

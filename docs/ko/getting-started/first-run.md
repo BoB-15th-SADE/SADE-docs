@@ -34,6 +34,9 @@ time,svc,method,path,status,src_ip,host,req_body
 
 ## 2. 필드 매핑
 
+[![샘플 CSV 필드 매핑](../../assets/screens/csv-map.png){ loading=lazy }](../../assets/screens/csv-map.png)
+<small>샘플 CSV를 올린 직후의 필드 매핑 화면 (가상 데이터)</small>
+
 SADE가 열 이름을 보고 필드를 추천합니다. 추천이 비었거나 다르면 아래처럼 고릅니다.
 
 | 샘플 열 | SADE 필드 | 쓰임 |
@@ -53,6 +56,9 @@ SADE가 열 이름을 보고 필드를 추천합니다. 추천이 비었거나 �
 
 ## 3. 저장 결과 확인
 
+[![저장된 줄 확인](../../assets/screens/csv-stored.png){ loading=lazy }](../../assets/screens/csv-stored.png)
+<small>저장된 줄 확인 창 (가상 데이터)</small>
+
 파일별로 저장한 줄, 이미 저장된 줄, 버린 줄 수가 나옵니다. 저장된 줄 하나를 열어 각 필드에 맞는 값이 들어갔는지 봅니다.
 
 - 본문은 값이 타입으로 바뀌어 저장됩니다. 예: `{"email":"<string>","phone":"<string>"}`
@@ -63,6 +69,9 @@ SADE가 열 이름을 보고 필드를 추천합니다. 추천이 비었거나 �
     보관 기간(기본 30일)보다 오래된 줄은 저장하지 않고 "보관 기간보다 오래돼 버림"으로 셉니다. 샘플 날짜가 오래됐다면 `time` 열의 날짜를 오늘 근처로 바꿔 올립니다.
 
 ## 4. 반영
+
+[![반영 결과](../../assets/screens/csv-apply.png){ loading=lazy }](../../assets/screens/csv-apply.png)
+<small>반영이 끝난 화면 (가상 데이터)</small>
 
 Apply to inventory and flows(Inventory와 Flows에 반영)를 누릅니다.
 
