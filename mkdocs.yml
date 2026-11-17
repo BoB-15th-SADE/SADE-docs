@@ -66,6 +66,7 @@ plugins:
             사용 방법: Using SADE
             API 상세: API details
             관리 우선순위: Management priority
+            결과 보고하기: Reporting results
             프레임워크 점검: Framework assessments
             규칙과 설정: Rules and settings
             Access Scope와 Settings: Access Scope and Settings
@@ -128,6 +129,7 @@ nav:
       - Inventory: features/inventory.md
       - API 상세: features/api-details.md
       - 관리 우선순위: features/priority.md
+      - 결과 보고하기: features/reporting.md
       - Flows: features/flows.md
       - 프레임워크 점검: features/assessments.md
       - 규칙과 설정:

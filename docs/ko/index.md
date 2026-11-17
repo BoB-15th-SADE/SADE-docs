@@ -8,23 +8,40 @@ SADE는 기업 내부망에 Docker 컨테이너로 설치합니다.
 - 서비스에 요청을 보내지 않습니다.
 - 요청을 차단하지 않습니다.
 
-<div class="sade-links" markdown>
+## 무엇을 하려고 하나요
 
-[<span class="sade-card-title">설치와 첫 연결</span><span>Docker로 설치하고 첫 자료를 연결합니다</span>](getting-started/quickstart.md)
+<div class="sade-paths" markdown>
 
-[<span class="sade-card-title">샘플로 첫 결과 보기</span><span>샘플 CSV 하나로 Inventory와 우선순위를 확인합니다</span>](getting-started/first-run.md)
+<div markdown>
+<p class="sade-paths__title">도입을 검토한다면</p>
 
-[<span class="sade-card-title">점검 흐름</span><span>자료 연결부터 담당자 전달까지 7단계</span>](getting-started/workflow.md)
-
-[<span class="sade-card-title">연동 가이드</span><span>소스 코드, OpenAPI 명세, 로그(CSV, syslog, Kafka)</span>](connect/logs.md)
-
-[<span class="sade-card-title">관리 우선순위</span><span>P1~P4를 정하는 신호와 규칙</span>](features/priority.md)
-
-[<span class="sade-card-title">동작 원리</span><span>API 식별, 로그 처리, 코드 스캔, 민감정보, 노출 판정</span>](how-it-works/index.md)
+- [보안 검토 자료](getting-started/security-review.md): 저장하는 것, 네트워크, 접속 통제
+- [지원 범위와 제한](reference/limitations.md)
+- [동작 원리](how-it-works/index.md): 결과가 어떻게 만들어지는지
 
 </div>
 
-## 화면별로 확인하는 것
+<div markdown>
+<p class="sade-paths__title">설치하고 연결한다면</p>
+
+- [설치와 첫 연결](getting-started/quickstart.md)
+- [샘플로 첫 결과 보기](getting-started/first-run.md): 10분
+- 연동: [소스 코드](connect/code.md), [OpenAPI 명세](connect/specs.md), [로그](connect/logs.md)
+
+</div>
+
+<div markdown>
+<p class="sade-paths__title">결과를 본다면</p>
+
+- [점검 흐름](getting-started/workflow.md): 7단계
+- [관리 우선순위](features/priority.md): P1~P4 읽는 법
+- [결과 보고하기](features/reporting.md)
+
+</div>
+
+</div>
+
+## SADE로 답할 수 있는 질문
 
 | 확인할 것 | 화면 |
 |---|---|
