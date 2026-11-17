@@ -39,6 +39,9 @@ SADE는 수집한 근거로 API마다 관리 우선순위를 P1~P4로 매깁니�
 
 ## 근거 확인 {#evidence}
 
+[![API 상세 Management 탭](../../assets/screens/api-manage.png){ loading=lazy }](../../assets/screens/api-manage.png)
+<small>예시 화면 (가상 데이터)</small>
+
 [API 상세](api-details.md)의 Management 탭에 아래 내용이 나옵니다.
 
 - 신호별 판단(예, 아니요, 모름)

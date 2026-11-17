@@ -7,6 +7,9 @@ Assessments는 API 보안 관리 프레임워크의 점검 항목으로 API를 �
 
 ## 화면 구성
 
+[![Assessments 화면](../../assets/screens/assessments.png){ loading=lazy }](../../assets/screens/assessments.png)
+<small>예시 화면 (가상 데이터)</small>
+
 | 영역 | 내용 |
 |---|---|
 | Assessment Readiness | 프레임워크 설정(Framework)과 점검 모델(Model) 연결 상태. 현재는 Framework not configured, Model not connected로 나옵니다 |

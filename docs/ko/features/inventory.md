@@ -4,6 +4,10 @@ APIs > Inventory는 코드, 명세, 로그를 합친 전체 API 목록입니다.
 
 목록은 기본으로 P1, P2, P3, P4, 미평가 순서입니다. 등급 기준은 [관리 우선순위](priority.md)에 있습니다. 열 제목을 누르면 다른 기준으로 정렬합니다.
 
+
+[![Inventory 화면](../../assets/screens/inventory.png){ loading=lazy }](../../assets/screens/inventory.png)
+<small>예시 화면 (가상 데이터)</small>
+
 ## 열
 
 | 열 | 내용 |
@@ -19,12 +23,12 @@ APIs > Inventory는 코드, 명세, 로그를 합친 전체 API 목록입니다.
 
 표 위의 줄에 이번 분석의 등급별 API 수가 나옵니다.
 
-| 명세 상태 | 뜻 |
-|---|---|
-| Documented | 등록한 명세에 있는 API |
-| Undocumented | 코드에 있고 명세에 없는 API |
-| Shadow | 코드와 명세에 없고 로그에서만 보인 API |
-| No Spec | 비교할 명세가 없는 서비스의 API |
+| 명세 상태 | 한국어 화면 | 뜻 |
+|---|---|---|
+| Documented | 등록됨 | 등록한 명세에 있는 API |
+| Undocumented | Spec 누락 | 코드에 있고 명세에 없는 API |
+| Shadow | Shadow | 코드와 명세에 없고 로그에서만 보인 API |
+| No Spec | Spec 없음 | 비교할 명세가 없는 서비스의 API |
 
 민감정보와 인증 선언은 열에 없습니다. API를 누르면 열리는 패널과 필터에서 봅니다.
 

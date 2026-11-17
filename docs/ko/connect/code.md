@@ -14,6 +14,12 @@ Connect > Source Code에서 GitHub 저장소를 연결해 스캔합니다. 코�
 | CODEOWNERS 담당 후보, API 코드의 최초, 최근 변경 커밋 | API 상세의 Owners 탭 |
 | 요청, 응답 필드의 민감 유형 | 민감정보 판정 |
 
+
+[![Source Code 화면](../../assets/screens/code.png){ loading=lazy }](../../assets/screens/code.png)
+<small>예시 화면 (가상 데이터)</small>
+
+위쪽 "우선순위 판단에 빠진 자료" 표는 이 자료가 없어 관리 우선순위를 판단하지 못한 항목과 영향받는 API 수를 보여 줍니다.
+
 ## 1. GitHub 연결
 
 Add GitHub connection에서 환경을 고르고 주소와 토큰을 넣습니다. SADE는 저장하기 전에 GitHub에 토큰을 확인합니다.
@@ -39,6 +45,9 @@ Add GitHub connection에서 환경을 고르고 주소와 토큰을 넣습니다
 - 진행 상황은 Scans in progress와 작업 상태에 나옵니다.
 
 ## 3. 결과 확인
+
+[![Code inventories 탭](../../assets/screens/code-inventories.png){ loading=lazy }](../../assets/screens/code-inventories.png)
+<small>예시 화면 (가상 데이터)</small>
 
 | 탭 | 내용 |
 |---|---|

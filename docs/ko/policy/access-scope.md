@@ -4,6 +4,10 @@
 
 Rules > Access Scope에서 호출 주소를 내부, 파트너, 공개로 나누는 기준을 정합니다. SADE는 이 기준으로 로그의 출발지 IP를 나눠 API마다 접근 범위를 판정합니다. 판정 결과는 [관리 우선순위](../features/priority.md)의 외부 접근 신호(E)에 들어갑니다.
 
+
+[![Access Scope 화면](../../assets/screens/scope.png){ loading=lazy }](../../assets/screens/scope.png)
+<small>예시 화면 (가상 데이터)</small>
+
 | 범위 | 정하는 방법 |
 |---|---|
 | Internal | 기업 내부 대역을 CIDR로 넣습니다. 쉼표로 여러 개를 넣을 수 있고, `/비트`가 없으면 주소 하나입니다 |
@@ -19,6 +23,10 @@ Rules > Access Scope에서 호출 주소를 내부, 파트너, 공개로 나누�
 ## Settings: 서비스 이름 합치기 {#settings}
 
 같은 서비스가 코드, 명세, 로그에서 다른 이름으로 찍히면 노드 두 개로 나뉩니다. 예를 들어 코드는 `order-service`, 로그는 `orders`인 경우입니다. 메뉴 아래쪽 Settings에서 다른 이름(Other name)을 기준 서비스(Merge into)에 합칩니다.
+
+
+[![Settings 화면](../../assets/screens/settings.png){ loading=lazy }](../../assets/screens/settings.png)
+<small>예시 화면 (가상 데이터)</small>
 
 - 이름 하나는 한 번만 넣습니다.
 - 자기 자신으로는 합치지 못합니다.

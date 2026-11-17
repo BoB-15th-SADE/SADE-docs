@@ -2,6 +2,12 @@
 
 Connect > Log Sources에서 로그를 연결합니다. 로그로 실제 호출된 API, 호출 수, 호출한 주소, 서비스 사이 흐름을 확인합니다.
 
+
+[![Log Sources 화면](../../assets/screens/logs.png){ loading=lazy }](../../assets/screens/logs.png)
+<small>예시 화면 (가상 데이터)</small>
+
+위쪽 "우선순위 판단에 빠진 자료" 표는 관리 우선순위를 판단하지 못한 항목과 그 자료가 있는 로그 필드, 영향받는 API 수를 보여 줍니다.
+
 ## 방식 고르기
 
 | 방식 | 맞는 환경 | 방향 | 기업에서 준비할 것 |
@@ -22,6 +28,9 @@ Connect > Log Sources에서 로그를 연결합니다. 로그로 실제 호출�
 
 ## CSV 업로드
 
+[![CSV 업로드 화면](../../assets/screens/csv.png){ loading=lazy }](../../assets/screens/csv.png)
+<small>예시 화면 (가상 데이터)</small>
+
 | 조건 | 내용 |
 |---|---|
 | 파일 | 한 번에 5개, 파일당 200 MB |
@@ -40,6 +49,9 @@ Connect > Log Sources에서 로그를 연결합니다. 로그로 실제 호출�
     `@timestamp`를 매핑하지 않으면 저장 시각을 로그 시각으로 씁니다. 이때 같은 파일을 다시 올리면 같은 줄을 다시 저장합니다.
 
 ## syslog 수신
+
+[![syslog 연결 화면](../../assets/screens/syslog.png){ loading=lazy }](../../assets/screens/syslog.png)
+<small>예시 화면 (가상 데이터)</small>
 
 SADE가 TCP 6514에서 TLS syslog를 받습니다. 보내는 서버에는 화면에서 받은 인증서와 rsyslog 설정 예시를 넣습니다.
 
@@ -67,6 +79,9 @@ TLS를 보내지 못하는 장비는 평문 TCP, UDP로 받습니다. 기본은 
 - 내용이 암호화되지 않습니다. 내부망에서만 쓰고, 위의 IP 제한을 TCP와 UDP에 모두 겁니다.
 
 ## Kafka 구독
+
+[![Kafka 연결 화면](../../assets/screens/kafka.png){ loading=lazy }](../../assets/screens/kafka.png)
+<small>예시 화면 (가상 데이터)</small>
 
 SADE는 Kafka 토픽을 읽기만 합니다.
 
