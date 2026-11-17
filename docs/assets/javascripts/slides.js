@@ -10,7 +10,7 @@
     track.className = "sade-slides__track";
     track.setAttribute("tabindex", "0");
     track.setAttribute("aria-label", korean ? "단계별 화면" : "Step screens");
-    slides.forEach((s) => track.appendChild(s));
+    slides.forEach((s, k) => { track.appendChild(s); dress(s, k); });
     const chips = document.createElement("div");
     chips.className = "sade-slides__chips";
     chips.style.position = "relative";
@@ -65,6 +65,32 @@
       }, 80);
     });
     mark(0);
+  }
+  // Walkthrough slides: a browser frame and a marked spot to click (data-spot = x,y,w,h in % of the screenshot).
+  function dress(slide, k) {
+    const img = slide.querySelector("img");
+    if (!img || !slide.dataset.spot) return;
+    const holder = img.closest("a") || img;
+    const frame = document.createElement("div");
+    frame.className = "sade-frame";
+    const bar = document.createElement("div");
+    bar.className = "sade-frame__bar";
+    bar.textContent = "sade.example.internal" + (slide.dataset.url || "");
+    const shot = document.createElement("div");
+    shot.className = "sade-frame__shot";
+    holder.parentNode.insertBefore(frame, holder);
+    shot.appendChild(holder);
+    frame.append(bar, shot);
+    const [x, y, w, h] = slide.dataset.spot.split(",").map(Number);
+    const spot = document.createElement("span");
+    spot.className = "sade-spot";
+    spot.style.cssText = `left:${x}%;top:${y}%;width:${w}%;height:${h}%`;
+    spot.setAttribute("aria-hidden", "true");
+    const tag = document.createElement("span");
+    tag.className = "sade-spot__tag";
+    tag.textContent = String(k + 1);
+    spot.appendChild(tag);
+    shot.appendChild(spot);
   }
   function init() { document.querySelectorAll(".sade-slides").forEach(build); }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init); else init();

@@ -296,3 +296,13 @@ html { scroll-padding-top: 5rem; }
 .md-typeset .sade-slides__nav { background: #fafbfb; gap: .4rem; justify-content: flex-end; padding: .45rem .7rem; }
 .md-typeset .sade-slides__nav .count { color: #64716c; font-family: var(--md-code-font); font-size: .64rem; margin-right: auto; min-width: 0; text-align: left; }
 .md-typeset .sade-slides__nav button { border: 1px solid #d6dedb; border-radius: 3px; font: inherit; font-size: .66rem; height: auto; padding: .25rem .6rem; width: auto; }
+
+/* Walkthrough: instruction line, browser frame, marked spot */
+.md-typeset .sade-walk .sade-slide p.sade-say { color: #17231e; font-size: .8rem; font-weight: 600; margin: 0 0 .6rem; }
+.md-typeset .sade-frame { border: 1px solid #d6dedb; border-radius: 3px; overflow: hidden; }
+.md-typeset .sade-frame__bar { background: #f3f5f4; border-bottom: 1px solid #e1e6e4; color: #6b7873; font-family: var(--md-code-font); font-size: .6rem; padding: .28rem .6rem; }
+.md-typeset .sade-frame__shot { position: relative; }
+.md-typeset .sade-frame__shot img { border: 0 !important; display: block; width: 100%; }
+.md-typeset .sade-frame__shot > a { display: block; }
+.md-typeset .sade-spot { border: 2px solid #d9480f; border-radius: 2px; box-shadow: 0 0 0 4px rgba(217, 72, 15, .16); margin: -4px 0 0 -4px; padding: 4px; pointer-events: none; position: absolute; box-sizing: content-box; }
+.md-typeset .sade-spot__tag { background: #d9480f; color: #fff; font-family: var(--md-code-font); font-size: .58rem; font-weight: 700; left: -2px; line-height: 1; padding: .18rem .3rem; position: absolute; top: -1.05rem; }

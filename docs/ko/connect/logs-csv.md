@@ -4,55 +4,69 @@ SIEM, 게이트웨이, 서비스에서 기간을 정해 내보낸 CSV를 올립�
 
 연동 승인 전에 기업 로그 형식을 확인할 때 씁니다. 처음이면 [샘플 로그로 첫 결과 보기](../getting-started/first-run.md)로 화면 흐름을 먼저 익힙니다.
 
-단계별 화면입니다. 좌우로 넘기거나 단계 이름을 눌러 봅니다.
+<div class="sade-slides sade-walk" markdown>
 
-<div class="sade-slides" markdown>
+<div class="sade-slide" markdown data-title="CSV 업로드 열기" data-spot="54.02,77.77,6.19,3.56" data-url="/#/logs">
 
-<div class="sade-slide" markdown data-title="업로드">
+<p class="sade-say">Connect > Log Sources에서 CSV 업로드를 누릅니다.</p>
 
-[![업로드](../../assets/screens/csv.png){ loading=lazy }](../../assets/screens/csv.png)
-
-<small>CSV 파일을 고르는 첫 화면</small>
+[![CSV 업로드 열기](../../assets/screens/w-csv-1.png){ loading=lazy }](../../assets/screens/w-csv-1.png)
 
 </div>
 
-<div class="sade-slide" markdown data-title="필드 매핑">
+<div class="sade-slide" markdown data-title="파일 고르기" data-spot="54.21,31.15,5.82,2.26" data-url="/#/csv">
 
-[![필드 매핑](../../assets/screens/csv-map.png){ loading=lazy }](../../assets/screens/csv-map.png)
+<p class="sade-say">CSV 파일 선택을 눌러 파일을 고릅니다. 5개까지 한 번에 고릅니다.</p>
 
-<small>열 이름으로 추천한 매핑. 파란색 줄은 아직 열을 고르지 못한 필드</small>
-
-</div>
-
-<div class="sade-slide" markdown data-title="못 채운 필드">
-
-[![못 채운 필드](../../assets/screens/csv-missing.png){ loading=lazy }](../../assets/screens/csv-missing.png)
-
-<small>저장 전에 빠지는 결과를 알려 주는 창</small>
+[![파일 고르기](../../assets/screens/w-csv-2.png){ loading=lazy }](../../assets/screens/w-csv-2.png)
 
 </div>
 
-<div class="sade-slide" markdown data-title="저장된 줄 확인">
+<div class="sade-slide" markdown data-title="매핑 확인" data-spot="41.22,37.37,25.71,3.56" data-url="/#/csv">
 
-[![저장된 줄 확인](../../assets/screens/csv-stored.png){ loading=lazy }](../../assets/screens/csv-stored.png)
+<p class="sade-say">추천된 매핑을 확인합니다. 틀린 칸은 다른 열로 바꿉니다.</p>
 
-<small>저장된 줄 하나를 SADE 필드 이름으로 확인. 본문은 타입으로 가려짐</small>
-
-</div>
-
-<div class="sade-slide" markdown data-title="저장 결과">
-
-[![저장 결과](../../assets/screens/csv-result.png){ loading=lazy }](../../assets/screens/csv-result.png)
-
-<small>파일별 저장, 이미 저장됨 수</small>
+[![매핑 확인](../../assets/screens/w-csv-3.png){ loading=lazy }](../../assets/screens/w-csv-3.png)
 
 </div>
 
-<div class="sade-slide" markdown data-title="반영">
+<div class="sade-slide" markdown data-title="로그 저장" data-spot="90.07,90.9,5.14,3.56" data-url="/#/csv">
 
-[![반영](../../assets/screens/csv-apply.png){ loading=lazy }](../../assets/screens/csv-apply.png)
+<p class="sade-say">맨 아래 로그 저장을 누릅니다.</p>
 
-<small>찾은 API와 서비스 수. 값만 다른 경로는 한 줄로 묶임</small>
+[![로그 저장](../../assets/screens/w-csv-4.png){ loading=lazy }](../../assets/screens/w-csv-4.png)
+
+</div>
+
+<div class="sade-slide" markdown data-title="못 채운 필드" data-spot="73.84,67.03,5.95,3.56" data-url="/#/csv">
+
+<p class="sade-say">빠지는 결과를 확인합니다. 맞는 열이 없으면 그대로 진행을 누릅니다.</p>
+
+[![못 채운 필드](../../assets/screens/w-csv-5.png){ loading=lazy }](../../assets/screens/w-csv-5.png)
+
+</div>
+
+<div class="sade-slide" markdown data-title="저장된 줄 확인" data-spot="74.65,87.5,5.14,3.56" data-url="/#/csv">
+
+<p class="sade-say">값이 맞는 필드에 들어갔는지 보고 확인 완료를 누릅니다.</p>
+
+[![저장된 줄 확인](../../assets/screens/w-csv-6.png){ loading=lazy }](../../assets/screens/w-csv-6.png)
+
+</div>
+
+<div class="sade-slide" markdown data-title="반영" data-spot="83.33,57.15,11.88,3.56" data-url="/#/csv">
+
+<p class="sade-say">Inventory와 Flows에 반영을 누릅니다.</p>
+
+[![반영](../../assets/screens/w-csv-7.png){ loading=lazy }](../../assets/screens/w-csv-7.png)
+
+</div>
+
+<div class="sade-slide" markdown data-title="결과 보기" data-spot="87.67,84.82,7.54,3.56" data-url="/#/csv">
+
+<p class="sade-say">찾은 API를 확인하고 Inventory 열기로 목록을 엽니다.</p>
+
+[![결과 보기](../../assets/screens/w-csv-8.png){ loading=lazy }](../../assets/screens/w-csv-8.png)
 
 </div>
 
