@@ -32,7 +32,7 @@ SADE는 기업 내부망에 Docker 컨테이너로 설치합니다. 이미 있�
 | 먼저 검토할 API | [관리 우선순위](features/priority.md)의 P1~P4와 판정 근거 |
 | 외부에서 호출되는 API, 민감정보를 주고받는 API | [API 상세](features/api-details.md)의 노출, 인증 선언, 민감 유형 |
 | 요청이 지나가는 서비스, DB, 외부 목적지 | [Flows](features/flows.md) |
-| API를 고칠 담당 후보 | [API 상세](features/api-details.md)의 Owners 탭 (CODEOWNERS) |
+| API를 고칠 담당 후보 | [API 상세](features/api-details.md#owner) 요약의 담당자 (CODEOWNERS) |
 
 ## 입력
 

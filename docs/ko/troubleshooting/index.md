@@ -38,7 +38,7 @@
 
 ??? question "같은 서비스가 두 개로 보임"
 
-    코드, 명세, 로그의 서비스 이름이 다릅니다. 명세는 코드와 같은 이름으로 올리고, 나머지는 [Settings](../policy/access-scope.md#settings)에서 합칩니다.
+    코드, 명세, 로그의 서비스 이름이 다릅니다. 명세는 코드와 같은 이름으로 올리고, 나머지는 [서비스 이름](../policy/access-scope.md#settings)에서 합칩니다.
 
 ??? question "명세 업로드 거절"
 
@@ -78,7 +78,7 @@
 
 ??? question "미평가 API가 많음"
 
-    판단할 근거가 모자랍니다. API 상세의 Management 탭에서 빠진 자료를 확인하고 채웁니다.
+    판단할 근거가 모자랍니다. API 상세의 우선순위 근거 탭에서 확인하지 못한 것과 필요한 자료를 보고 채웁니다.
 
     채우는 방법은 [관리 우선순위](../features/priority.md#evidence)에 있습니다.
 

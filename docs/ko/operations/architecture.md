@@ -40,8 +40,8 @@ syslog, Kafka ─────────────▶ vector ─┤   Postgre
 | 남기지 않는 것 | 요청과 응답 본문의 값, 민감정보 값, 토큰과 비밀번호 |
 | 본문 | 저장 전에 값을 타입으로 바꿉니다. 예: `{"phone":"010-1234-5678"}` → `{"phone":"<string>"}` |
 | 코드 | 스캔할 커밋의 파일을 GitHub API로 읽고, 분석 결과(API, 위치, 호출)만 저장합니다 |
-| 연결 정보 | GitHub 토큰은 `SADE_SECRET_KEY`로 암호화해 DB에 둡니다. Kafka 인증 정보는 `kafka-secrets` 볼륨에 둡니다. 둘 다 화면과 API 응답에 내보내지 않습니다 |
-| 외부 전송 | SADE는 분석 자료를 밖으로 보내지 않습니다. 밖으로 나가는 연결은 이용자가 직접 연결한 GitHub, Kafka, 허용한 명세 주소입니다 |
+| 연결 정보 | GitHub 토큰과 AI 모델 제공자 키는 `SADE_SECRET_KEY`로 암호화해 DB에 둡니다. Kafka 인증 정보는 `kafka-secrets` 볼륨에 둡니다. 모두 화면과 API 응답에 내보내지 않습니다 |
+| 외부 전송 | 밖으로 나가는 연결은 이용자가 직접 연결한 GitHub, Kafka, 허용한 명세 주소, AI 모델 제공자입니다. 분석 자료는 [SADE AI 점검](../features/assessments.md#data)을 실행할 때만 AI 모델 제공자로 보냅니다 |
 
 ## 보관 기간
 

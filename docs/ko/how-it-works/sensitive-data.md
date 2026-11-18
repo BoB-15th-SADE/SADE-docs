@@ -79,7 +79,7 @@ SADE는 한 벌의 규칙(기본 유형 19개)으로 코드, 명세, 로그에�
 | 화면 | 쓰는 방식 |
 |---|---|
 | Inventory | Sensitive Type 필터 |
-| API 상세 Sensitive Data 탭 | 필드, 위치, 유형, 출처(Code, Spec, Log). 로그 유형은 필드 없이 따로 |
+| API 상세 필드 탭 | 필드, 위치, 유형, 출처(Code, Spec, Log). 로그 유형은 필드 없이 따로 |
 | 관리 우선순위 | 민감정보 신호(S). 외부 HTTP 구간 관측이면 O 신호의 재료 |
 | Flows | 서비스 노드의 민감 유형 라벨 |
 | Overview | Sensitive Types, Sensitive APIs 수 |

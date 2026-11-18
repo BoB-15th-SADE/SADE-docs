@@ -1,134 +1,107 @@
 # API 상세
 
-Inventory에서 API를 누르고 Full Screen(전체 화면)을 누르면 API 상세가 열립니다. 위쪽에 서비스, 메서드, 경로, 관리 우선순위, 출처(`Code`, `Spec`, `Log`)가 나옵니다.
+Inventory에서 API를 누르면 오른쪽에 패널이 열리고, 패널의 전체 화면 아이콘을 누르면 API 상세가 열립니다. 위쪽에 메서드, 경로, 서비스, Spec 등록 상태, 출처(코드, Spec, 로그)가 나옵니다.
 
-탭별 <div class="sade-slides" markdown>
+<div class="sade-slides" markdown>
 
-<div class="sade-slide" markdown data-title="Overview">
+<div class="sade-slide" markdown data-title="요약">
 
-[![Overview](../../assets/screens/api-overview.png){ loading=lazy }](../../assets/screens/api-overview.png)
+[![요약](../../assets/screens/api-overview.png){ loading=lazy }](../../assets/screens/api-overview.png)
 
-<small>우선순위 요약, 검토 신호, 근거 (가상 데이터)</small>
-
-</div>
-
-<div class="sade-slide" markdown data-title="Management">
-
-[![Management](../../assets/screens/api-manage.png){ loading=lazy }](../../assets/screens/api-manage.png)
-
-<small>신호별 판단, 더 높아질 수 있는 등급, 빠진 자료 (가상 데이터)</small>
+<small>관리 우선순위, 접근 범위, 확인할 점, 기본 정보 (가상 데이터)</small>
 
 </div>
 
-<div class="sade-slide" markdown data-title="Owners">
+<div class="sade-slide" markdown data-title="필드">
 
-[![Owners](../../assets/screens/api-owners.png){ loading=lazy }](../../assets/screens/api-owners.png)
+[![필드](../../assets/screens/api-fields.png){ loading=lazy }](../../assets/screens/api-fields.png)
 
-<small>CODEOWNERS 담당 후보와 코드 변경 이력 (가상 데이터)</small>
+<small>요청, 응답 필드와 민감정보 필드 (가상 데이터)</small>
+
+</div>
+
+<div class="sade-slide" markdown data-title="우선순위 근거">
+
+[![우선순위 근거](../../assets/screens/api-manage.png){ loading=lazy }](../../assets/screens/api-manage.png)
+
+<small>확인된 것, 확인하지 못한 것, 필요한 자료 (가상 데이터)</small>
 
 </div>
 
 </div>
 
-| 탭 | 한국어 화면 | 내용 |
-|---|---|---|
-| Overview | 개요 | 우선순위 요약, 검토 신호, 근거(노출, 인증 선언, 민감정보, 실제 호출, 명세 일치) |
-| Fields | 필드 | 요청, 응답 필드와 타입, 필드별 출처, 응답 코드별 표 |
-| Sensitive Data | 민감정보 | 민감 유형이 붙은 필드, 위치, 찾은 출처 |
-| Code | 코드 | 핸들러 파일과 줄, 다른 서비스 호출, DB 접근, 명세와 코드 필드 비교(Spec vs code) |
-| Owners | 담당자 | CODEOWNERS 담당 후보와 근거 줄, API 코드의 최초, 최근 변경 커밋 |
-| Management | 관리 | [관리 우선순위](priority.md) 근거. 신호별 예, 아니요, 모름, 더 높아질 수 있는 등급, 빠진 자료 |
-| Assessment Results | 점검 결과 | 프레임워크 점검 결과 ([준비 중](assessments.md)) |
+| 탭 | 내용 |
+|---|---|
+| 요약 | 관리 우선순위와 근거, 접근 범위와 근거, 민감정보, 호출 수, 확인할 점, 기본 정보(담당자 포함) |
+| 필드 | 요청, 응답 필드와 타입, 필드별 출처, 민감정보 필드 |
+| 우선순위 근거 | [관리 우선순위](priority.md) 판정. 확인된 것, 확인하지 못한 것과 필요한 자료 |
+| 점검 결과 | 이 API의 [AI 점검](assessments.md) 결과 |
 
-## Overview (개요)
+## 요약 {#summary}
 
-API를 처음 열었을 때 보는 요약입니다.
+API를 처음 열었을 때 보는 화면입니다.
 
 | 영역 | 내용 |
 |---|---|
-| Basic Info | 서비스, Base URL, 외부 경로, 서버, 처음 발견, 마지막 호출 |
-| Asset Characteristics | 검토 신호. 예: 외부 IP에서 호출됨, 로그에서만 보임, 코드와 명세 필드 차이 |
-| Exposure | Access Scope와 판정 근거 한 줄. 파트너에서만 불렸으면 "Called only from partner addresses" |
-| Declared Auth | 코드와 명세의 인증 선언과 둘이 같은지 |
-| Sensitive Data | 민감 유형 요약 |
-| Calls | 분석 기간의 호출 수, 응답 코드별 수 |
-| Spec Match | 코드, 명세, 로그가 맞는지 |
+| 관리 우선순위 | 등급과 판정 이유 한 줄. 예: P2, 외부 접근, 민감정보 |
+| 접근 범위 | 외부 노출, 내부, `—`와 판정 근거. 예: 로그의 서비스 출발지 IP, 코드의 게이트웨이 라우트 |
+| 민감정보 | 민감 유형 |
+| 호출 수 | 분석 기간의 호출 수와 마지막 호출 시각 |
+| 확인할 점 | 검토 신호. 예: 기록된 민감정보 분류, 외부 접근 분류, Spec 누락 |
+| 기본 정보 | 서비스, 서버, 출처, Spec 등록, 담당자, 핸들러 파일, 접근 규칙(인증 선언), Base URL, 외부 경로, 상태 코드별 호출 수, 처음 발견 |
 
-검토 신호는 확인이 필요한 특징입니다. 확인된 취약점이 아니며, 신호가 없어도 안전으로 판정하지 않습니다.
+확인할 점은 확인이 필요한 특징입니다. 확인된 취약점이 아니며, 없어도 안전으로 판정하지 않습니다.
 
-## Fields (필드)
+### 담당자 {#owner}
 
-- 요청은 위치별(Path, Query, Header, Cookie, Body)로, 응답은 응답 코드와 형식(JSON 등)별로 나눕니다.
-- 필드마다 확인한 출처(From code, From spec, From logs)를 표시합니다.
+- 처음에는 코드 스캔이 CODEOWNERS에서 찾은 담당 후보가 나옵니다. 후보가 없으면 "지정된 담당자 없음"입니다.
+- 담당자 변경을 누르고 담당자 계정을 쉼표로 이어 넣은 뒤 저장합니다.
+- 직접 바꾼 담당자는 이후 코드 스캔에서도 유지됩니다. CODEOWNERS로 되돌리기로 스캔 결과로 돌아갑니다.
+- 가장 최근 분석에서만 바꿀 수 있습니다.
+
+## 필드
+
+- 요청은 위치별(Path, Query, Header, Cookie, 본문)로, 응답은 응답 코드와 형식(예: `application/json`)별로 나눕니다.
+- 필드마다 타입, 확인된 소스(코드, Spec, 로그), 민감정보 유형을 표시합니다. 민감 판정 전이면 "분석 전"입니다.
 - 중첩 객체는 `items[].price`처럼 점과 `[]`로 이어 씁니다.
-- 코드와 명세의 타입이 다르면 차이를 표시합니다. 이 차이가 관리 우선순위의 검토 신호(D)가 됩니다.
-
-## Sensitive Data (민감정보)
-
-Sensitive Fields 표는 민감 유형이 붙은 필드를 한 줄씩 보여 줍니다.
-
-| 열 | 뜻 |
-|---|---|
-| 위치 | 요청이나 응답, 응답 코드, 부분(Path, Query, Header, Body). 예: Response 200 Body |
-| Field | 필드 이름 |
-| 유형 | 민감 유형. 예: EMAIL |
-| Found In | 찾은 출처 (Code, Spec, Log) |
-
+- 아래 민감정보 필드 표는 민감 유형이 붙은 필드만 위치, 필드, 출처, 유형으로 모아 보여 줍니다.
 - 로그는 API 단위로 유형을 기록합니다. 어느 필드에 실렸는지는 알 수 없어 필드 없이 따로 나옵니다.
-- See how each field was detected를 누르면 판정 근거를 자세히 봅니다.
 - 탐지 방식은 [민감정보 탐지](../how-it-works/sensitive-data.md)에 있습니다.
 
-## Code (코드)
+## 우선순위 근거
 
 | 영역 | 내용 |
 |---|---|
-| Handler | 핸들러 클래스와 메서드, 파일과 줄. 누르면 GitHub의 그 줄을 엽니다 |
-| Access Rules | 인증 선언(`@PreAuthorize` 등)과 선언 위치 |
-| Repository Call | 이 API에서 부르는 다른 서비스와 확정 수준(Resolved, Candidate, Unresolved) |
-| Database Access | 이 API에서 닿는 DB, 테이블, 작업 종류 |
-| Code-spec comparison | 명세와 코드의 필드 비교(Spec vs code) |
-
-DB에 접근하는 코드는 찾았지만 어느 DB인지 정하지 못하면 "Database not identified"로 나옵니다.
-
-## Owners (담당자)
-
-- CODEOWNERS candidate: 핸들러 파일에 맞는 CODEOWNERS 규칙의 담당 후보와 근거 줄
-- Code Change History: 핸들러 코드가 처음 들어온 커밋과 최근 바뀐 커밋
-- 커밋 작성자는 담당자와 다를 수 있습니다.
-- 담당자 지정 버튼(Assign Owner)은 아직 동작하지 않습니다.
-
-## Management (관리)
-
-| 영역 | 내용 |
-|---|---|
-| Summary | 등급, 평가 상태, 판정 이유 |
-| Judgement by item | 신호별 결과(Has it, Does not have it, Not known), 근거, 등급에 쓰였는지(Used in grade) |
-| Could raise the grade | 모르는 신호가 확인되면 될 수 있는 등급 |
-| Data used | 판정에 쓴 자료와 분석한 로그 기간 |
-| Add data in | 빠진 자료와 그 자료를 넣을 화면 |
-| Call history (not in grade) | 호출 수와 최초, 마지막 호출. 등급 계산에는 쓰지 않음 |
+| 판정 | 등급과 판정 이유 |
+| 확인된 것 | 예로 확인된 신호와 근거. 등급에 쓰인 신호는 "등급 근거"로 표시 |
+| 확인하지 못한 것 | 모르는 신호와 필요한 자료. 자료를 넣을 화면(Specifications, Source Code 등)으로 가는 링크 |
+| SADE가 아직 판단하지 않는 항목 | 프로토콜처럼 아직 판정하지 않는 항목 |
+| 등급 기준 | 해당 없음으로 확인된 신호 수 |
 
 ### 검토 순서
 
 <div class="sade-steps" markdown>
 
-1. Summary에서 등급과 잠정 여부를 봅니다.
+1. 판정에서 등급과 판정 이유를 봅니다.
 
-2. Judgement by item에서 Has it인 신호의 근거를 하나씩 엽니다. 예: 외부 접근이면 어느 IP에서 몇 번 불렸는지
+2. 확인된 것에서 등급 근거로 쓰인 신호의 근거를 봅니다. 예: 외부 접근이면 어느 근거로 판정했는지
 
-3. Not known인 신호가 있으면 Add data in이 가리키는 화면에서 자료를 넣습니다.
+3. 확인하지 못한 것이 있으면 필요한 자료 옆 링크로 가서 자료를 넣습니다.
 
 4. 다시 분석된 뒤 등급이 바뀌었는지 봅니다.
 
 </div>
 
+## 점검 결과
+
+SADE AI로 이 API를 점검한 결과가 나옵니다. 점검 준비 상태, 검토 결과 요약, 점검 결과 목록이 있습니다. 점검을 한 번도 하지 않았으면 "점검 결과 없음"입니다. 화면 구성과 주의할 점은 [AI 점검](assessments.md)에 있습니다.
+
 ## 화면 문구
 
-- 인증 선언(Declared Auth): 코드와 명세에 적힌 인증입니다. 요청이 실제로 막히는지는 확인하지 않습니다.
-- "No access declaration extracted": 코드에서 인증 선언을 찾지 못했다는 뜻입니다. 전역 보안 설정으로 막고 있을 수 있습니다.
-- "This result has no priority assessment": 우선순위 기능 전에 만든 결과입니다. 다시 분석하면 채워집니다.
+- 접근 규칙: 코드와 명세에 적힌 인증 선언입니다. 요청이 실제로 막히는지는 확인하지 않습니다.
+- 인증 선언이 없다는 표시는 코드에서 선언을 찾지 못했다는 뜻입니다. 전역 보안 설정으로 막고 있을 수 있습니다.
 
 ## 다른 화면으로
 
-- View in Flows(흐름에서 보기): 이 API의 서비스와 연결을 [Flows](flows.md)에서 봅니다.
-- Back to Inventory: 필터를 그대로 두고 목록으로 돌아갑니다.
+- 흐름에서 보기: 이 API의 서비스와 연결을 [Flows](flows.md)에서 봅니다.
+- 핸들러 파일: 누르면 GitHub의 그 줄을 엽니다.

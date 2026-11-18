@@ -69,9 +69,9 @@ plugins:
             사용 방법: Using SADE
             API 상세: API details
             관리 우선순위: Management priority
-            프레임워크 점검: Framework assessments
+            SADE AI 점검: SADE AI assessments
             규칙과 설정: Rules and settings
-            Access Scope와 Settings: Access Scope and Settings
+            Access Scope와 서비스 이름: Access Scope and Service Names
             더 알아보기: Learn more
             동작 원리: How it works
             처리 순서: Processing order
@@ -132,10 +132,10 @@ nav:
       - API 상세: features/api-details.md
       - 관리 우선순위: features/priority.md
       - Flows: features/flows.md
-      - 프레임워크 점검: features/assessments.md
+      - SADE AI 점검: features/assessments.md
       - 규칙과 설정:
           - Data Types: policy/data-types.md
-          - Access Scope와 Settings: policy/access-scope.md
+          - Access Scope와 서비스 이름: policy/access-scope.md
   - 더 알아보기:
       - 동작 원리:
           - 처리 순서: how-it-works/index.md
