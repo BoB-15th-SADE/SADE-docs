@@ -5,15 +5,17 @@
 | 영역 | 기준 커밋 |
 |---|---|
 | 연동 (소스 코드, OpenAPI 명세, 로그)과 샘플로 첫 결과 보기 | `50e7238` (2026-11-18). 화면과 버튼 이름, 단계, 사진 |
+| 대시보드 (Overview, Inventory, API 상세, Flows, Data Types, Access Scope, 서비스 이름, SADE AI) | `50e7238` (2026-11-18). 화면, 사진, SADE AI 동작 |
 | 그 밖의 페이지 | `f512bc0` (2026-11-16) |
 
-`f512bc0`에서 `50e7238` 사이에 로그 처리, 코드 스캔, 명세 처리의 서버 동작은 바뀌지 않았습니다. 화면 구성과 이름이 바뀌었고, 매핑은 한 저장소의 가장 최근 스캔 하나만 쓰게 바뀌었습니다.
+`f512bc0`에서 `50e7238` 사이에 로그 처리, 코드 스캔, 명세 처리의 서버 동작은 바뀌지 않았습니다. 화면 구성과 이름이 바뀌었고, 매핑은 한 저장소의 가장 최근 스캔 하나만 쓰게 바뀌었습니다. SADE AI 점검, 민감정보 규칙 편집, 담당자 변경이 더해졌습니다.
 
 ## 확인한 코드
 
 | 문서 영역 | 확인한 곳 |
 |---|---|
-| 메뉴, 화면 | `apps/frontend/src/layout/nav.ts`, `App.tsx`, `pages/` (Overview, Inventory, API 상세, Flows, Assessments, logs, management, policy) |
+| 메뉴, 화면 | `apps/frontend/src/layout/nav.ts`, `App.tsx`, `pages/` (Overview, Inventory, API 상세, Flows, assessments, logs, management, policy) |
+| SADE AI | `docs/contracts/ai_assessments.md`, `apps/backend/src/sade_backend/services/ai_assessments.py`, `compose.yaml` |
 | 관리 우선순위 | `docs/contracts/api_priority.md`, `apps/backend/src/sade_backend/services/inventory_priority.py` |
 | 코드 연동 | `apps/backend/src/sade_backend/code_sources.py`, `apps/code-worker/src/sade_code_worker/` |
 | 명세 연동 | `code_sources.py`의 명세 등록, `services/spec_fetch.py` |

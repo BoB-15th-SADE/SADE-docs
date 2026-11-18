@@ -127,6 +127,6 @@ SADE가 열 이름을 보고 열을 추천합니다. 추천이 비었거나 다�
 | 소스 코드 | 인증 선언, 핸들러 위치, 서비스 사이 호출, Shadow 판정 | [소스 코드 (GitHub)](../connect/code.md) |
 | OpenAPI 명세 | Documented, Undocumented 판정, 명세와 코드 인증 선언 비교 | [OpenAPI 명세](../connect/specs.md) |
 | 기업 로그 | 실제 호출, 접근 범위, 민감 유형 | [로그 연결 방식](../connect/logs.md) |
-| 내부 대역 | Internal, Partner 구분 | [Access Scope](../policy/access-scope.md) |
+| 내부 대역 | 내부, 협력사 구분 | [Access Scope](../policy/access-scope.md) |
 
 샘플로 저장한 로그는 보관 기간이 지나면 지워집니다. 바로 지우려면 설치를 처음부터 다시 합니다(`docker compose down -v`, 모든 데이터 삭제).

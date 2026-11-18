@@ -72,15 +72,15 @@ SADE는 수집한 근거로 API마다 관리 우선순위를 P1~P4로 매깁니�
 
 ## 근거 확인 {#evidence}
 
-[![API 상세 Management 탭](../../assets/screens/api-manage.png){ loading=lazy }](../../assets/screens/api-manage.png)
+[![API 상세 우선순위 근거 탭](../../assets/screens/api-manage.png){ loading=lazy }](../../assets/screens/api-manage.png)
 <small>예시 화면 (가상 데이터)</small>
 
-[API 상세](api-details.md)의 Management 탭에 아래 내용이 나옵니다.
+[API 상세](api-details.md)의 우선순위 근거 탭에 아래 내용이 나옵니다.
 
-- 신호별 판단(예, 아니요, 모름)
-- 근거와 출처(코드 선언, 명세, 로그 관측)
-- 더 높아질 수 있는 등급
-- 빠진 자료
+- 판정: 등급과 판정 이유
+- 확인된 것: 예로 확인된 신호, 근거와 출처(코드 선언, 명세, 로그 관측), 등급에 쓰였는지
+- 확인하지 못한 것: 모르는 신호와 필요한 자료, 자료를 넣을 화면
+- 등급 기준: 해당 없음으로 확인된 신호 수
 
 빠진 자료를 채우면 미평가와 잠정이 줄어듭니다.
 

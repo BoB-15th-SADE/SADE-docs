@@ -2,25 +2,32 @@
 
 Overview는 마지막으로 끝난 분석 결과를 요약합니다.
 
-화면 위의 분석 완료 시각은 선택한 분석이 끝난 시각입니다. 실시간 수집 시각과 다릅니다.
-
+화면 오른쪽 위의 "최근 분석 완료"는 선택한 분석이 끝난 시각입니다. 실시간 수집 시각과 다릅니다.
 
 [![Overview 화면](../../assets/screens/overview.png){ loading=lazy }](../../assets/screens/overview.png)
-<small>예시 화면 (가상 데이터). 점검이 준비 중이어서 Assessments Score 값은 화면 예시입니다</small>
+<small>예시 화면 (가상 데이터)</small>
 
-| 영역 | 내용 |
-|---|---|
-| Management Priority | P1~P4와 미평가(Unassessed) API 수. 누르면 그 등급으로 거른 Inventory가 열립니다 |
-| Top 5 by Management Priority | 우선순위가 가장 높은 API 5개와 판정 근거 |
-| Asset Snapshot Counts | API Assets(전체 API 수), External Access APIs(외부 접근 API 수), Priority P1 + P2, Sensitive APIs(민감 API 수) |
-| Observed Access Scope | 로그에서 관측한 호출 주소로 나눈 Public, Partner, Internal API 수 |
-| Sensitive Types | 민감 유형별 API 수. API 하나에 여러 유형이 있으면 겹쳐 셉니다 |
-| Spec Status | Documented, Undocumented, Shadow, No Spec API 수 |
-| Assessments Score | 프레임워크 점검 점수. 점검이 준비 중이어서 미리보기만 나옵니다 ([프레임워크 점검](assessments.md)) |
+## 화면 구성
 
-!!! note "관측한 접근 범위와 외부 접근"
-    Observed Access Scope는 로그에 남은 호출 주소로만 셉니다.
+| 영역 | 내용 | 누르면 |
+|---|---|---|
+| Assessments Score | 지금은 점수를 계산하지 않아 "미점검"으로 나옵니다. [AI 점검](assessments.md) 결과는 점수로 세지 않습니다 | |
+| API 자산 | 전체 API 수 | Inventory |
+| 우선순위 P1 + P2 | P1, P2 API 수 | P1, P2로 거른 Inventory |
+| 외부 접근 API | 외부 접근으로 판정한 API 수 | 접근 범위 외부 노출로 거른 Inventory |
+| Sensitive API | 민감 유형이 있는 API 수 | 민감 API로 거른 Inventory |
+| 관리 우선순위 상위 API 5개 | 등급이 정해진 API 중 우선순위가 가장 높은 5개와 판정 근거, 출처(코드, Spec, 로그) | API 이름은 API 상세, 서비스는 그 서비스로 거른 Inventory |
+| 우선순위 분포 | P1~P4와 미평가 API 수와 비율 | 그 등급으로 거른 Inventory |
+| 관측 접근 범위 | 로그의 호출 주소로 나눈 외부 노출, 협력사, 내부, 알 수 없음 API 수 | 그 범위로 거른 Inventory |
+| 민감정보 유형 | 민감 유형별 API 수. API 하나에 여러 유형이 있으면 겹쳐 셉니다 | 그 유형으로 거른 Inventory |
+| Spec 등록 | 등록됨, Spec 누락, Shadow, Spec 없음 API 수 | 그 상태로 거른 Inventory |
 
-    External Access APIs는 저장된 외부 도달 판정(설정, 게이트웨이 경로 포함)으로 셉니다. 관리 우선순위의 외부 접근 신호(E)는 외부 도달 판정을 씁니다.
+- 숫자 카드 아래 추이는 완료된 분석이 두 번 이상 쌓인 뒤에 나옵니다.
+- 상위 5개에는 등급이 정해진 API(평가 완료, 잠정)만 나옵니다. 미평가 API는 Inventory에서 봅니다.
 
-검토를 시작할 때는 P1, P2 API의 [API 상세](api-details.md) Management 탭에서 판정 근거를 확인합니다.
+!!! note "관측 접근 범위와 외부 접근 API"
+    관측 접근 범위는 로그에 남은 호출 주소로만 셉니다.
+
+    외부 접근 API는 저장된 외부 도달 판정(설정, 게이트웨이 경로 포함)으로 셉니다. 관리 우선순위의 외부 접근 신호(E)도 이 판정을 씁니다.
+
+검토를 시작할 때는 P1, P2 API의 [API 상세](api-details.md) 우선순위 근거 탭에서 판정 근거를 확인합니다.
