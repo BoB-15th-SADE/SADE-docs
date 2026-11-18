@@ -89,7 +89,7 @@ API는 `서비스:메서드:경로 틀`로 구분합니다. 경로 틀은 아래
 | 순서 | 근거 | 예 |
 |---|---|---|
 | 1 | 사람이 넣은 게이트웨이 경로 규칙(`gateway_rules` 설정) | `/api/cart` → cart-service의 `/` |
-| 2 | 코드 스캔이 읽은 게이트웨이 라우트(Route maps)의 경로 조건과 바꾸기 규칙 | Spring Cloud Gateway 라우트의 `Path=/api/cart/**` 조건과 경로를 바꾸는 필터 |
+| 2 | 코드 스캔이 읽은 게이트웨이 라우트(Source Code의 게이트웨이 경로 탭)의 경로 조건과 바꾸기 규칙 | Spring Cloud Gateway 라우트의 `Path=/api/cart/**` 조건과 경로를 바꾸는 필터 |
 
 바꾼 경로로 API를 찾으면 합치고, 바꾸기 전 경로는 API 상세에 외부 경로로 남깁니다.
 

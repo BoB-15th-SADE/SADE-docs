@@ -93,7 +93,7 @@ Add filter(필터 추가)로 조건을 더합니다.
 
     2. Calls 열로 정렬해 많이 불린 것부터 봅니다.
 
-    3. 게이트웨이 경로 차이로 생긴 Shadow인지 확인합니다. API 상세의 외부 경로와 [Source Code의 Route maps](../connect/code.md#results)를 봅니다.
+    3. 게이트웨이 경로 차이로 생긴 Shadow인지 확인합니다. API 상세의 외부 경로와 [Source Code의 게이트웨이 경로 탭](../connect/code.md#results)를 봅니다.
 
     4. Undocumented(Spec 누락)도 같은 방식으로 봅니다. 코드에 있는데 명세에 빠진 API입니다.
 

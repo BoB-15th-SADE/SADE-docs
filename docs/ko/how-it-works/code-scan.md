@@ -41,7 +41,7 @@ code-worker가 GitHub 저장소의 커밋 하나를 읽어 API, 서비스 사이
 
 - 경로 상수는 문자열과 단순 `+` 연결까지 계산합니다. 더 복잡한 식은 해석하지 못한 것으로 남깁니다.
 - 외부 라이브러리 타입처럼 소스가 없는 타입은 `unresolved`로 남기고 필드 비교에서 뺍니다.
-- 핸들러 코드를 찾지 못한 API는 Code inventories의 Unresolved handlers에 셉니다.
+- 핸들러 코드를 찾지 못한 API는 Source Code 스캔 결과 탭의 미확인 Handler에 셉니다.
 
 ## 4. 인증 선언
 
@@ -78,7 +78,7 @@ Controller 핸들러에서 시작해 Service 메서드를 따라가며 HTTP 호�
 - `${DB_URL}` 같은 식은 선언일 뿐 실제 호스트로 보지 않습니다. 기본값(`${KEY:default}`)은 후보로만 둡니다.
 - 대상 서비스 코드가 같은 스캔에 없으면 내부 연결을 만들지 않고 외부 목적지로 둡니다.
 
-## 6. 게이트웨이 경로 (Route maps)
+## 6. 게이트웨이 경로
 
 | 게이트웨이 | 읽는 설정 |
 |---|---|
@@ -87,7 +87,7 @@ Controller 핸들러에서 시작해 Service 메서드를 따라가며 HTTP 호�
 
 - 경로 조건과 바꾸기 규칙을 해석한 라우트는 바깥 경로를 서비스 API에 연결하는 근거가 됩니다. [API 식별](api-identity.md)의 5단계에서 씁니다.
 - 경로 조건이 여러 개이거나 해석하지 못하면 이슈(`GATEWAY_MATCH_UNRESOLVED`)로 남기고 추측하지 않습니다.
-- 필터가 본문을 바꾸는지는 아직 분석하지 않습니다. Route maps에 "Body forwarding not analyzed"로 표시합니다.
+- 필터가 본문을 바꾸는지는 아직 분석하지 않습니다. Source Code의 게이트웨이 경로 탭에 "본문 전달 미분석"으로 표시합니다.
 
 ## 7. DB 접근
 
@@ -109,7 +109,7 @@ Controller 핸들러에서 시작해 Service 메서드를 따라가며 HTTP 호�
 |---|---|
 | 코드 인벤토리 | API, 필드, 핸들러 위치, 인증 선언 |
 | 코드 흐름 | 서비스, DB, 외부 HTTP 목적지 노드와 호출, 라우트, DB 접근 선. 선마다 파일과 줄 근거 |
-| 서비스별 OpenAPI 3.1 | Specifications의 Generated from Code. `info.title`은 서비스 이름 |
+| 서비스별 OpenAPI 3.1 | Specifications의 코드에서 만든 명세 탭. `info.title`은 서비스 이름 |
 
 | 상태 | 뜻 | 이어지는 일 |
 |---|---|---|

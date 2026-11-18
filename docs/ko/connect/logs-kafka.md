@@ -6,15 +6,15 @@ SADE는 토픽을 읽기만 하고 쓰지 않습니다. 연결 뒤에는 새 메
 
 <div class="sade-slides sade-walk" markdown>
 
-<div class="sade-slide" markdown data-title="Kafka 연결 열기" data-spot="58.72,90.83,5.43,3.56" data-url="/#/logs">
+<div class="sade-slide" markdown data-title="Kafka 연결 열기" data-spot="88.95,33.74,5.48,3.78" data-url="/#/logs">
 
-<p class="sade-say">Connect > Log Sources에서 Kafka 카드의 Connect를 누릅니다.</p>
+<p class="sade-say">Connect > Log Sources의 소스 추가 탭에서 Kafka 줄의 연결하기를 누릅니다.</p>
 
 [![Kafka 연결 열기](../../assets/screens/w-kafka-1.png){ loading=lazy }](../../assets/screens/w-kafka-1.png)
 
 </div>
 
-<div class="sade-slide" markdown data-title="브로커 주소" data-spot="19.03,25.77,76.18,3.56" data-url="/#/kafka">
+<div class="sade-slide" markdown data-title="브로커 주소" data-spot="19.81,31.28,74.62,3.78" data-url="/#/kafka">
 
 <p class="sade-say">부트스트랩 서버에 브로커 주소를 쉼표로 이어 넣습니다. 보안 방식과 인증 정보도 넣습니다.</p>
 
@@ -22,7 +22,7 @@ SADE는 토픽을 읽기만 하고 쓰지 않습니다. 연결 뒤에는 새 메
 
 </div>
 
-<div class="sade-slide" markdown data-title="연결 확인" data-spot="19.03,60.54,5.14,3.56" data-url="/#/kafka">
+<div class="sade-slide" markdown data-title="연결 확인" data-spot="19.81,68.43,5.5,3.78" data-url="/#/kafka">
 
 <p class="sade-say">연결 확인을 누릅니다.</p>
 
@@ -30,7 +30,7 @@ SADE는 토픽을 읽기만 하고 쓰지 않습니다. 연결 뒤에는 새 메
 
 </div>
 
-<div class="sade-slide" markdown data-title="토픽 고르기" data-spot="19.1,81.78,76.04,4.01" data-url="/#/kafka">
+<div class="sade-slide" markdown data-title="토픽 고르기" data-spot="19.88,91.33,74.48,4.28" data-url="/#/kafka">
 
 <p class="sade-say">브로커가 연결되면 토픽 목록이 나옵니다. 읽을 토픽을 체크합니다.</p>
 
@@ -38,7 +38,7 @@ SADE는 토픽을 읽기만 하고 쓰지 않습니다. 연결 뒤에는 새 메
 
 </div>
 
-<div class="sade-slide" markdown data-title="샘플 받기" data-spot="86.6,90.88,8.61,3.56" data-url="/#/kafka">
+<div class="sade-slide" markdown data-title="샘플 받기" data-spot="85.2,89.86,9.23,3.78" data-url="/#/kafka">
 
 <p class="sade-say">연결하고 샘플 받기를 누릅니다.</p>
 
@@ -46,7 +46,7 @@ SADE는 토픽을 읽기만 하고 쓰지 않습니다. 연결 뒤에는 새 메
 
 </div>
 
-<div class="sade-slide" markdown data-title="샘플 확인" data-spot="85.12,74.87,10.09,3.56" data-url="/#/kafka">
+<div class="sade-slide" markdown data-title="샘플 확인" data-spot="83.61,75.95,10.82,3.78" data-url="/#/kafka">
 
 <p class="sade-say">받은 메시지를 확인하고 필드 매핑을 누릅니다.</p>
 
@@ -54,47 +54,47 @@ SADE는 토픽을 읽기만 하고 쓰지 않습니다. 연결 뒤에는 새 메
 
 </div>
 
-<div class="sade-slide" markdown data-title="매핑 확인" data-spot="41.22,46.32,25.71,3.56" data-url="/#/kafka">
+<div class="sade-slide" markdown data-title="매핑 확인" data-spot="19.81,38.07,74.62,23.22" data-url="/#/kafka">
 
-<p class="sade-say">메시지 키가 SADE 필드에 맞게 추천됐는지 확인합니다. 틀린 칸은 다른 키로 바꿉니다.</p>
+<p class="sade-say">요청 시각, 서비스, 메서드, 경로 네 칸에 추천된 키와 값을 확인합니다. 틀린 칸은 다른 키로 바꿉니다.</p>
 
 [![매핑 확인](../../assets/screens/w-kafka-7.png){ loading=lazy }](../../assets/screens/w-kafka-7.png)
 
 </div>
 
-<div class="sade-slide" markdown data-title="저장 시작" data-spot="86.6,90.84,8.61,3.56" data-url="/#/kafka">
+<div class="sade-slide" markdown data-title="저장 시작" data-spot="85.2,88.53,9.23,3.78" data-url="/#/kafka">
 
-<p class="sade-say">맨 아래 반영하고 저장 시작을 누릅니다.</p>
+<p class="sade-say">반영하고 저장 시작을 누릅니다.</p>
 
 [![저장 시작](../../assets/screens/w-kafka-8.png){ loading=lazy }](../../assets/screens/w-kafka-8.png)
 
 </div>
 
-<div class="sade-slide" markdown data-title="저장 결과 확인" data-spot="87.18,44.83,7.13,3.56" data-url="/#/kafka">
+<div class="sade-slide" markdown data-title="저장 결과 확인" data-spot="67.92,41.7,7.62,3.78" data-url="/#/kafka">
 
-<p class="sade-say">저장된 줄 수가 나오면 저장 결과 확인을 누릅니다.</p>
+<p class="sade-say">저장된 행 수가 나오면 저장 결과 확인을 눌러 저장된 행을 봅니다.</p>
 
 [![저장 결과 확인](../../assets/screens/w-kafka-9.png){ loading=lazy }](../../assets/screens/w-kafka-9.png)
 
 </div>
 
-<div class="sade-slide" markdown data-title="저장된 줄 확인" data-spot="74.65,87.5,5.14,3.56" data-url="/#/kafka">
+<div class="sade-slide" markdown data-title="저장된 줄 확인" data-spot="74.21,87.19,5.5,3.78" data-url="/#/kafka">
 
-<p class="sade-say">값이 맞는 필드에 들어갔는지 보고 확인 완료를 누릅니다.</p>
+<p class="sade-say">값이 맞는 필드에 들어갔으면 확인 완료를 누릅니다.</p>
 
 [![저장된 줄 확인](../../assets/screens/w-kafka-10.png){ loading=lazy }](../../assets/screens/w-kafka-10.png)
 
 </div>
 
-<div class="sade-slide" markdown data-title="반영" data-spot="83.33,51.16,11.88,3.56" data-url="/#/kafka">
+<div class="sade-slide" markdown data-title="분석 시작" data-spot="88.93,32.93,5.5,3.78" data-url="/#/kafka">
 
-<p class="sade-say">Inventory와 Flows에 반영을 누릅니다.</p>
+<p class="sade-say">분석 시작을 누릅니다.</p>
 
-[![반영](../../assets/screens/w-kafka-11.png){ loading=lazy }](../../assets/screens/w-kafka-11.png)
+[![분석 시작](../../assets/screens/w-kafka-11.png){ loading=lazy }](../../assets/screens/w-kafka-11.png)
 
 </div>
 
-<div class="sade-slide" markdown data-title="결과 보기" data-spot="87.67,84.82,7.54,3.56" data-url="/#/kafka">
+<div class="sade-slide" markdown data-title="결과 보기" data-spot="86.35,95.27,8.08,3.78" data-url="/#/kafka">
 
 <p class="sade-say">찾은 API를 확인하고 Inventory 열기로 목록을 엽니다.</p>
 
@@ -145,33 +145,34 @@ SADE는 컨슈머 그룹(기본 `sade`) 외에 `<그룹>-preview-…`(샘플용)
 
 <div class="sade-steps" markdown>
 
-1. Connect > Log Sources에서 Kafka 카드의 Connect를 누릅니다.
+1. Connect > Log Sources의 소스 추가 탭에서 Kafka 줄의 연결하기를 누릅니다.
 
-2. Bootstrap servers(부트스트랩 서버)에 브로커 주소를 쉼표로 이어 넣습니다. 예: `kafka1.corp.example:9093,kafka2.corp.example:9093`
+2. 부트스트랩 서버에 브로커 주소를 쉼표로 이어 넣습니다. 예: `kafka1.corp.example:9093,kafka2.corp.example:9093`
 
-3. Consumer group(컨슈머 그룹)을 정합니다. 기본은 `sade`입니다.
+3. 컨슈머 그룹을 정합니다. 기본은 `sade`입니다.
 
-4. Security protocol(보안 방식)을 고르고 인증 정보를 넣습니다.
+4. 보안 방식을 고르고 인증 정보를 넣습니다.
 
-    - TLS: 사내 CA 인증서를 넣습니다.
-    - mTLS: 클라이언트 인증서와 키를 함께 넣습니다. 키가 암호화돼 있으면 키 비밀번호도 넣습니다.
-    - SASL: 방식(PLAIN, SCRAM-SHA-256, SCRAM-SHA-512), 계정 이름(SASL user name), 비밀번호를 넣습니다.
+    | 보안 방식 | 넣을 것 |
+    |---|---|
+    | 평문 (TLS, SASL 없음) | 없음 |
+    | TLS | CA 인증서 (PEM). mTLS면 클라이언트 인증서와 키, 키가 암호화돼 있으면 클라이언트 키 비밀번호 |
+    | SASL (TLS 없음) | SASL 방식(PLAIN, SCRAM-SHA-256, SCRAM-SHA-512), SASL 사용자 이름, SASL 비밀번호 |
+    | SASL + TLS | 위 SASL 정보와 CA 인증서 |
 
-5. Check connection(연결 확인)을 누릅니다. 브로커마다 연결 결과가 나오고, 연결되면 토픽 목록이 나옵니다. 내부 토픽은 숨깁니다.
+5. 연결 확인을 누릅니다. 브로커마다 연결 결과가 나오고, 연결되면 토픽 목록이 나옵니다. 내부 토픽은 숨깁니다.
 
-6. 읽을 토픽을 체크합니다. 파티션 수, 보관 중인 메시지 수, 가장 오래된 메시지 시각이 함께 나옵니다.
+6. 읽을 토픽을 체크합니다. 파티션 수, 보관 중인 메시지 수가 나오고, 체크하면 가장 오래된 메시지 시각도 나옵니다.
 
-7. 필요하면 기간(Period start, Period end)을 정합니다.
+7. 필요하면 기간 (한국 시간)을 정합니다. 비우면 제한 없이 저장합니다.
 
-8. 시간대를 고릅니다. 토픽마다 시간대가 다르면 토픽별로 정합니다.
+8. 로그 시간대를 고릅니다. 토픽마다 시간대가 다르면 일부 토픽은 다른 시간대로 읽기에서 토픽별로 정합니다.
 
-9. 토픽 하나에 한 서비스의 로그만 있으면 Service name per topic(토픽별 서비스 이름)을 넣습니다. 메시지에 서비스 필드가 없을 때 씁니다.
-
-10. Connect and receive samples(연결하고 샘플 받기)를 누릅니다.
+9. 맨 아래 연결하고 샘플 받기를 누릅니다.
 
 </div>
 
-!!! warning "SASL만 쓰는 연결"
+!!! warning "SASL (TLS 없음)"
     TLS 없이 SASL을 쓰면 비밀번호가 암호화되지 않고 갑니다. 기업이 믿는 내부망에서만 씁니다.
 
 인증 정보는 SADE 서버로만 보내고, backend와 Vector만 읽는 `kafka-secrets` 볼륨에 둡니다. 저장한 뒤에는 화면에 다시 보여 주지 않습니다.
@@ -180,48 +181,48 @@ SADE는 컨슈머 그룹(기본 `sade`) 외에 `<그룹>-preview-…`(샘플용)
 
 - 별도 미리보기 그룹으로 읽어서, 본 그룹의 읽은 위치(offset)는 바뀌지 않습니다.
 - 10초마다 최대 50개씩 넘겨 받고, 최근 50개를 보여 줍니다. 이 단계에서는 저장하지 않습니다.
-- 표에 토픽, 파티션, offset, 형식, 메시지 앞부분이 나옵니다.
-- 형식을 읽지 못한 메시지가 섞여 있으면 그 토픽에 실리는 다른 형식의 샘플도 받아 봅니다. More samples로 더 받습니다.
+- 표에 받은 시각, 형식, 토픽과 파티션, offset, 메시지 앞부분이 나옵니다.
+- 형식을 읽지 못한 메시지가 섞여 있으면 그 토픽에 실리는 다른 형식의 샘플도 받아 봅니다.
 - 화면에 오기 전에 Vector가 알려진 민감정보 형식(token, password 같은 키, 이메일, 카드번호, 전화번호, 주민등록번호 형식의 값)을 가립니다.
+- 메시지를 확인했으면 필드 매핑(메시지 n건)을 누릅니다.
 
 메시지가 오지 않으면 토픽에 메시지가 있는지, 브로커가 SADE 서버에서 닿는지 확인합니다.
 
 ## 3. 필드 매핑
 
-Map fields(필드 매핑)를 누르면 받은 메시지의 키 목록(Keys in the received messages)에서 SADE 필드에 맞는 키를 고릅니다. 화면 구성은 [syslog](logs-syslog.md)와 같습니다.
+받은 메시지의 키 목록에서 SADE 항목에 맞는 키를 고릅니다. 화면 구성은 [CSV 열 지정](logs-csv.md#mapping)과 같습니다.
 
-- Filebeat, Fluent Bit, Logstash가 감싼 메시지는 안쪽 `message`, `log`를 자동으로 읽습니다(Read automatically from).
-- 키 이름이 기업마다 다르면 고르기만 합니다. 예: `req.uri` → `url.path`, `src_ip` → `client.ip`
-- 다 고르면 Apply and start storing(반영하고 저장 시작)을 누릅니다. 이때부터 본 그룹으로 읽고 저장합니다.
+- Filebeat, Fluent Bit, Logstash가 감싼 메시지는 안쪽 `message`, `log`를 자동으로 읽습니다.
+- 키 이름이 기업마다 다르면 고르기만 합니다. 예: `req.uri` → 경로, `src_ip` → 호출한 쪽 IP
+- 토픽 하나에 한 서비스의 로그만 있으면 아래 토픽별 서비스 이름에 넣습니다. 메시지의 서비스 키보다 먼저 씁니다. 비우면 고른 키, 그것도 없으면 토픽 이름을 씁니다.
+- 네 칸(요청 시각, 서비스, 메서드, 경로) 중 빈 칸이 있으면 저장하지 않고 그 칸을 표시합니다.
+- 다 고르면 반영하고 저장 시작을 누릅니다. 이때부터 본 그룹으로 읽고 저장합니다.
 
-## 4. 저장 결과 확인
+## 4. 완료
 
 <div class="sade-steps" markdown>
 
-1. 매핑을 적용한 뒤 저장된 줄 수가 나옵니다.
+1. 매핑을 적용한 뒤 "n행 저장됨"이 나옵니다.
 
-2. 저장 결과 확인(Check stored rows)을 눌러 저장된 줄을 열고, 값이 맞는 필드에 들어갔는지 봅니다.
+2. 저장 결과 확인을 눌러 저장된 행을 열고, 값이 맞는 필드에 들어갔는지 봅니다. 맞으면 확인 완료, 틀렸으면 매핑 수정을 누릅니다.
 
-3. 틀렸으면 매핑으로 돌아가기(Back to mapping), 맞으면 확인 완료를 누릅니다.
+3. 분석 시작을 누릅니다. 끝나면 찾은 API 목록이 나옵니다.
 
 </div>
 
-## 5. 반영
-
-Apply to inventory and flows(Inventory와 Flows에 반영)를 누르면 로그 분석이 시작됩니다. 끝나면 찾은 API 목록이 나옵니다.
-
-연결은 그 뒤에도 유지되고 새 메시지는 계속 저장됩니다. 새로 저장된 로그는 Log Sources에서 Analyze again을 눌러야 분석됩니다.
+연결은 그 뒤에도 유지되고 새 메시지는 계속 저장됩니다. 새로 저장된 로그는 Log Sources 위쪽 로그 분석에서 다시 분석을 눌러야 분석됩니다.
 
 ## 운영 중 상태
 
 | 표시 | 뜻 |
 |---|---|
-| Received, stored, dropped | Vector가 매핑을 읽은 뒤 받은 메시지, 저장한 메시지, 버린 메시지 수 |
-| Lag | 아직 읽지 않은 메시지 수 |
-| Check needed(확인 필요) | 오래 저장하지 못했거나 Kafka가 수집 상태 확인에 답하지 않음 |
-| Recent messages that were not stored | 저장하지 못한 최근 메시지와 이유 |
+| 받음, 저장, 버림 | Vector가 매핑을 읽은 뒤 받은 메시지, 저장한 메시지, 버린 메시지 수 |
+| 밀린 메시지 n개 | 아직 읽지 않은 메시지 수 (연결된 소스 탭) |
+| 확인 필요 | 오래 저장하지 못했거나 Kafka가 수집 상태 확인에 답하지 않음 |
+| 최근에 저장하지 않은 메시지 | 저장하지 못한 최근 메시지와 이유, 해야 할 일 |
 
-연결 설정을 바꾸면 매핑을 다시 적용할 때까지 저장을 멈춥니다.
+- 연결된 소스 탭의 매핑 수정으로 연결 화면을 다시 엽니다. 연결 설정을 바꾸면 매핑을 다시 적용할 때까지 저장을 멈춥니다.
+- 연결 해제는 토픽 읽기를 멈춥니다. 이미 저장한 행과 저장한 매핑은 남습니다.
 
 ??? info "기간을 정했을 때"
 

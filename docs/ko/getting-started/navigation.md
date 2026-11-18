@@ -40,7 +40,7 @@
 
 [![Log Sources](../../assets/screens/logs.png){ loading=lazy }](../../assets/screens/logs.png)
 
-<small>로그 연결과 우선순위 판단에 빠진 자료 (가상 데이터)</small>
+<small>연결된 로그 소스 (가상 데이터)</small>
 
 </div>
 
