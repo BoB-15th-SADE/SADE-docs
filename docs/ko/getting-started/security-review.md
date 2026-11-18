@@ -38,9 +38,9 @@ SADE는 기업 내부망에 설치합니다. 로그 본문의 값, 인증 헤더
 
 ### 지우는 방법
 
-- CSV 업로드 하나: Log Sources > Recent uploads에서 업로드 취소
-- syslog, Kafka로 받은 로그: 소스별 Delete stored rows
-- 코드 스캔 결과: Source Code > Code inventories에서 삭제
+- CSV 업로드 하나: CSV 업로드 화면의 최근 업로드에서 데이터 삭제
+- 소스 하나 전체(CSV, syslog, Kafka): Log Sources 연결된 소스 탭의 저장된 로그 지우기
+- 코드 스캔 결과: Source Code > 스캔 결과 탭에서 선택 항목 삭제
 - 전체: 설치 폴더에서 `docker compose down -v` (모든 데이터 볼륨 삭제, 되돌릴 수 없음)
 
 ## 네트워크

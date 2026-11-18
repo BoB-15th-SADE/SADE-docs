@@ -4,7 +4,7 @@ Connect > Specifications에서 기업이 관리하는 OpenAPI 명세를 등록�
 
 <div class="sade-slides sade-walk" markdown>
 
-<div class="sade-slide" markdown data-title="명세 추가" data-spot="90.14,3.89,6.53,3.56" data-url="/#/specs">
+<div class="sade-slide" markdown data-title="명세 추가" data-spot="89,4.39,6.97,3.78" data-url="/#/specs">
 
 <p class="sade-say">Connect > Specifications에서 명세 추가를 누릅니다.</p>
 
@@ -12,7 +12,7 @@ Connect > Specifications에서 기업이 관리하는 OpenAPI 명세를 등록�
 
 </div>
 
-<div class="sade-slide" markdown data-title="서비스 이름" data-spot="25.07,39.23,49.86,3.56" data-url="/#/specs">
+<div class="sade-slide" markdown data-title="서비스 이름" data-spot="25.16,38.54,49.69,3.78" data-url="/#/specs">
 
 <p class="sade-say">서비스명에 코드 스캔과 같은 서비스 이름을 넣습니다.</p>
 
@@ -20,7 +20,7 @@ Connect > Specifications에서 기업이 관리하는 OpenAPI 명세를 등록�
 
 </div>
 
-<div class="sade-slide" markdown data-title="파일 고르기" data-spot="25.07,52.79,49.86,3.56" data-url="/#/specs">
+<div class="sade-slide" markdown data-title="파일 고르기" data-spot="25.16,52.94,49.69,3.78" data-url="/#/specs">
 
 <p class="sade-say">파일 업로드를 고른 상태에서 OpenAPI JSON 파일을 고릅니다.</p>
 
@@ -28,7 +28,7 @@ Connect > Specifications에서 기업이 관리하는 OpenAPI 명세를 등록�
 
 </div>
 
-<div class="sade-slide" markdown data-title="업로드" data-spot="25.07,67.32,49.86,3.56" data-url="/#/specs">
+<div class="sade-slide" markdown data-title="업로드" data-spot="25.16,68.42,49.69,3.78" data-url="/#/specs">
 
 <p class="sade-say">업로드를 누릅니다. 파일을 고르기 전에는 버튼이 꺼져 있습니다.</p>
 
@@ -37,8 +37,6 @@ Connect > Specifications에서 기업이 관리하는 OpenAPI 명세를 등록�
 </div>
 
 </div>
-
-위쪽 "우선순위 판단에 빠진 자료" 표는 명세가 없어 관리 우선순위를 판단하지 못한 항목과 영향받는 API 수를 보여 줍니다.
 
 ## 명세로 채워지는 것
 
@@ -78,15 +76,15 @@ YAML이나 Swagger 2.0 파일은 공개된 변환 도구(예: `swagger2openapi`,
 
 <div class="sade-steps" markdown>
 
-1. Connect > Specifications에서 Add specification(명세 추가)을 누릅니다.
+1. Connect > Specifications에서 명세 추가를 누릅니다.
 
-2. File upload를 고릅니다.
+2. 파일 업로드를 고릅니다.
 
-3. Service에 서비스 이름을 넣습니다. 코드 스캔을 했다면 Inventory의 Service 열에 나온 이름 그대로 씁니다.
+3. 서비스명에 서비스 이름을 넣습니다. 코드 스캔을 했다면 Inventory의 Service 열에 나온 이름 그대로 씁니다.
 
-4. OpenAPI JSON 파일을 고르고 Upload를 누릅니다.
+4. OpenAPI JSON 파일을 고르고 업로드를 누릅니다.
 
-5. 목록의 Status에서 변환이 끝났는지 봅니다. 끝나면 매핑이 자동으로 다시 돕니다.
+5. 목록의 Status가 변환 완료인지 봅니다. 끝나면 매핑이 자동으로 다시 돕니다.
 
 </div>
 
@@ -102,9 +100,9 @@ YAML이나 Swagger 2.0 파일은 공개된 변환 도구(예: `swagger2openapi`,
     SADE_SPEC_FETCH_ALLOWED_URLS=http://orders:8080/v3/api-docs,http://payments:8080/v3/api-docs
     ```
 
-2. Add specification > From URL을 고릅니다.
+2. 명세 추가에서 URL에서 가져오기를 고릅니다.
 
-3. Service와 허용한 주소를 넣고 Import를 누릅니다.
+3. 서비스명과 허용한 주소(OpenAPI JSON URL)를 넣고 가져오기를 누릅니다.
 
 </div>
 
@@ -116,12 +114,12 @@ YAML이나 Swagger 2.0 파일은 공개된 변환 도구(예: `swagger2openapi`,
 
 | 탭 | 내용 | 출처 표시 |
 |---|---|---|
-| Registered Spec | 직접 올리거나 가져온 명세. 서비스, 버전, 상태, 갱신 시각 | `Spec` |
-| Generated from Code | 코드 스캔이 서비스마다 만든 명세. 저장소, 커밋, 스캔 시각 | `Code` |
+| 등록한 명세 | 직접 올리거나 가져온 명세. 서비스, 버전, 오퍼레이션 수, 상태, 갱신 시각 | `Spec` |
+| 코드에서 만든 명세 | 코드 스캔이 서비스마다 만든 명세. 저장소, 커밋, 스캔 시각 | `Code` |
+| 명세와 코드 차이 | 같은 서비스에 두 명세가 다 있을 때, 한쪽에만 있는 API와 파라미터, 요청과 응답 본문 필드, 성공 응답 코드의 차이 | |
 
 - 두 목록은 서로 덮어쓰지 않습니다.
 - 코드에서 만든 명세는 명세 상태 판정의 기준으로 쓰지 않습니다. 코드에 있는 API가 모두 Documented로 보이는 일을 막기 위해서입니다.
-- 같은 서비스에 두 명세가 다 있으면 Spec vs code에서 차이를 봅니다.
 
 ## 4. 결과 확인
 
@@ -138,5 +136,5 @@ YAML이나 Swagger 2.0 파일은 공개된 변환 도구(예: `swagger2openapi`,
 
 ## 새 버전 올리기
 
-- 같은 서비스의 새 명세는 목록에서 Update Spec으로 올립니다. 최근 명세가 기준이 됩니다.
+- 같은 서비스의 새 명세는 등록한 명세 목록에서 명세 갱신으로 올립니다. 최근 명세가 기준이 됩니다.
 - 명세의 `servers` 경로(예: `http://host/shop`의 `/shop`)는 `paths` 앞에 붙여 비교합니다. 코드의 context path와 맞추기 위해서입니다.

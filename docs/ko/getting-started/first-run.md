@@ -20,27 +20,27 @@ time,svc,method,path,status,src_ip,host,req_body
 
 <div class="sade-slides" markdown>
 
-<div class="sade-slide" markdown data-title="필드 매핑">
+<div class="sade-slide" markdown data-title="열 지정">
 
-[![필드 매핑](../../assets/screens/csv-map.png){ loading=lazy }](../../assets/screens/csv-map.png)
+[![열 지정](../../assets/screens/w-csv-3.png){ loading=lazy }](../../assets/screens/w-csv-3.png)
 
-<small>샘플 CSV를 올린 직후 자동으로 맞춘 매핑</small>
-
-</div>
-
-<div class="sade-slide" markdown data-title="저장된 줄 확인">
-
-[![저장된 줄 확인](../../assets/screens/csv-stored.png){ loading=lazy }](../../assets/screens/csv-stored.png)
-
-<small>저장된 줄 확인 창</small>
+<small>샘플 CSV를 올린 직후 추천된 열</small>
 
 </div>
 
-<div class="sade-slide" markdown data-title="반영">
+<div class="sade-slide" markdown data-title="완료">
 
-[![반영](../../assets/screens/csv-apply.png){ loading=lazy }](../../assets/screens/csv-apply.png)
+[![완료](../../assets/screens/w-csv-6.png){ loading=lazy }](../../assets/screens/w-csv-6.png)
 
-<small>반영이 끝난 화면</small>
+<small>저장된 행 수와 분석 시작</small>
+
+</div>
+
+<div class="sade-slide" markdown data-title="결과">
+
+[![결과](../../assets/screens/w-csv-7.png){ loading=lazy }](../../assets/screens/w-csv-7.png)
+
+<small>분석이 끝난 화면</small>
 
 </div>
 
@@ -52,51 +52,43 @@ time,svc,method,path,status,src_ip,host,req_body
 
 1. 왼쪽 메뉴에서 Connect > Log Sources를 엽니다.
 
-2. CSV 카드의 Upload CSV(CSV 업로드)를 누릅니다.
+2. 소스 추가 탭에서 CSV 파일 줄의 CSV 업로드를 누릅니다.
 
-3. Choose CSV files(CSV 파일 선택)로 샘플 파일을 고릅니다.
+3. CSV 파일 선택으로 샘플 파일을 고릅니다.
 
-    화면 위에 단계 표시가 나옵니다: 업로드 → 필드 매핑 → 저장 결과 확인 → 반영
+    화면 위에 단계 표시가 나옵니다: 파일 선택 → 열 지정 → 완료
 
 </div>
 
-## 2. 필드 매핑
+## 2. 열 지정
 
-SADE가 열 이름을 보고 필드를 추천합니다. 추천이 비었거나 다르면 아래처럼 고릅니다.
+SADE가 열 이름을 보고 열을 추천합니다. 추천이 비었거나 다르면 아래처럼 고릅니다.
 
-| 샘플 열 | SADE 필드 | 쓰임 |
-|---|---|---|
-| `time` | `@timestamp` | 호출 시각 |
-| `svc` | `service.name` | 서비스 이름 |
-| `method` | `http.request.method` | 메서드 |
-| `path` | `url.path` | 경로 |
-| `status` | `http.response.status_code` | 응답 코드 |
-| `src_ip` | `client.ip` | 출발지 IP. 접근 범위(Public, Internal) 판정 |
-| `host` | `host.name` | 서버 이름 |
-| `req_body` | `http.request.body.content` | 요청 본문. 민감정보 탐지 |
+| 샘플 열 | 화면 이름 | 로그 필드 | 쓰임 |
+|---|---|---|---|
+| `time` | 요청 시각 | `@timestamp` | 호출 시각 |
+| `svc` | 서비스 | `service.name` | 서비스 이름 |
+| `method` | 메서드 | `http.request.method` | 메서드 |
+| `path` | 경로 | `url.path` | 경로 |
+| `status` | 응답 코드 | `http.response.status_code` | 응답 코드 |
+| `src_ip` | 호출한 쪽 IP | `client.ip` | 접근 범위(Public, Internal) 판정 |
+| `host` | 서버 | `host.name` | 서버 이름 |
+| `req_body` | 요청 본문 | `http.request.body.content` | 민감정보 탐지 |
 
-- 파란색으로 표시된 칸이 아직 채우지 않은 필드입니다.
-- `service.name`, `http.request.method`, `url.path` 세 칸은 꼭 채웁니다. 비어 있으면 API 목록이 비거나 모자랄 수 있습니다.
-- 다 고르면 Send to Vector(로그 저장)를 누릅니다.
+- 위쪽 네 칸(요청 시각, 서비스, 메서드, 경로)은 꼭 채웁니다. 비어 있으면 저장하지 않습니다.
+- 나머지는 더 정확하게 보기를 펼쳐 고릅니다. 고르지 않은 칸은 "선택 안 함"으로 둡니다.
+- 다 고르면 저장하고 다음을 누릅니다.
 
-## 3. 저장 결과 확인
+## 3. 완료
 
-파일별로 저장한 줄, 이미 저장된 줄, 버린 줄 수가 나옵니다. 저장된 줄 하나를 열어 각 필드에 맞는 값이 들어갔는지 봅니다.
+"15행 저장됨"처럼 저장된 행 수가 나옵니다. 분석 시작을 누릅니다.
 
-- 본문은 값이 타입으로 바뀌어 저장됩니다. 예: `{"email":"<string>","phone":"<string>"}`
-- 값이 엉뚱한 필드에 들어갔으면 Fix mapping(매핑 수정)으로 돌아갑니다.
-- 맞으면 Looks right(확인 완료)를 누릅니다.
+로그 분석과 매핑이 이어서 돌고, 끝나면 찾은 API 목록이 나옵니다. 진행 중에는 이전 결과가 그대로 보입니다.
 
 !!! note "샘플 날짜와 보관 기간"
-    보관 기간(기본 30일)보다 오래된 줄은 저장하지 않고 "보관 기간보다 오래돼 버림"으로 셉니다. 샘플 날짜가 오래됐다면 `time` 열의 날짜를 오늘 근처로 바꿔 올립니다.
+    보관 기간(기본 30일)보다 오래된 행은 저장하지 않고 "보관 기간 초과로 저장 제외"로 셉니다. 샘플 날짜가 오래됐다면 `time` 열의 날짜를 오늘 근처로 바꿔 올립니다.
 
-## 4. 반영
-
-Apply to inventory and flows(Inventory와 Flows에 반영)를 누릅니다.
-
-로그 분석과 매핑이 이어서 돌고, 끝나면 화면이 바뀝니다. 진행 중에는 이전 결과가 그대로 보입니다.
-
-## 5. 결과 보기
+## 4. 결과 보기
 
 <div class="sade-steps" markdown>
 

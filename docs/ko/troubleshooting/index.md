@@ -34,7 +34,7 @@
 
 ??? question "API가 하나도 나오지 않음"
 
-    지원 언어는 Java Spring Boot입니다. Code inventories의 Issues와 Unresolved handlers를 확인합니다.
+    지원 언어는 Java Spring Boot입니다. Source Code 스캔 결과 탭의 이슈와 미확인 Handler를 확인합니다.
 
 ??? question "같은 서비스가 두 개로 보임"
 
@@ -52,7 +52,7 @@
 
 ??? question "로그를 넣었는데 Inventory가 그대로임"
 
-    저장만 하고 분석하지 않은 상태입니다. Log Sources에서 Analyze again이나 Apply를 누릅니다.
+    저장만 하고 분석하지 않은 상태입니다. 연결 화면 완료 단계의 분석 시작이나, Log Sources 로그 분석의 다시 분석을 누릅니다.
 
 ??? question "API에 들어가지 않은 줄이 많음"
 
