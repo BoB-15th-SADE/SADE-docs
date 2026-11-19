@@ -7,7 +7,8 @@
 | 프로그램 | Docker Engine과 Docker Compose v2, 또는 Docker Desktop(Linux 컨테이너 모드) |
 | 이미지 | `linux/amd64` |
 | 포트 | 대시보드 HTTPS 443(변경 가능), syslog 수신 6514(TLS) |
-| 인터넷 | 처음 이미지를 받을 때 필요합니다. 실행 중에는 직접 연결한 GitHub, Kafka, 허용한 명세 주소에만 접속합니다 |
+| 인터넷 | 처음 이미지를 받을 때 필요합니다. 실행 중에는 직접 연결한 GitHub, Kafka, 허용한 명세 주소, AI 모델 제공자(SADE AI를 쓸 때)에만 접속합니다 |
+| 분석할 서비스 | 코드 분석은 Java Spring Boot만 지원합니다. 다른 언어의 서비스는 OpenAPI 명세와 로그로 결과를 봅니다. [현재 지원 범위](../index.md#support) |
 
 !!! warning "로그인 기능이 없습니다"
     현재 버전에는 로그인과 이용자별 권한이 없습니다.

@@ -4,6 +4,11 @@ Connect > Source Code에서 GitHub 저장소를 연결해 스캔합니다.
 
 코드 스캔은 Java Spring Boot 서비스를 읽습니다. 코드는 읽기만 하고 저장소에 쓰지 않습니다.
 
+!!! note "지원 범위"
+    Java Spring Boot만 지원합니다. `@RestController`, `@Controller` 클래스에서 `@GetMapping`, `@PostMapping` 같은 어노테이션으로 선언한 API를 찾습니다.
+
+    Kotlin, Node.js, Python, Go 같은 다른 언어와 Spring WebFlux 함수형 라우터는 아직 읽지 못합니다. 이런 서비스는 [OpenAPI 명세](specs.md)와 [로그](logs.md)로 연결합니다.
+
 <div class="sade-slides sade-walk" markdown>
 
 <div class="sade-slide" markdown data-title="연결 추가" data-spot="88.7,20.77,5.73,3.78" data-url="/#/code">
@@ -191,7 +196,7 @@ Connect > Source Code에서 GitHub 저장소를 연결해 스캔합니다.
 
 ## 제한
 
-- 지원 언어는 Java Spring Boot입니다.
+- 지원 언어는 Java Spring Boot입니다. `src/main/java` 아래 `.java` 파일만 읽습니다. Kotlin 파일(`.kt`)은 읽지 않습니다.
 - 서비스 주소는 Spring 설정과 docker compose 설정에서 찾습니다. Kubernetes, Helm 설정은 읽지 않습니다.
 - 실행 중에 정해지는 주소(환경 변수, 설정 서버)로 부르는 호출은 대상을 확정하지 못하고 미확인으로 남습니다.
 - 인증 선언은 코드에 적힌 선언입니다. 요청이 실제로 막히는지는 확인하지 않습니다.
