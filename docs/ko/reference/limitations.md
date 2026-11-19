@@ -4,7 +4,7 @@
 
 | 입력 | 지원 | 미지원 |
 |---|---|---|
-| 소스 코드 | GitHub.com, Enterprise Cloud, Enterprise Server의 Java Spring Boot | 다른 언어와 프레임워크, GitLab, Bitbucket, 폴더 업로드 |
+| 소스 코드 | GitHub.com, Enterprise Cloud, Enterprise Server의 Java Spring Boot. 어노테이션으로 선언한 API | Kotlin 등 다른 언어와 프레임워크, Spring WebFlux 함수형 라우터, GitLab, Bitbucket, 폴더 업로드 |
 | 서비스 주소 해석 | docker compose 설정 | Kubernetes, Helm 설정 |
 | 명세 | OpenAPI 3.0, 3.1 JSON, 2 MiB 이하. 파일 업로드, 허용한 내부 주소 | YAML, Swagger 2.0, 외부 `$ref` |
 | 로그 | CSV(5개, 파일당 200 MB), syslog TLS(RFC 5424, 3164), 내부망 평문 syslog, Kafka(JSON, nginx, Apache, 수집기가 감싼 메시지) | Splunk 같은 SIEM 직접 연동, Kafka Avro, Protobuf, Kerberos, OAUTHBEARER |

@@ -38,11 +38,25 @@ SADE는 기업 내부망에 Docker 컨테이너로 설치합니다. 이미 있�
 
 | 입력 | 받는 방법 | 알 수 있는 것 |
 |---|---|---|
-| 소스 코드 | GitHub 저장소 스캔 (GitHub.com, Enterprise Cloud, Enterprise Server) | 코드에 선언된 API와 위치, 인증 선언, 서비스 사이 호출, DB 접근, 게이트웨이 경로 규칙 |
+| 소스 코드 | GitHub 저장소 스캔 (GitHub.com, Enterprise Cloud, Enterprise Server). Java Spring Boot만 지원 | 코드에 선언된 API와 위치, 인증 선언, 서비스 사이 호출, DB 접근, 게이트웨이 경로 규칙 |
 | 명세 | OpenAPI 3.0, 3.1 JSON 업로드, 내부 주소에서 가져오기 | 문서로 관리하는 API와 필드 |
 | 로그 | CSV 업로드, syslog(TLS) 수신, Kafka 구독 | 실제 호출된 API, 호출 수, 호출한 주소, 서비스 사이 흐름 |
 
 입력 하나만 있어도 결과가 나옵니다. API마다 확인한 입력을 `Code`, `Spec`, `Log`로 표시합니다.
+
+## 현재 지원 범위 {#support}
+
+| 구분 | 지원 | 아직 지원하지 않음 |
+|---|---|---|
+| 코드 분석 | Java Spring Boot. `@RestController`, `@GetMapping` 같은 어노테이션으로 선언한 HTTP API | Kotlin, Node.js, Python, Go 등 다른 언어. Spring WebFlux 함수형 라우터 |
+| 코드 저장소 | GitHub.com, GitHub Enterprise Cloud, Enterprise Server | GitLab, Bitbucket, 폴더 업로드 |
+| 명세 | OpenAPI 3.0, 3.1 JSON | YAML, Swagger 2.0 |
+| 로그 | CSV 업로드, syslog, Kafka. JSON, nginx, Apache 형식 | SIEM 직접 연동 |
+| API 종류 | HTTP REST API | GraphQL, gRPC, SOAP |
+| 배포 설정 | docker compose | Kubernetes, Helm |
+
+- Spring Boot가 아닌 서비스도 OpenAPI 명세와 로그를 넣으면 API 목록, 호출 흐름, 관리 우선순위를 볼 수 있습니다. 코드에서만 알 수 있는 인증 선언, 핸들러 위치, 담당자 후보는 비어 있습니다.
+- 자세한 한도는 [지원 범위와 제한](reference/limitations.md)에 있습니다.
 
 ## 결과를 읽을 때
 
