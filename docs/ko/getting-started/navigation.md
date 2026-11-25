@@ -16,7 +16,7 @@
 
 [![Inventory](../../assets/screens/inventory.png){ loading=lazy }](../../assets/screens/inventory.png)
 
-<small>등급별 타일과 전체 API 목록 (가상 데이터)</small>
+<small>등급별 타일, 늘 나오는 필터, 전체 API 목록 (가상 데이터)</small>
 
 </div>
 
@@ -24,7 +24,7 @@
 
 [![API 상세](../../assets/screens/api-overview.png){ loading=lazy }](../../assets/screens/api-overview.png)
 
-<small>요약, 필드, 우선순위 근거, 점검 결과 탭 (가상 데이터)</small>
+<small>요약, 필드, 우선순위 근거 탭 (가상 데이터)</small>
 
 </div>
 
@@ -80,7 +80,7 @@
 
 [![SADE AI](../../assets/screens/assessments.png){ loading=lazy }](../../assets/screens/assessments.png)
 
-<small>AI 모델로 프레임워크 기준 점검 (가상 데이터)</small>
+<small>프레임워크 점검 103개의 판정 결과 (가상 데이터)</small>
 
 </div>
 
@@ -93,13 +93,15 @@
 | | [Specifications](../connect/specs.md) | OpenAPI 명세 등록, 코드에서 만든 명세 |
 | | [Source Code](../connect/code.md) | GitHub 저장소 스캔, 코드 인벤토리, 라우트 맵 |
 | APIs | [Inventory](../features/inventory.md) | 전체 API 목록과 필터 |
-| | [Flows](../features/flows.md) | 서비스, DB, 외부 목적지 연결 지도. [서비스 이름](../policy/access-scope.md#settings) 합치기 |
+| | [Flows](../features/flows.md) | 서비스 맵(서비스, DB, 외부 목적지 연결 지도), API별 흐름(API 하나의 영향 범위). [서비스 이름](../policy/access-scope.md#settings) 합치기 |
 | Rules | [Data Types](../policy/data-types.md) | 민감정보 유형 19개, 탐지 규칙, 기업 규칙 추가 |
 | | [Access Scope](../policy/access-scope.md) | 내부, 협력사 주소 대역과 주소 판정 테스트 |
-| SADE AI | [Assessment](../features/assessments.md) | AI 모델로 고른 API를 프레임워크 기준과 대조 |
-| | [Configuration](../features/assessments.md#config) | 회사 상황, 인프라 문서, 모델 제공자 연결 |
+| SADE AI | [Assessment](../features/assessments.md) | 프레임워크 점검 103개. 15개는 규칙으로 판정, 조치 요청서 복사 |
+| | [Configuration](../features/assessments.md#config) | 회사 상황, 인프라 문서, 채팅에 쓸 모델 연결 |
 
 Inventory에서 API를 누르면 [API 상세](../features/api-details.md)가 열립니다.
+
+모든 화면 오른쪽 아래 SADE 버튼은 [SADE AI 채팅](../features/assessments.md#chat)을 엽니다. 채팅은 화면 오른쪽에 붙고, 본문은 그만큼 비켜 줍니다.
 
 ## 공통 표시
 

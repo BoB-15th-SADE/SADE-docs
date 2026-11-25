@@ -69,7 +69,7 @@ plugins:
             사용 방법: Using SADE
             API 상세: API details
             관리 우선순위: Management priority
-            SADE AI 점검: SADE AI assessments
+            보안 점검과 SADE AI: Framework checks and SADE AI
             규칙과 설정: Rules and settings
             Access Scope와 서비스 이름: Access Scope and Service Names
             더 알아보기: Learn more
@@ -132,7 +132,7 @@ nav:
       - API 상세: features/api-details.md
       - 관리 우선순위: features/priority.md
       - Flows: features/flows.md
-      - SADE AI 점검: features/assessments.md
+      - 보안 점검과 SADE AI: features/assessments.md
       - 규칙과 설정:
           - Data Types: policy/data-types.md
           - Access Scope와 서비스 이름: policy/access-scope.md

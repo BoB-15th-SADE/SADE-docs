@@ -1,6 +1,6 @@
 # SADE
 
-SADE는 기업의 소스 코드, API 명세(OpenAPI), 로그를 합쳐 API 목록(Inventory)과 서비스 사이 호출 흐름(Flows)을 만들고, API마다 관리 우선순위(P1~P4)를 매기는 도구입니다. 보안 담당자는 이 결과로 먼저 검토할 API를 고릅니다.
+SADE는 기업의 소스 코드, API 명세(OpenAPI), 로그를 합쳐 API 목록(Inventory)과 서비스 사이 호출 흐름(Flows)을 만들고, API마다 관리 우선순위(P1~P4)를 매기는 도구입니다. 보안 담당자는 이 결과로 먼저 검토할 API를 고르고, API 보안 관리 프레임워크의 점검 기준에 걸린 API를 담당자에게 넘깁니다.
 
 SADE는 기업 내부망에 Docker 컨테이너로 설치합니다. 이미 있는 자료를 읽어 분석하므로 트래픽 경로에 장비를 두지 않고, API를 호출해 점검하거나 요청을 막지 않습니다.
 
@@ -20,6 +20,8 @@ SADE는 기업 내부망에 Docker 컨테이너로 설치합니다. 이미 있�
 
 [<span class="sade-card-title">관리 우선순위</span><span>P1~P4를 정하는 신호와 규칙</span>](features/priority.md)
 
+[<span class="sade-card-title">보안 점검과 SADE AI</span><span>프레임워크 점검 103개, 조치 요청서, AI 채팅</span>](features/assessments.md)
+
 [<span class="sade-card-title">동작 원리</span><span>API 식별, 로그 처리, 코드 스캔, 민감정보, 노출 판정</span>](how-it-works/index.md)
 
 </div>
@@ -31,7 +33,9 @@ SADE는 기업 내부망에 Docker 컨테이너로 설치합니다. 이미 있�
 | 기업에 있는 API, 명세에 없는 API | [Inventory](features/inventory.md)의 Shadow, Undocumented 표시 |
 | 먼저 검토할 API | [관리 우선순위](features/priority.md)의 P1~P4와 판정 근거 |
 | 외부에서 호출되는 API, 민감정보를 주고받는 API | [API 상세](features/api-details.md)의 노출, 인증 선언, 민감 유형 |
-| 요청이 지나가는 서비스, DB, 외부 목적지 | [Flows](features/flows.md) |
+| 요청이 지나가는 서비스, DB, 외부 목적지 | [Flows](features/flows.md)의 서비스 맵 |
+| API 하나를 부르는 쪽과 그 API가 닿는 테이블 | [Flows](features/flows.md#api)의 API별 흐름 |
+| 프레임워크 기준에 걸린 API와 조치 요청서 | [Assessment](features/assessments.md) |
 | API를 고칠 담당 후보 | [API 상세](features/api-details.md#owner) 요약의 담당자 (CODEOWNERS) |
 
 ## 입력

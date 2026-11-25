@@ -4,7 +4,9 @@
 
 ??? question "`port is already allocated`"
 
-    443이나 6514를 다른 프로그램이 씁니다. `.env`의 `SADE_HTTPS_PORT`, `SADE_SYSLOG_PORT`를 바꿉니다.
+    8443이나 6514를 다른 프로그램이 씁니다. `.env`의 `SADE_HTTPS_PORT`, `SADE_SYSLOG_PORT`를 바꿉니다.
+
+    `./sade.sh`로 처음 설치하면 다음 빈 포트를 골라 `.env`에 적고 알려 줍니다. 직접 정한 포트가 막혀 있으면 멈추고 어느 포트인지 알려 줍니다.
 
 ??? question "화면은 뜨는데 오류가 남"
 

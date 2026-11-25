@@ -4,11 +4,11 @@
 
 `docker compose up` 한 번에 아래 컨테이너가 뜹니다.
 
-호스트에 포트를 여는 컨테이너는 frontend(443)와 vector(syslog 6514, 켰을 때 평문 1514)입니다. 나머지는 내부 네트워크에서만 닿습니다.
+호스트에 포트를 여는 컨테이너는 frontend(8443)와 vector(syslog 6514, 켰을 때 평문 1514)입니다. 나머지는 내부 네트워크에서만 닿습니다.
 
 | 서비스 | 하는 일 |
 |---|---|
-| frontend | Nginx. 443으로 대시보드를 내주고 `/api/` 요청을 backend로 넘깁니다 |
+| frontend | Nginx. 8443(컨테이너 안에서는 443)으로 대시보드를 내주고 `/api/` 요청을 backend로 넘깁니다 |
 | backend | FastAPI. 화면 API, 연결 설정, 명세 등록, CSV 업로드와 민감 탐지, 결과 조회를 맡습니다. 분석은 하지 않습니다 |
 | code-worker | GitHub 코드를 읽어 API, 서비스 호출, 생성 OpenAPI를 만들고 민감 유형을 판정합니다 |
 | analysis-worker | ClickHouse 로그를 API별로 집계합니다. 매퍼가 코드, 명세, 로그를 합쳐 Inventory, Flows, 관리 우선순위를 만듭니다 |
@@ -53,11 +53,11 @@ syslog, Kafka ─────────────▶ vector ─┤   Postgre
 
 ## 설정 {#settings}
 
-`.env`에서 바꾸고 `docker compose up -d`로 다시 시작합니다.
+`.env`에서 바꾸고 `./sade.sh`(Windows는 `.\sade.cmd`)나 `docker compose up -d`로 다시 시작합니다.
 
 | 이름 | 기본 | 뜻 |
 |---|---|---|
-| `SADE_HTTPS_BIND`, `SADE_HTTPS_PORT` | `127.0.0.1`, `443` | 대시보드 주소와 포트. 다른 PC에서 열려면 `0.0.0.0` 등으로 바꿉니다 |
+| `SADE_HTTPS_BIND`, `SADE_HTTPS_PORT` | `127.0.0.1`, `8443` | 대시보드 주소와 포트. 다른 PC에서 열려면 `0.0.0.0` 등으로 바꿉니다. 포트를 `443`으로 바꾸면 주소에 포트 없이 접속합니다 |
 | `SADE_SYSLOG_HOST` | `localhost` | 다른 서버가 syslog를 보낼 이 서버의 이름이나 IP. 인증서 이름이 됩니다 |
 | `SADE_SYSLOG_PORT` | `6514` | TLS syslog 포트 |
 | `SADE_SYSLOG_PLAIN_BIND`, `SADE_SYSLOG_PLAIN_PORT` | `127.0.0.1`, `1514` | 평문 syslog 주소와 포트 |

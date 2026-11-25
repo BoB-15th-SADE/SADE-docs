@@ -9,7 +9,7 @@
 <div markdown><span class="sade-pipe-title">4. 근거 확인</span>API 상세</div>
 <div markdown><span class="sade-pipe-title">5. 빈칸 채우기</span>빠진 자료</div>
 <div markdown><span class="sade-pipe-title">6. 경로 보기</span>Flows</div>
-<div class="is-key" markdown><span class="sade-pipe-title">7. 넘기기</span>Excel, 담당 후보</div>
+<div class="is-key" markdown><span class="sade-pipe-title">7. 넘기기</span>조치 요청서, Excel</div>
 </div>
 
 ## 1. 자료 연결
@@ -42,7 +42,7 @@
 
 <div class="sade-steps" markdown>
 
-1. Add filter(필터 추가) > 관리 우선순위에서 P1, P2를 고릅니다.
+1. 위의 P1 칸이나 P2 칸을 누릅니다. 둘 다 보려면 필터 더 보기 > 관리 우선순위에서 P1, P2를 고릅니다.
 
 2. 같은 등급 안에서는 Access Scope가 Public인 API, 민감 유형이 있는 API를 먼저 봅니다.
 
@@ -61,7 +61,6 @@ API를 누르고 패널의 전체 화면 아이콘을 누릅니다. [API 상세]
 | 요약 | 등급과 판정 이유, 접근 범위 근거, 확인할 점. 기본 정보의 담당자, 핸들러 파일, 접근 규칙 |
 | 필드 | 요청, 응답 필드와 출처. 민감정보 필드 |
 | 우선순위 근거 | 확인된 신호와 근거, 확인하지 못한 신호와 필요한 자료 |
-| 점검 결과 | SADE AI 점검을 했다면 그 의견 |
 
 신호 하나하나의 근거가 맞는지 확인합니다.
 
@@ -86,11 +85,11 @@ API를 누르고 패널의 전체 화면 아이콘을 누릅니다. [API 상세]
 
 <div class="sade-steps" markdown>
 
-1. API 상세에서 흐름에서 보기를 누릅니다.
+1. Inventory 패널에서 흐름에서 보기를 누릅니다. [API별 흐름](../features/flows.md#api)에서 그 API의 영향 범위가 열립니다.
 
-2. 서비스를 누르고 연결 보기로 그 서비스 주변만 남깁니다. 깊이를 1에서 2로 늘려 가며 봅니다.
+2. 유입 경로와 연계 대상에서 이 API를 부르는 쪽, 이 API가 닿는 테이블과 민감정보를 봅니다.
 
-3. 민감정보 노출 경로를 켜고 민감 서비스에서 외부 목적지나 DB로 가는 선을 확인합니다.
+3. 서비스 맵에서 민감정보 노출 경로를 켜고 민감 서비스에서 외부 목적지나 DB로 가는 선을 확인합니다.
 
 </div>
 
@@ -105,12 +104,13 @@ API를 누르고 패널의 전체 화면 아이콘을 누릅니다. [API 상세]
 | 연결한 자료 | 코드 저장소, 등록한 명세, 로그 소스 |
 | 미평가 API 수 | Overview의 우선순위 분포 |
 
+- [Assessment](../features/assessments.md)에서 취약 점검을 열고, 넣을 API를 체크해 조치 요청서를 복사합니다. 문제, API별 근거, 법령 근거, 조치 방법이 들어 있습니다.
 - Inventory에서 필터를 건 상태로 엑셀 내려받기를 누릅니다. 등급별 시트, 판정 이유, 빠진 자료가 함께 내려옵니다.
 - API 상세 요약의 담당자(CODEOWNERS 후보)로 담당 팀을 찾습니다. 맞지 않으면 담당자 변경으로 고칩니다.
-- [SADE AI 점검](../features/assessments.md)을 썼다면 조치 복사로 담당자에게 보낼 글을 만듭니다.
+- 조치 방법이 회사 환경에 맞는지 궁금하면 점검의 AI에게 묻기로 [SADE AI 채팅](../features/assessments.md#chat)에 묻습니다.
 - 다음 점검 때 같은 필터로 다시 내려받아 등급 변화를 비교합니다.
 
 !!! note "SADE가 판정하지 않는 것"
     관리 우선순위는 검토 순서입니다.
 
-    취약점 여부와 법 위반 여부는 담당자 확인과 별도 점검으로 판단합니다. [SADE AI 점검](../features/assessments.md) 결과도 검토 의견입니다.
+    [점검](../features/assessments.md)의 취약은 수집한 자료로 본 판정 기준 미충족입니다. 취약점 여부와 법 위반 여부는 담당자 확인과 별도 점검으로 판단합니다. SADE AI 채팅의 답도 참고 의견입니다.
