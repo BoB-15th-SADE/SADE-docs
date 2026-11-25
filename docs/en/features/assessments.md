@@ -1,4 +1,4 @@
-# Framework assessments
+# Framework checks and SADE AI
 
 !!! info "English translation in progress"
     The documentation was rewritten for SADE `f512bc0` (2026-11-16), which adds management priority (P1-P4).

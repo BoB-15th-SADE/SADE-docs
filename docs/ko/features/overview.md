@@ -11,7 +11,7 @@ Overview는 마지막으로 끝난 분석 결과를 요약합니다.
 
 | 영역 | 내용 | 누르면 |
 |---|---|---|
-| Assessments Score | 지금은 점수를 계산하지 않아 "미점검"으로 나옵니다. [AI 점검](assessments.md) 결과는 점수로 세지 않습니다 | |
+| Assessments Score | [점검](assessments.md#rules)에서 SADE가 판정한 점검(취약, 양호) 중 양호의 비율. 아래에 판정한 점검 수와 제외한 점검 수가 나옵니다 | |
 | API 자산 | 전체 API 수 | Inventory |
 | 우선순위 P1 + P2 | P1, P2 API 수 | P1, P2로 거른 Inventory |
 | 외부 접근 API | 외부 접근으로 판정한 API 수 | 접근 범위 외부 노출로 거른 Inventory |
@@ -29,5 +29,7 @@ Overview는 마지막으로 끝난 분석 결과를 요약합니다.
     관측 접근 범위는 로그에 남은 호출 주소로만 셉니다.
 
     외부 접근 API는 저장된 외부 도달 판정(설정, 게이트웨이 경로 포함)으로 셉니다. 관리 우선순위의 외부 접근 신호(E)도 이 판정을 씁니다.
+
+- 오른쪽 아래 SADE 버튼은 [SADE AI 채팅](assessments.md#chat)을 엽니다. 모든 화면에 있습니다.
 
 검토를 시작할 때는 P1, P2 API의 [API 상세](api-details.md) 우선순위 근거 탭에서 판정 근거를 확인합니다.
